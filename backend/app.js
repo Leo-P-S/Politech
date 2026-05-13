@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000
 app.get('/', (req, res) => {
     res.json({
         status: 'ok',
-        message: 'Pipeline CI/CD funcionando',
+        message: 'Pipeline CI/CD funcionando VIVA PERÚ',
         env: 'dev'
     })
 })
