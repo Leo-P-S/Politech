@@ -70,3 +70,68 @@ jobs:
         run: |
           npm install eslint-plugin-security
           npx eslint . --ext .js
+  deploy-dev:
+    name: Deploy a Desarrollo
+    needs: [test-backend, test-frontend] 
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 🚀 Deploy a Dev (Render)
+        run: |
+          # Ahora los nombres coinciden exactamente con tus secretos
+          curl -X POST ${{ secrets.RENDER_BACKEND_DEV }}
+          curl -X POST ${{ secrets.RENDER_FRONTEND_DEV }}
+          echo "Deploy de Backend y Frontend a Dev disparados"
+
+      - name: ⏳ Esperar que Render inicie
+        run: sleep 45
+
+  smoke-test:
+    name: Smoke Test en Dev
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🩺 Verificar que Backend Dev responde
+        run: |
+          for i in 1 2 3 4 5; do
+            # ⚠️ RECUERDA PONER TU URL REAL AQUÍ
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://politech-backend-dev.onrender.com/health)
+            if [[ $STATUS -eq 200 ]]; then
+              echo "✅ Backend Dev responde correctamente (HTTP $STATUS)"
+              exit 0
+            fi
+            echo "Intento $i fallido para Backend (HTTP $STATUS), reintentando..."
+            sleep 10
+          done
+          echo "❌ Backend Dev no responde después de 5 intentos"
+          exit 1
+
+      - name: 🩺 Verificar que Frontend Dev responde
+        run: |
+          for i in 1 2 3 4 5; do
+            # ⚠️ RECUERDA PONER TU URL REAL AQUÍ
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://politech-frontend-dev.onrender.com/health)
+            if [[ $STATUS -eq 200 ]]; then
+              echo "✅ Frontend Dev responde correctamente (HTTP $STATUS)"
+              exit 0
+            fi
+            echo "Intento $i fallido para Frontend (HTTP $STATUS), reintentando..."
+            sleep 10
+          done
+          echo "❌ Frontend Dev no responde después de 5 intentos"
+          exit 1
+
+  deploy-prod:
+    name: Deploy a Producción
+    needs: smoke-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚀 Deploy a Prod (Render)
+        run: |
+          # Nombres corregidos para hacer match con tu captura
+          curl -X POST ${{ secrets.RENDER_BACKEND_PROD }}
+          curl -X POST ${{ secrets.RENDER_FRONTEND_PROD }}
+          echo "✅ Deploy de Backend y Frontend a Producción disparados"
