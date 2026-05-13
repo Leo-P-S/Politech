@@ -16,8 +16,11 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'healthy' })
 })
 
-app.listen(PORT, () => {
-    console.log(`Server on port ${PORT}`)
-})
+// Solo levanta el servidor si NO estamos corriendo pruebas con Jest
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {
+        console.log(`Server on port ${PORT}`)
+    })
+}
 
 module.exports = app
