@@ -1,4 +1,22 @@
-node_modules
 __pycache__
-.git
+# Crear .gitignore ANTES del primer commit
+
+# Secretos y configuración sensible
 .env
+.env.local
+*.key
+secrets.json
+config/credentials.yml
+
+# Dependencias
+node_modules/
+vendor/
+
+# Build artifacts
+dist/
+build/
+*.class
+
+# IDEs
+.vscode/settings.json
+.idea/
