@@ -1,26 +1,24 @@
-const express = require('express')
-const app = express()
-const PORT = process.env.PORT || 3000
+const express = require('express');
+const path = require('path'); // Herramienta para manejar rutas de archivos
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Endpoint principal
+// 1. EL CAMBIO PRINCIPAL: Enviar el archivo HTML
 app.get('/', (req, res) => {
-    res.json({
-        status: 'ok',
-        message: 'Pipeline CI/CD funcionando',
-        env: 'dev'
-    })
-})
+    // Busca el archivo index.html en la carpeta actual y lo envía al navegador
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-// Smoke test endpoint
+// 2. INTOCABLE: El Smoke Test para que tu pipeline (CI/CD) no se rompa
 app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'healthy' })
-})
+    res.status(200).json({ status: 'healthy' });
+});
 
-// Solo levanta el servidor si NO estamos corriendo pruebas con Jest
+// 3. INTOCABLE: La regla de seguridad para Jest
 if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
-        console.log(`Server on port ${PORT}`)
-    })
+        console.log(`Frontend Server on port ${PORT}`);
+    });
 }
 
-module.exports = app
+module.exports = app;
