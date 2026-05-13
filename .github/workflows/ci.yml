@@ -7,9 +7,44 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    name: Tests + Análisis de Seguridad
+  test-backend:
+    name: Tests + Análisis de Seguridad (Backend)
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend # <--- Entra a la carpeta backend
+
+    steps:
+      # 1. Descargar el código
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      # 2. Instalar Node.js
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. Instalar dependencias
+      - name: Instalar dependencias
+        run: npm install
+
+      # 4. Ejecutar tests
+      - name: Ejecutar tests
+        run: npm test
+
+      # 5. Análisis SAST con ESLint Security
+      - name: 🔒 Análisis de seguridad (ESLint)
+        run: |
+          npm install eslint-plugin-security
+          npx eslint . --ext .js
+
+  test-frontend:
+    name: Tests + Análisis de Seguridad (Frontend)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend # <--- Entra a la carpeta frontend
 
     steps:
       # 1. Descargar el código
