@@ -1,5 +1,4 @@
 __pycache__
-# Crear .gitignore ANTES del primer commit
 
 # Secretos y configuración sensible
 .env
