@@ -8,8 +8,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 3. Ejecutar la conexión a MongoDB
-connectDB();
-
+if (process.env.NODE_ENV !== 'test') {
+    connectDB();
+}
 // 4. Middleware fundamental para que tu API pueda recibir datos en formato JSON (Ej: cuando agreguen candidatos)
 app.use(express.json());
 
