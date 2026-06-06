@@ -14,6 +14,8 @@ if (process.env.NODE_ENV !== 'test') {
 // 4. Middleware fundamental para que tu API pueda recibir datos en formato JSON (Ej: cuando agreguen candidatos)
 app.use(express.json());
 
+const candidatoRoutes = require('./routes/candidato.routes');
+app.use('/api/candidatos', candidatoRoutes);
 // Endpoint principal
 app.get('/', (req, res) => {
     res.json({
