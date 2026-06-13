@@ -19,3 +19,6 @@ build/
 # IDEs
 .vscode/settings.json
 .idea/
+
+# Test coverage
+coverage/
