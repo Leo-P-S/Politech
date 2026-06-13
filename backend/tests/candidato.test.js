@@ -51,4 +51,15 @@ describe('Pruebas Unitarias - Endpoints de Candidatos', () => {
         expect(Array.isArray(res.body)).toBe(true);
         expect(res.body.length).toBe(2);
     });
+    
+    // CASO 4: GET falla correctamente (Líneas 31-32)
+    test('GET /api/candidatos - Debe manejar el error 500 si falla la consulta', async () => {
+        // Simulamos un error al intentar buscar los candidatos
+        Candidato.find.mockRejectedValue(new Error('Error de lectura simulado'));
+
+        const res = await request(app).get('/api/candidatos');
+
+        expect(res.statusCode).toBe(500);
+        expect(res.body.mensaje).toBe('Error al obtener la información');
+    });
 });
