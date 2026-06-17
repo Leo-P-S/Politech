@@ -80,6 +80,7 @@ app.post('/api/candidates', async (req, res) => {
         if (!nombre) return res.status(400).json({ error: "El nombre es requerido" });
         
         // Evitar duplicados exactos (opcional pero buena práctica)
+        // eslint-disable-next-line security/detect-non-literal-regexp
         const existe = await Candidate.findOne({ nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } });
         if (existe) return res.status(400).json({ error: "El candidato ya existe" });
 

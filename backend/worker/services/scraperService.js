@@ -1,5 +1,4 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
 const { JSDOM } = require('jsdom');
 const { Readability } = require('@mozilla/readability');
 const logger = require('../logger');
@@ -63,6 +62,7 @@ class ScraperService {
         const items = doc.querySelectorAll('item');
 
         for (let i = 0; i < items.length; i++) {
+          // eslint-disable-next-line security/detect-object-injection
           const item = items[i];
           const titleEl = item.querySelector('title');
           const descEl = item.querySelector('description');
@@ -101,7 +101,7 @@ class ScraperService {
   /**
    * Obtiene la lista de URLs de noticias para un candidato usando Bing News.
    */
-  async discoverUrls(candidateName, startDate, endDate) {
+  async discoverUrls(candidateName) {
     logger.info(`Buscando noticias históricas en Bing News para candidato: ${candidateName}`);
     
     const results = [];
@@ -125,6 +125,7 @@ class ScraperService {
       const items = doc.querySelectorAll('item');
       
       for (let i = 0; i < items.length; i++) {
+        // eslint-disable-next-line security/detect-object-injection
         const item = items[i];
         
         const titleEl = item.querySelector('title');
@@ -476,6 +477,7 @@ class ScraperService {
       }
 
       // --- ALGORITMO DE INTERCALADO DE DOMINIOS (ANTI-BAN) ---
+      /* eslint-disable security/detect-object-injection */
       const articlesByDomain = {};
       for (const art of discoveredArticles) {
         let domain = 'unknown';
@@ -502,6 +504,7 @@ class ScraperService {
           }
         }
       }
+      /* eslint-enable security/detect-object-injection */
 
       const targetCount = maxArticles; 
       
