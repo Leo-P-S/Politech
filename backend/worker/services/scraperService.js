@@ -300,8 +300,10 @@ class ScraperService {
     const results = [];
     try {
       const query = encodeURIComponent(`"${candidateName}"`);
-      // Note: Developer accounts are limited to max 1 month in the past.
-      const apiKey = process.env.NEWS_API_KEY || '2f8548bff60340e4983bf28582bdef45';
+      const apiKey = process.env.NEWS_API_KEY;
+      if (!apiKey) {
+        throw new Error("NEWS_API_KEY no está configurada en las variables de entorno.");
+      }
       const searchUrl = `https://newsapi.org/v2/everything?q=${query}&from=${startDate}&to=${endDate}&sortBy=relevancy&language=es&apiKey=${apiKey}`;
 
       // Agregar delay solicitado para no saturar la API

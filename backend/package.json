@@ -1,8 +1,10 @@
 {
-  "name": "mi-proyecto-seguro",
+  "name": "politech-ai-scraper",
   "version": "1.0.0",
+  "description": "Módulo de IA y Web Scraping para el proyecto Politech.",
   "scripts": {
     "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "jest"
   },
   "dependencies": {

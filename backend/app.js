@@ -50,8 +50,9 @@ app.get('/api/logs/stream', (req, res) => {
 app.get('/', (req, res) => {
     res.json({
         status: 'ok',
-        message: 'Pipeline CI/CD funcionando VIVA PERÚ',
-        env: 'dev'
+        service: 'politech-ai-scraper',
+        version: '1.0.0',
+        docs: '/api/candidates'
     });
 });
 
@@ -139,7 +140,7 @@ app.post('/api/trigger', async (req, res) => {
 
         // Ejecutamos el pipeline de scraping en segundo plano
         runPipelineForCandidate(candidateName, startDate, endDate, useRSS, useGdelt, useNewsApi, maxArticles).catch(err => {
-            console.error("Error en pipeline de scraping en segundo plano:", err);
+            logger.error(`Error en pipeline de scraping en segundo plano: ${err.message}`);
         });
 
         res.json({ 
@@ -158,7 +159,7 @@ app.post('/api/ai/process', async (req, res) => {
     try {
         // Llamar al procesamiento general de la IA por lotes (procesa todas las noticias sin IA)
         cronManager.runAIBatchProcess().catch(err => {
-            console.error("Error en procesamiento IA en segundo plano:", err);
+            logger.error(`Error en procesamiento IA en segundo plano: ${err.message}`);
         });
         
         res.json({
@@ -206,6 +207,11 @@ app.post('/api/config/ai-schedule', async (req, res) => {
     }
 });
 
+
+// Manejador global de rutas no encontradas (debe ir al final)
+app.use((req, res) => {
+    res.status(404).json({ error: `Ruta no encontrada: ${req.method} ${req.path}` });
+});
 
 // Solo levanta el servidor si NO estamos corriendo pruebas con Jest
 if (process.env.NODE_ENV !== 'test') {
