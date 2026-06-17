@@ -1,16 +1,26 @@
+// 1. Cargar las variables de entorno
+require('dotenv').config();
+
 const express = require('express');
-const mongoose = require('mongoose');
+const connectDB = require('./config/db'); // De tu rama (mantiene la arquitectura limpia)
 const { runPipelineForCandidate } = require('./worker/index');
-const Candidate = require('./models/Candidate');
+const Candidate = require('./models/Candidate'); // Usamos el modelo de Josué
 const Config = require('./models/Config');
 const cronManager = require('./cron/cronManager');
 const logger = require('./worker/logger');
-require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares
+// 2. Ejecutar la conexión a MongoDB y Cron (Solo si no estamos en pruebas)
+/* istanbul ignore next */
+if (process.env.NODE_ENV !== 'test') {
+    connectDB().then(() => {
+        cronManager.scheduleAITask();
+    }).catch(err => console.error('Error en inicialización:', err));
+}
+
+// 3. Middlewares
 app.use(express.json());
 
 // CORS personalizado simple
@@ -24,6 +34,28 @@ app.use((req, res, next) => {
     next();
 });
 
+// Endpoint principal
+app.get('/', (req, res) => {
+    res.json({
+        status: 'ok',
+        message: 'Pipeline CI/CD funcionando VIVA PERÚ',
+        service: 'politech-ai-scraper',
+        version: '1.0.0',
+        docs: '/api/candidates',
+        env: 'dev'
+    });
+});
+
+// Smoke test endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'healthy' });
+});
+
+
+// ========================================================
+// --- ENDPOINTS DE JOSUE (SCRAPING, IA Y CANDIDATE) ---
+// ========================================================
+
 // Endpoint SSE para emitir logs de scraping en vivo
 app.get('/api/logs/stream', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
@@ -31,7 +63,6 @@ app.get('/api/logs/stream', (req, res) => {
     res.setHeader('Connection', 'keep-alive');
     res.flushHeaders();
 
-    // Mantener la conexión activa enviando un comentario inicial
     res.write(': connected\n\n');
 
     const logListener = (info) => {
@@ -46,23 +77,6 @@ app.get('/api/logs/stream', (req, res) => {
     });
 });
 
-// Endpoint principal
-app.get('/', (req, res) => {
-    res.json({
-        status: 'ok',
-        service: 'politech-ai-scraper',
-        version: '1.0.0',
-        docs: '/api/candidates'
-    });
-});
-
-// Smoke test endpoint
-app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'healthy' });
-});
-
-// --- ENDPOINTS PARA EL DASHBOARD DE PRUEBAS --- //
-
 // Obtener todos los candidatos y sus noticias
 app.get('/api/candidates', async (req, res) => {
     try {
@@ -73,13 +87,12 @@ app.get('/api/candidates', async (req, res) => {
     }
 });
 
-// Crear un nuevo candidato vacío (solo nombre)
+// Crear un nuevo candidato vacío
 app.post('/api/candidates', async (req, res) => {
     try {
         const { nombre } = req.body;
         if (!nombre) return res.status(400).json({ error: "El nombre es requerido" });
         
-        // Evitar duplicados exactos (opcional pero buena práctica)
         // eslint-disable-next-line security/detect-non-literal-regexp
         const existe = await Candidate.findOne({ nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } });
         if (existe) return res.status(400).json({ error: "El candidato ya existe" });
@@ -102,7 +115,7 @@ app.delete('/api/candidates/:id', async (req, res) => {
     }
 });
 
-// Eliminar una noticia específica de un candidato
+// Eliminar una noticia específica
 app.delete('/api/candidates/:candidateId/news/:newsId', async (req, res) => {
     try {
         const { candidateId, newsId } = req.params;
@@ -118,7 +131,7 @@ app.delete('/api/candidates/:candidateId/news/:newsId', async (req, res) => {
     }
 });
 
-// Disparar el pipeline de Webscraping (SOLO SCRAPING AHORA)
+// Disparar el pipeline de Webscraping
 app.post('/api/trigger', async (req, res) => {
     const { candidateId, startDate, endDate, mockMode, useRSS, useGdelt, useNewsApi, maxArticles } = req.body;
     
@@ -126,109 +139,71 @@ app.post('/api/trigger', async (req, res) => {
         return res.status(400).json({ error: "Faltan parámetros requeridos (candidateId, startDate, endDate)" });
     }
 
-    if (mockMode) {
-        process.env.MOCK_MODE = 'true';
-    } else {
-        process.env.MOCK_MODE = 'false';
-    }
+    process.env.MOCK_MODE = mockMode ? 'true' : 'false';
 
     try {
-        // Buscar el nombre del candidato real en la base de datos
         const candidate = await Candidate.findById(candidateId);
         if (!candidate) return res.status(404).json({ error: "Candidato no encontrado" });
 
-        const candidateName = candidate.nombre;
-
-        // Ejecutamos el pipeline de scraping en segundo plano
-        runPipelineForCandidate(candidateName, startDate, endDate, useRSS, useGdelt, useNewsApi, maxArticles).catch(err => {
-            logger.error(`Error en pipeline de scraping en segundo plano: ${err.message}`);
+        runPipelineForCandidate(candidate.nombre, startDate, endDate, useRSS, useGdelt, useNewsApi, maxArticles).catch(err => {
+            logger.error(`Error en pipeline de scraping: ${err.message}`);
         });
 
-        res.json({ 
-            status: 'started', 
-            message: `Scraping iniciado para ${candidateName} en modo ${mockMode ? 'MOCK' : 'REAL'}.`
-        });
+        res.json({ status: 'started', message: `Scraping iniciado para ${candidate.nombre}` });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// --- NUEVOS ENDPOINTS: IA Y CONFIGURACIÓN CRON --- //
-
-// Endpoint para procesar manualmente noticias pendientes con IA
+// Procesar manualmente noticias con IA
 app.post('/api/ai/process', async (req, res) => {
     try {
-        // Llamar al procesamiento general de la IA por lotes (procesa todas las noticias sin IA)
         cronManager.runAIBatchProcess().catch(err => {
-            logger.error(`Error en procesamiento IA en segundo plano: ${err.message}`);
+            logger.error(`Error en IA: ${err.message}`);
         });
-        
-        res.json({
-            status: 'started',
-            message: 'Procesamiento de Inteligencia Artificial iniciado para noticias pendientes.'
-        });
+        res.json({ status: 'started', message: 'IA iniciada.' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// Obtener la configuración actual del cron de IA
+// Obtener config cron IA
 app.get('/api/config/ai-schedule', async (req, res) => {
     try {
         let config = await Config.findOne({ key: 'global_config' });
-        if (!config) {
-            config = await Config.create({ key: 'global_config', cron_day: 0, cron_hour: 3 });
-        }
+        if (!config) config = await Config.create({ key: 'global_config', cron_day: 0, cron_hour: 3 });
         res.json({ day: config.cron_day, hour: config.cron_hour });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// Actualizar la configuración del cron de IA
+// Actualizar config cron IA
 app.post('/api/config/ai-schedule', async (req, res) => {
     const { day, hour } = req.body;
     try {
-        let config = await Config.findOne({ key: 'global_config' });
-        if (!config) {
-            config = new Config({ key: 'global_config' });
-        }
-        
+        let config = await Config.findOne({ key: 'global_config' }) || new Config({ key: 'global_config' });
         if (day !== undefined) config.cron_day = day;
         if (hour !== undefined) config.cron_hour = hour;
-        
         await config.save();
-        
-        // Re-agendar el cron con los nuevos datos!
         await cronManager.scheduleAITask();
-        
-        res.json({ status: 'updated', message: 'Horario del resumen de IA actualizado.' });
+        res.json({ status: 'updated', message: 'Horario IA actualizado.' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-
-// Manejador global de rutas no encontradas (debe ir al final)
+// Manejador global de rutas no encontradas
 app.use((req, res) => {
     res.status(404).json({ error: `Ruta no encontrada: ${req.method} ${req.path}` });
 });
 
-// Solo levanta el servidor si NO estamos corriendo pruebas con Jest
+// 4. Levantar el servidor
+/* istanbul ignore next */
 if (process.env.NODE_ENV !== 'test') {
-    const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/politech';
-    mongoose.connect(mongoUri)
-        .then(() => {
-            console.log('Conectado a MongoDB desde Backend App');
-            
-            // Iniciar o agendar la tarea de cron dinámico al conectarse a BD
-            cronManager.scheduleAITask();
-
-            app.listen(PORT, () => {
-                console.log(`Backend Server on port ${PORT}`);
-            });
-        })
-        .catch(err => console.error('Error conectando a DB:', err));
+    app.listen(PORT, () => {
+        console.log(`Server on port ${PORT}`);
+    });
 }
 
 module.exports = app;

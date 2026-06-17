@@ -23,3 +23,5 @@ build/
 # Logs generados en tiempo de ejecución
 logs/
 *.log
+# Test coverage
+coverage/
