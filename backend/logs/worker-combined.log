@@ -667,3 +667,15 @@
 {"level":"info","message":"Guardando 4 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
 {"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Se añadieron 4 noticias nuevas. Total ahora: 4","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
 {"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 2.21 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-17 17:10:08"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-17 17:10:08"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:12"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:12"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-17 17:10:46"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-17 17:10:46"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:48"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:48"}

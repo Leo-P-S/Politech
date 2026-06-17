@@ -50,14 +50,17 @@ describe('Scraper Service', () => {
   });
 
   test('scrapeHistoricalNews debe procesar la lista y devolver artículos limpios', async () => {
-    jest.spyOn(scraperService, 'discoverUrls').mockResolvedValueOnce([
-      { url: 'https://test.com/1', date: '2023-01-01', source: 'Test' }
+    // El método correcto que usa scrapeHistoricalNews cuando useRSS=true es discoverUrlsFromFeeds
+    jest.spyOn(scraperService, 'discoverUrlsFromFeeds').mockResolvedValueOnce([
+      { url: 'https://test.com/1', title: 'Título Original', date: '2023-01-01', source: 'Test', snippet: 'snippet' }
     ]);
-    
-    axios.get.mockResolvedValueOnce({ data: 'fake html' });
 
-    const results = await scraperService.scrapeHistoricalNews('Candidato Test', '2023-01-01', '2023-12-31');
-    
+    // fetchHtml devuelve HTML falso para que cleanHtml (mockeado) lo procese
+    axios.get.mockResolvedValueOnce({ data: '<html><body>contenido</body></html>' });
+
+    // useRSS=true para que scrapeHistoricalNews llame a discoverUrlsFromFeeds
+    const results = await scraperService.scrapeHistoricalNews('Candidato Test', '2023-01-01', '2023-12-31', true);
+
     expect(results).toHaveLength(1);
     expect(results[0].title).toBe('Título Original');
     expect(results[0].url).toBe('https://test.com/1');
