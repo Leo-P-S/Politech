@@ -1,0 +1,3 @@
+{"level":"error","message":"Error procesando feed RSS https://www.politico.com/rss/politicopicks.xml: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 12:26:11"}
+{"level":"error","message":"Error procesando feed RSS https://www.politico.com/rss/politicopicks.xml: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 12:37:34"}
+{"level":"error","message":"Error procesando feed RSS https://news.un.org/feed/subscribe/es/news/region/americas/feed/rss.xml: timeout of 8000ms exceeded","service":"worker-pipeline","timestamp":"2026-06-17 12:37:52"}
