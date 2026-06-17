@@ -19,3 +19,7 @@ build/
 # IDEs
 .vscode/settings.json
 .idea/
+
+# Logs generados en tiempo de ejecución
+logs/
+*.log
