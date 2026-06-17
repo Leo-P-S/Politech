@@ -647,3 +647,23 @@
 {"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:32:49"}
 {"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (2/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:33:25"}
 {"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (3/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:33:59"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 16:39:40"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: true, NewsAPI: false, Límite: 4)","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2020-04-17 y 2020-06-17","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"info","message":"GDELT Chunk: 2020-04-17 a 2020-06-16 (Pidiendo max 10)","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"info","message":"GDELT: Esperando 30s antes del intento 1/3...","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"warn","message":"Rate limit (429) en GDELT. Backoff exponencial: esperando 60s antes del siguiente intento...","service":"worker-pipeline","timestamp":"2026-06-17 16:40:50"}
+{"level":"info","message":"GDELT: Esperando 61s antes del intento 2/3...","service":"worker-pipeline","timestamp":"2026-06-17 16:40:50"}
+{"level":"info","message":"GDELT: Chunk exitoso, 10 artículos recibidos. Total acumulado: 10","service":"worker-pipeline","timestamp":"2026-06-17 16:42:02"}
+{"level":"info","message":"Límite de 4 noticias alcanzado para GDELT. Deteniendo peticiones.","service":"worker-pipeline","timestamp":"2026-06-17 16:42:02"}
+{"level":"info","message":"Se descubrieron 10 URLs históricas en GDELT para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:42:02"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/pier-figari-su-defensa-presento-hoy-recurso-de-apelacion-keiko-fujimori-caso-odebrecht-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 16:42:08"}
+{"level":"info","message":"Extracción exitosa para URL: https://larepublica.pe:443/politica/2020/06/05/keiko-fujimori-el-dia-en-que-perdio-las-elecciones-2016-luego-de-ganar-todas-las-encuestas-ppk/","service":"worker-pipeline","timestamp":"2026-06-17 16:42:12"}
+{"level":"info","message":"Extracción exitosa para URL: https://gestion.pe/peru/politica/keiko-fujimori-juez-richard-concepcion-carhuancho-se-aparta-del-caso-keiko-fujimori-coronavirus-nndc-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 16:42:16"}
+{"level":"info","message":"Extracción exitosa para URL: https://larepublica.pe:443/politica/2020/05/15/keiko-fujimori-fiscal-jose-domingo-perez-pide-a-juzgado-llamarle-la-atencion-por-contactar-a-ursula-letona/","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"Se alcanzó el objetivo de 4 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 4","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"Guardando 4 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Se añadieron 4 noticias nuevas. Total ahora: 4","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 2.21 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
