@@ -1,15 +1,20 @@
 const request = require('supertest');
-const app = require('../app'); // Asegúrate de que la ruta coincida con tu estructura
+const app = require('../app');
 
-test('GET / returns HTML login page', async () => {
-    const res = await request(app).get('/');
-    expect(res.statusCode).toBe(200);
-    // Ahora verificamos que el servidor nos esté enviando un archivo HTML
-    expect(res.headers['content-type']).toMatch(/text\/html/);
-});
+describe('Pruebas Unitarias - Servidor Frontend', () => {
+    
+    test('GET / - Debe devolver el archivo index.html exitosamente', async () => {
+        const res = await request(app).get('/');
+        
+        expect(res.statusCode).toBe(200);
+        // Verificamos que el servidor responda con un archivo HTML
+        expect(res.headers['content-type']).toMatch(/text\/html/);
+    });
 
-test('GET /health returns healthy', async () => {
-    const res = await request(app).get('/health');
-    expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe('healthy');
+    test('GET /health - Debe devolver el estado healthy para el CI/CD', async () => {
+        const res = await request(app).get('/health');
+        
+        expect(res.statusCode).toBe(200);
+        expect(res.body.status).toBe('healthy');
+    });
 });
