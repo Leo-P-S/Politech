@@ -679,3 +679,35 @@
 {"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-17 17:10:46"}
 {"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:48"}
 {"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:48"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:11:55"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-18 15:11:55"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-18 15:11:57"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-18 15:11:57"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:12:57"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-18 15:12:57"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-18 15:13:00"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-18 15:13:00"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:22:47"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-18 15:22:47"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-18 15:22:50"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-18 15:22:50"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:24:23"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-18 15:24:23"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-18 15:24:27"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-18 15:24:27"}

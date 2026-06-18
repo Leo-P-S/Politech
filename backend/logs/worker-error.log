@@ -29,3 +29,11 @@
 {"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-17 17:10:08"}
 {"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
 {"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-17 17:10:46"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:11:55"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:12:57"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:22:47"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:24:23"}
