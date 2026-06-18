@@ -23,6 +23,9 @@ if (process.env.NODE_ENV !== 'test') {
 // 3. Middlewares
 app.use(express.json());
 
+const candidatoRoutes = require('./routes/candidato.routes');
+app.use('/api/candidatos', candidatoRoutes);
+
 // CORS personalizado simple
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
