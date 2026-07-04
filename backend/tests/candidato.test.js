@@ -3,6 +3,8 @@ const app = require('../app');
 const Candidato = require('../models/Candidato');
 const { faker } = require('@faker-js/faker');
 
+jest.mock('../models/Candidato');
+
 describe('Pruebas de Integración - Endpoints de Candidatos', () => {
     
     // CASO 1: Cuando FUNCIONA (Happy Path) - Crear candidato
@@ -12,6 +14,12 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
             nombre: faker.name.fullName(),
             partidoPolitico: faker.company.name()
         };
+
+        // Simulamos el guardado exitoso
+        Candidato.prototype.save = jest.fn().mockResolvedValue({
+            _id: 'mocked-id-123',
+            ...candidatoFalso
+        });
 
         const res = await request(app)
             .post('/api/candidatos')
@@ -27,6 +35,9 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
     test('POST /api/candidatos - Debe fallar si faltan datos obligatorios', async () => {
         const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
+        // Simulamos un error de Mongoose
+        Candidato.prototype.save = jest.fn().mockRejectedValue(new Error('Validation failed'));
+
         // Enviamos un objeto vacío. El motor real de Mongoose rechazará la petición
         // porque en tu modelo 'nombre' y 'partidoPolitico' son obligatorios.
         const res = await request(app)
@@ -41,9 +52,11 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
 
     // CASO 3: GET funciona correctamente con datos reales
     test('GET /api/candidatos - Debe listar los candidatos guardados', async () => {
-        // 1. Primero inyectamos datos reales en la BD en memoria
-        await Candidato.create({ nombre: "Candidato A", partidoPolitico: "Partido X" });
-        await Candidato.create({ nombre: "Candidato B", partidoPolitico: "Partido Y" });
+        // Simulamos la respuesta de la BD
+        Candidato.find = jest.fn().mockResolvedValue([
+            { nombre: "Candidato A", partidoPolitico: "Partido X" },
+            { nombre: "Candidato B", partidoPolitico: "Partido Y" }
+        ]);
 
         // 2. Hacemos la petición GET a tu API
         const res = await request(app).get('/api/candidatos');

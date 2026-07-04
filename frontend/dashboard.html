@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politech - AI & WebScraping Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Chart.js para estadísticas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #070b14;
+            --surface: rgba(30, 41, 59, 0.65);
+            --surface-hover: rgba(51, 65, 85, 0.8);
+            --primary: #0ea5e9;
+            --primary-hover: #38bdf8;
+            --primary-glow: rgba(14, 165, 233, 0.4);
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --border: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2rem;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* TABS */
+        .tabs-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            border-color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            flex: 1;
+        }
+        
+        .container-half {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        .panel {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: fit-content;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Formulario */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        input[type="text"], input[type="date"], select, input[type="number"] {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+            font-weight: 700;
+            padding: 0.85rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 1rem;
+            box-shadow: 0 4px 14px 0 var(--primary-glow);
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, var(--primary-hover), #3b82f6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
+        }
+        
+        button:disabled {
+            background-color: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Chart container */
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* Noticias Grid */
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        #candidate-select {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            overflow-y: auto;
+            max-height: 70vh;
+            padding-right: 0.5rem;
+        }
+
+        /* Custom Scrollbar */
+        .news-grid::-webkit-scrollbar { width: 8px; }
+        .news-grid::-webkit-scrollbar-track { background: var(--bg); }
+        .news-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        .news-grid::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        .news-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 0 15px var(--primary-glow);
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            align-items: center;
+        }
+
+        .news-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .news-summary {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background-color: rgba(56, 189, 248, 0.2);
+            color: var(--primary);
+            align-self: flex-start;
+        }
+
+        .badge-pos { background-color: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .badge-neg { background-color: rgba(248, 113, 113, 0.2); color: #f87171; }
+        .badge-neu { background-color: rgba(148, 163, 184, 0.2); color: var(--text-muted); }
+
+        .pill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.25rem;
+        }
+        .pill {
+            font-size: 0.7rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+        
+        .status-msg {
+            font-size: 0.85rem;
+            color: var(--success);
+            text-align: center;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+        }
+        
+        .delete-btn {
+            background: transparent;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            padding: 0.4rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0;
+        }
+        .delete-btn:hover {
+            background: rgba(248, 113, 113, 0.15);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .icon-btn {
+            background: transparent !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text-main) !important;
+            box-shadow: none !important;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 38px;
+            width: 38px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s !important;
+            margin-top: 0 !important;
+        }
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            transform: scale(1.1) !important;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInCascade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-cascade {
+            animation: fadeInCascade 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+
+        .fade-content {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Politech IA & WebScraping</h1>
+        <p style="color: var(--text-muted);">Entorno de Pruebas Visual</p>
+    </header>
+
+    <!-- BANNER CONSOLA EN VIVO GLOBAL -->
+    <div style="width: 100%; margin-bottom: 1.5rem; margin-top: -0.5rem;">
+        <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.6);">
+            <!-- Terminal Header -->
+            <div style="background: rgba(0,0,0,0.4); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <div style="display: flex; gap: 8px;">
+                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 5px #ef4444;"></div>
+                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 5px #f59e0b;"></div>
+                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #10b981; box-shadow: 0 0 5px #10b981;"></div>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-family: 'Courier New', Courier, monospace; display: flex; align-items: center; gap: 8px; font-weight: 600; letter-spacing: 1px;">
+                    <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #10b981;"></span> PIPELINE STATUS: ACTIVE
+                </div>
+            </div>
+            <!-- Terminal Body -->
+            <div id="live-console" style="color: #38bdf8; padding: 12px 15px; height: 130px; overflow-y: auto; font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 0.85rem; text-shadow: 0 0 5px rgba(56, 189, 248, 0.2);">
+                <div style="color: var(--text-muted)">Esperando inicialización del pipeline...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab('tab-scraping', this)">1. Recolección y Candidatos</button>
+        <button class="tab-btn" onclick="switchTab('tab-ai', this)">2. IA y Analíticas</button>
+    </div>
+
+    <!-- PESTAÑA 1: SCRAPING Y CANDIDATOS -->
+    <div id="tab-scraping" class="tab-content active">
+        <div class="container">
+            <!-- Panel Izquierdo: Controles -->
+            <div class="panel">
+                <h2>Añadir Candidato Oficial</h2>
+                <form id="create-candidate-form">
+                    <div class="form-group">
+                        <input type="text" id="new-candidate-name" placeholder="Nombre completo exacto" required>
+                    </div>
+                    <button type="submit" style="background-color: var(--success);">Guardar Candidato</button>
+                    <div id="create-status-msg" class="status-msg"></div>
+                </form>
+
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0;">
+
+                <h2>Lanzar Scraping Manual</h2>
+                <form id="trigger-form">
+                    <div class="form-group">
+                        <label>Candidato (Lista Oficial)</label>
+                        <select id="t-candidate" required>
+                            <option value="">Cargando candidatos...</option>
+                        </select>
+                    </div>
+                    <div id="date-selection-group" style="display: none; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 15px;">
+                        <div class="form-group">
+                            <label>Fecha Inicio (GDELT)</label>
+                            <input type="date" id="t-start">
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha Fin (GDELT)</label>
+                            <input type="date" id="t-end">
+                        </div>
+                    </div>
+                    <div class="toggle-group">
+                        <input type="checkbox" id="t-use-rss">
+                        <label for="t-use-rss" title="Busca noticias recientes en portales RSS">1. Búsqueda en Vivo (RSS)</label>
+                    </div>
+                    <div class="toggle-group">
+                        <input type="checkbox" id="t-use-gdelt" onchange="document.getElementById('date-selection-group').style.display = this.checked ? 'block' : 'none'">
+                        <label for="t-use-gdelt" title="Busca noticias históricas estructuradas en la API de GDELT">2. GDELT Histórico (Fechas personalizadas)</label>
+                    </div>
+                    <div class="toggle-group">
+                        <input type="checkbox" id="t-use-newsapi">
+                        <label for="t-use-newsapi" title="Usa NewsAPI para obtener artículos relevantes de hasta 1 mes atrás">3. NewsAPI (Hasta 1 mes atrás)</label>
+                    </div>
+                    <div class="toggle-group">
+                        <input type="checkbox" id="t-mock">
+                        <label for="t-mock" title="Evita peticiones reales a web y API Gemini">Usar Modo Mock (Simulado)</label>
+                    </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="t-max-articles" title="Número máximo de artículos a descargar y extraer texto de todas las fuentes sumadas">Límite de Extracción de Noticias</label>
+                        <input type="number" id="t-max-articles" value="50" min="1" max="200" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main);">
+                    </div>
+                    <button type="submit" id="btn-trigger">Iniciar Scraping (Recolección)</button>
+                    <div id="status-msg" class="status-msg"></div>
+                </form>
+            </div>
+
+            <!-- Panel Derecho: Visualización de Noticias -->
+            <div class="panel">
+                <div class="news-header">
+                    <h2>Noticias Procesadas</h2>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <select id="candidate-select">
+                            <option value="">Selecciona un candidato...</option>
+                        </select>
+                        <button id="btn-refresh" class="icon-btn" title="Actualizar datos">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.9372 4.21148C14.3936 4.52244 14.5115 5.14453 14.2005 5.60095C13.8896 6.05738 13.2675 6.1753 12.8111 5.86434C11.9885 5.30394 11.0183 5 10 5C7.23858 5 5 7.23858 5 10C5 12.7614 7.23858 15 10 15C12.7614 15 15 12.7614 15 10C15 9.44772 15.4477 9 16 9C16.5523 9 17 9.44772 17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C11.4232 3 12.7852 3.42666 13.9372 4.21148Z" fill="currentColor"/>
+                                <path d="M13.5385 12.5062C13.0732 12.8038 12.4548 12.6679 12.1572 12.2026C11.8596 11.7373 11.9955 11.1189 12.4608 10.8214L15.9426 8.59426C16.4079 8.29667 17.0263 8.43258 17.3239 8.89784C17.6215 9.36309 17.4855 9.98149 17.0203 10.2791L13.5385 12.5062Z" fill="currentColor"/>
+                                <path d="M18.9034 12.4104C19.1284 12.9147 18.9019 13.506 18.3976 13.731C17.8932 13.956 17.3019 13.7295 17.0769 13.2252L15.5688 9.84436C15.3438 9.33999 15.5702 8.74871 16.0746 8.52371C16.579 8.29871 17.1703 8.52519 17.3953 9.02957L18.9034 12.4104Z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <button id="btn-delete-candidate" class="delete-btn" title="Eliminar candidato" style="display:none; height: 38px; width: 38px;">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="news-grid" class="news-grid">
+                    <!-- Noticias inyectadas via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 2: INTELIGENCIA ARTIFICIAL -->
+    <div id="tab-ai" class="tab-content">
+        <div class="container-half">
+            <!-- Panel Izquierdo: Controles IA -->
+            <div class="panel">
+                <h2>Panel de Inteligencia Artificial</h2>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                        Las noticias recolectadas se guardan en estado "Crudo". Presiona aquí para enviarlas a Gemini y obtener el resumen y análisis de sesgo.
+                    </p>
+                    <button type="button" id="btn-ai-trigger" style="background-color: #8b5cf6;">Ejecutar IA Manualmente</button>
+                    <div id="ai-status-msg" class="status-msg"></div>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0;">
+
+                <div class="form-group">
+                    <h2>Programación Automática (Cron)</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                        Define cuándo el servidor ejecutará Gemini automáticamente cada semana.
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+                        <select id="cron-day" style="flex: 1;">
+                            <option value="0">Domingo</option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miércoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                            <option value="6">Sábado</option>
+                        </select>
+                        <input type="number" id="cron-hour" min="0" max="23" placeholder="Hora (0-23)" style="width: 80px;">
+                    </div>
+                    <button type="button" id="btn-save-cron" style="background-color: var(--surface-hover); color: var(--text-main);">Guardar Horario</button>
+                    <div id="cron-status-msg" class="status-msg"></div>
+                </div>
+            </div>
+
+            <!-- Panel Derecho: Analíticas -->
+            <div class="panel">
+                <h2 style="text-align: center;">Métricas del Candidato Seleccionado</h2>
+                <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: -0.5rem; margin-bottom: 1rem;">(Selecciona un candidato en la Pestaña 1)</p>
+                
+                <h3 style="font-size: 1rem; color: var(--text-main);">Análisis de Categorías</h3>
+                <div class="chart-container" style="height: 200px;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+                
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 1rem 0;">
+
+                <h3 style="font-size: 1rem; color: var(--text-main);">Análisis de Sentimiento</h3>
+                <div class="chart-container" style="height: 200px;">
+                    <canvas id="sentimentChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let allCandidatesData = [];
+        let chartInstance = null;
+        let sentimentChartInstance = null;
+
+        // Gestión de Tabs
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+                el.classList.remove('fade-content');
+            });
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            const target = document.getElementById(tabId);
+            target.classList.add('active');
+            
+            // Re-trigger animation
+            void target.offsetWidth; 
+            target.classList.add('fade-content');
+            
+            btnElement.classList.add('active');
+        }
+
+        // Cargar candidatos al inicio (y poblar listas)
+        async function loadCandidates() {
+            try {
+                const response = await fetch(`${API_URL}/candidates`);
+                const data = await response.json();
+                allCandidatesData = data;
+                
+                const selectView = document.getElementById('candidate-select');
+                const selectTrigger = document.getElementById('t-candidate');
+                
+                // Guardar valor actual para no perder foco
+                const currentViewVal = selectView.value;
+                const currentTriggerVal = selectTrigger.value;
+
+                selectView.innerHTML = '<option value="">Selecciona un candidato...</option>';
+                selectTrigger.innerHTML = '<option value="">Selecciona un candidato...</option>';
+                
+                data.forEach(cand => {
+                    const opt1 = document.createElement('option');
+                    opt1.value = cand._id;
+                    opt1.textContent = cand.nombre;
+                    selectView.appendChild(opt1);
+
+                    const opt2 = document.createElement('option');
+                    opt2.value = cand._id;
+                    opt2.textContent = cand.nombre;
+                    selectTrigger.appendChild(opt2);
+                });
+
+                // Restaurar selecciones
+                if (currentViewVal && data.some(c => c._id === currentViewVal)) {
+                    selectView.value = currentViewVal;
+                    const selectedCand = data.find(c => c._id === currentViewVal);
+                    renderNews(selectedCand);
+                } else if (data.length > 0) {
+                    selectView.value = data[0]._id;
+                    renderNews(data[0]);
+                }
+
+                if (currentTriggerVal && data.some(c => c._id === currentTriggerVal)) {
+                    selectTrigger.value = currentTriggerVal;
+                }
+                
+                if(data.length === 0) {
+                     renderNews(null);
+                }
+
+            } catch (error) {
+                console.error("Error cargando candidatos:", error);
+            }
+        }
+
+        // Crear Nuevo Candidato Oficial
+        document.getElementById('create-candidate-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const msg = document.getElementById('create-status-msg');
+            const nombre = document.getElementById('new-candidate-name').value.trim();
+
+            btn.disabled = true;
+            msg.textContent = 'Creando...';
+            msg.style.color = 'var(--text-muted)';
+
+            try {
+                const res = await fetch(`${API_URL}/candidates`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Error desconocido');
+
+                msg.style.color = 'var(--success)';
+                msg.textContent = 'Candidato guardado con éxito.';
+                document.getElementById('new-candidate-name').value = '';
+                
+                // Recargar listas desplegables
+                await loadCandidates();
+                
+            } catch (error) {
+                msg.style.color = 'var(--warning)';
+                msg.textContent = error.message;
+            } finally {
+                btn.disabled = false;
+                setTimeout(() => msg.textContent = '', 3000);
+                
+                // Auto-refresh: actualizar la grilla del candidato recién scrapeado (haya tenido éxito o error)
+                const currentSelected = document.getElementById('candidate-select').value;
+                if (currentSelected === candidateName || !currentSelected) {
+                    document.getElementById('candidate-select').value = candidateName;
+                    if (typeof fetchCandidateNews === 'function') {
+                        fetchCandidateNews(candidateName).catch(console.error);
+                    }
+                }
+            }
+        });
+
+        // Renderizar las noticias del candidato seleccionado
+        function renderNews(candidate) {
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = '';
+
+            const deleteCandBtn = document.getElementById('btn-delete-candidate');
+
+            if (!candidate || !candidate.historial_noticias || candidate.historial_noticias.length === 0) {
+                grid.innerHTML = '<p style="color: var(--text-muted)">No hay noticias procesadas para este candidato.</p>';
+                updateChart({});
+                updateSentimentChart({});
+                if (candidate) {
+                    deleteCandBtn.style.display = 'flex';
+                } else {
+                    deleteCandBtn.style.display = 'none';
+                }
+                return;
+            }
+            
+            deleteCandBtn.style.display = 'flex';
+
+            const categoryCounts = {};
+            const sentimentCounts = {};
+
+            candidate.historial_noticias.forEach((news, index) => {
+                const analysis = news.analisis_ia || {}; 
+                
+                if (analysis.categoria) {
+                    categoryCounts[analysis.categoria] = (categoryCounts[analysis.categoria] || 0) + 1;
+                }
+                
+                const sent = analysis.sentimiento || 'Neutral / Pendiente';
+                sentimentCounts[sent] = (sentimentCounts[sent] || 0) + 1;
+
+                let sentClass = 'badge-neu';
+                if(sent.toLowerCase().includes('pos')) sentClass = 'badge-pos';
+                if(sent.toLowerCase().includes('neg')) sentClass = 'badge-neg';
+
+                const entitiesHtml = (analysis.entidades_clave || []).map(e => `<span class="pill">${e}</span>`).join('');
+                
+                const processStatusBadge = news.procesado_por_ia 
+                    ? `<div class="badge badge-pos" style="background: transparent; border: 1px solid var(--success);">✔ Procesado por IA</div>`
+                    : `<div class="badge badge-neg" style="background: transparent; border: 1px solid var(--warning); color: var(--warning);">⏳ Esperando IA</div>`;
+
+                const card = document.createElement('div');
+                card.className = 'news-card fade-in-cascade';
+                card.style.animationDelay = `${index * 0.08}s`;
+                card.id = `news-${news._id}`;
+                card.innerHTML = `
+                    <div class="news-meta">
+                        <div>
+                            <span style="font-weight: 600; color: var(--primary);">${news.medio_prensa}</span> • <span>${news.fecha}</span>
+                        </div>
+                        <button class="delete-btn" onclick="deleteNews('${candidate._id}', '${news._id}')" title="Eliminar noticia">
+                             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path></svg>
+                        </button>
+                    </div>
+                    <div class="news-title">${news.titular}</div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        ${processStatusBadge}
+                        ${analysis.categoria ? `<div class="badge">${analysis.categoria}</div>` : ''}
+                        ${news.procesado_por_ia ? `<div class="badge ${sentClass}">${sent}</div>` : ''}
+                        ${analysis.sesgo_politico ? `<div class="badge" style="background:transparent; border: 1px solid var(--border); color: var(--text-muted)">Sesgo: ${analysis.sesgo_politico}</div>` : ''}
+                    </div>
+                    <div class="news-summary">${analysis.resumen_noticia || '<em>El texto crudo ha sido descargado. Falta procesar el resumen con Inteligencia Artificial.</em>'}</div>
+                    <div class="pill-container">${entitiesHtml}</div>
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem;">
+                        <a href="${news.enlace_origen}" target="_blank" style="color: var(--primary); font-size: 0.8rem; text-decoration: none; font-weight: 600;">Ver original ↗</a>
+                        <button onclick="showRawData('${encodeURIComponent(news.contenido_crudo || 'Sin contenido')}')" style="background: transparent; border: 1px solid var(--primary); color: var(--primary); font-size: 0.8rem; padding: 0.3rem 0.6rem; margin: 0; border-radius: 4px; display: flex; align-items: center; gap: 0.3rem;">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            Ver data cruda
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            updateChart(categoryCounts);
+            updateSentimentChart(sentimentCounts);
+        }
+
+        function updateChart(categoryCounts) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            const labels = Object.keys(categoryCounts);
+            const data = Object.values(categoryCounts);
+
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels.length > 0 ? labels : ['Sin Datos'],
+                    datasets: [{
+                        data: data.length > 0 ? data : [1],
+                        backgroundColor: data.length > 0 ? [
+                            '#38bdf8', '#818cf8', '#34d399', '#fbbf24', '#f87171'
+                        ] : ['#334155'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc' } } }
+                }
+            });
+        }
+
+        function updateSentimentChart(sentimentCounts) {
+            const ctx = document.getElementById('sentimentChart').getContext('2d');
+            const labels = Object.keys(sentimentCounts);
+            const data = Object.values(sentimentCounts);
+
+            if (sentimentChartInstance) sentimentChartInstance.destroy();
+
+            sentimentChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.length > 0 ? labels : ['Sin Datos'],
+                    datasets: [{
+                        label: 'Noticias',
+                        data: data.length > 0 ? data : [0],
+                        backgroundColor: ['#10b981', '#f87171', '#94a3b8'],
+                        borderWidth: 0, borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#f8fafc', stepSize: 1 } },
+                        x: { grid: { display: false }, ticks: { color: '#f8fafc' } }
+                    }
+                }
+            });
+        }
+
+        // Evento para actualizar datos de forma manual
+        document.getElementById('btn-refresh').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-refresh');
+            btn.style.transform = 'rotate(360deg)';
+            btn.style.transition = 'transform 0.5s ease';
+            await loadCandidates();
+            setTimeout(() => {
+                btn.style.transform = 'none';
+                btn.style.transition = 'none';
+            }, 500);
+        });
+
+        // Evento al cambiar candidato en visualización
+        document.getElementById('candidate-select').addEventListener('change', (e) => {
+            const candidateId = e.target.value;
+            const cand = allCandidatesData.find(c => c._id === candidateId);
+            renderNews(cand);
+        });
+
+        // Evento para eliminar candidato
+        document.getElementById('btn-delete-candidate').addEventListener('click', async () => {
+            const select = document.getElementById('candidate-select');
+            const candidateId = select.value;
+            const cand = allCandidatesData.find(c => c._id === candidateId);
+            
+            if (!cand) return;
+            if (confirm(`¿Estás seguro de que deseas eliminar permanentemente a "${cand.nombre}" y todas sus noticias?`)) {
+                try {
+                    await fetch(`${API_URL}/candidates/${candidateId}`, { method: 'DELETE' });
+                    loadCandidates(); 
+                } catch(e) {
+                    alert('Error al eliminar candidato');
+                }
+            }
+        });
+
+        // Función global para eliminar noticia
+        window.deleteNews = async function(candidateId, newsId) {
+            if (confirm('¿Estás seguro de eliminar esta noticia específica?')) {
+                try {
+                    const response = await fetch(`${API_URL}/candidates/${candidateId}/news/${newsId}`, { method: 'DELETE' });
+                    const data = await response.json();
+                    
+                    const card = document.getElementById(`news-${newsId}`);
+                    if (card) {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.9)';
+                        setTimeout(() => {
+                            const candIndex = allCandidatesData.findIndex(c => c._id === candidateId);
+                            if (candIndex !== -1) {
+                                allCandidatesData[candIndex] = data.candidate;
+                                renderNews(data.candidate);
+                            }
+                        }, 200);
+                    }
+                } catch(e) {
+                    alert('Error al eliminar la noticia');
+                }
+            }
+        };
+
+        // Cargar Configuración del Cron
+        async function loadCronConfig() {
+            try {
+                const res = await fetch(`${API_URL}/config/ai-schedule`);
+                const data = await res.json();
+                document.getElementById('cron-day').value = data.day !== undefined ? data.day : 0;
+                document.getElementById('cron-hour').value = data.hour !== undefined ? data.hour : 3;
+            } catch(e) {
+                console.error("Error cargando cron", e);
+            }
+        }
+
+        // Trigger IA Manual
+        document.getElementById('btn-ai-trigger').addEventListener('click', async (e) => {
+            const btn = e.target;
+            const msg = document.getElementById('ai-status-msg');
+            btn.disabled = true;
+            btn.textContent = 'Procesando IA...';
+            msg.textContent = '';
+            
+            try {
+                const response = await fetch(`${API_URL}/ai/process`, { method: 'POST' });
+                const data = await response.json();
+                msg.style.color = 'var(--success)';
+                msg.textContent = data.message || 'IA Procesando en segundo plano.';
+                
+                setTimeout(() => {
+                    loadCandidates();
+                    btn.disabled = false;
+                    btn.textContent = 'Ejecutar IA Manualmente';
+                    msg.textContent = '';
+                }, 5000); 
+            } catch (error) {
+                msg.style.color = 'var(--warning)';
+                msg.textContent = 'Error al ejecutar IA.';
+                btn.disabled = false;
+                btn.textContent = 'Ejecutar IA Manualmente';
+            }
+        });
+
+        // Guardar Cron
+        document.getElementById('btn-save-cron').addEventListener('click', async (e) => {
+            const btn = e.target;
+            const msg = document.getElementById('cron-status-msg');
+            const day = document.getElementById('cron-day').value;
+            const hour = document.getElementById('cron-hour').value;
+            
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_URL}/config/ai-schedule`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ day: parseInt(day), hour: parseInt(hour) })
+                });
+                msg.style.color = 'var(--success)';
+                msg.textContent = 'Horario actualizado correctamente.';
+            } catch (error) {
+                msg.style.color = 'var(--warning)';
+                msg.textContent = 'Error al guardar.';
+            }
+            btn.disabled = false;
+            setTimeout(() => msg.textContent = '', 3000);
+        });
+
+        // Trigger Scraping (Pipeline)
+        document.getElementById('trigger-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-trigger');
+            const msg = document.getElementById('status-msg');
+            const candidateId = document.getElementById('t-candidate').value;
+            
+            if (!candidateId) {
+                 msg.style.color = 'var(--warning)';
+                 msg.textContent = 'Por favor, añade o selecciona un candidato de la lista.';
+                 return;
+            }
+
+            const useGdelt = document.getElementById('t-use-gdelt').checked;
+            let startDate = document.getElementById('t-start').value;
+            let endDate = document.getElementById('t-end').value;
+
+            // Auto-calcular fechas si no se usa GDELT o si están vacías
+            if (!useGdelt || !startDate || !endDate) {
+                const today = new Date();
+                endDate = today.toISOString().split('T')[0];
+                const past = new Date(today.getTime() - (29 * 24 * 60 * 60 * 1000));
+                startDate = past.toISOString().split('T')[0];
+            }
+
+            const maxArticlesVal = parseInt(document.getElementById('t-max-articles').value) || 50;
+
+            const payload = {
+                candidateId: candidateId,
+                startDate: startDate,
+                endDate: endDate,
+                mockMode: document.getElementById('t-mock').checked,
+                useRSS: document.getElementById('t-use-rss').checked,
+                useGdelt: useGdelt,
+                useNewsApi: document.getElementById('t-use-newsapi').checked,
+                maxArticles: maxArticlesVal
+            };
+
+            btn.disabled = true;
+            btn.textContent = 'Scraping... (Revisa consola)';
+            msg.textContent = '';
+            msg.style.color = 'var(--warning)';
+
+            try {
+                const response = await fetch(`${API_URL}/trigger`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                msg.style.color = 'var(--success)';
+                msg.textContent = data.message || 'Scraping iniciado con éxito. Recarga en unos segundos.';
+                
+                setTimeout(() => {
+                    loadCandidates();
+                    btn.disabled = false;
+                    btn.textContent = 'Iniciar Scraping (Recolección)';
+                }, 3000);
+
+            } catch (error) {
+                console.error(error);
+                msg.style.color = 'var(--warning)';
+                msg.textContent = 'Error al conectar con la API del Backend.';
+                btn.disabled = false;
+                btn.textContent = 'Iniciar Scraping (Recolección)';
+            }
+        });
+
+        // Valores por defecto para el formulario
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const formattedToday = `${yyyy}-${mm}-${dd}`;
+        
+        const lastMonth = new Date(today);
+        lastMonth.setMonth(lastMonth.getMonth() - 2); // default 2 months ago just to have some span
+        const l_yyyy = lastMonth.getFullYear();
+        const l_mm = String(lastMonth.getMonth() + 1).padStart(2, '0');
+        const l_dd = String(lastMonth.getDate()).padStart(2, '0');
+        const formattedLastMonth = `${l_yyyy}-${l_mm}-${l_dd}`;
+
+        document.getElementById('t-start').value = formattedLastMonth;
+        document.getElementById('t-end').value = formattedToday;
+
+        // Modal Logic
+        function showRawData(encodedData) {
+            const rawData = decodeURIComponent(encodedData);
+            document.getElementById('raw-data-content').textContent = rawData;
+            document.getElementById('raw-data-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('raw-data-modal').style.display = 'none';
+        }
+
+        // Configurar Server-Sent Events para los logs de la Consola
+        const consoleEl = document.getElementById('live-console');
+        const evtSource = new EventSource(`${API_URL}/logs/stream`);
+        
+        evtSource.onmessage = function(event) {
+            try {
+                const logData = JSON.parse(event.data);
+                const line = document.createElement('div');
+                line.style.marginBottom = '4px';
+                line.style.wordWrap = 'break-word';
+                
+                const time = logData.timestamp ? logData.timestamp.split(' ')[1] : new Date().toLocaleTimeString();
+                
+                let color = '#a5b4fc'; // Default / Info
+                if (logData.level === 'warn') color = '#fbbf24'; // Amarillo
+                if (logData.level === 'error') color = '#f87171'; // Rojo
+                if (logData.message && logData.message.toLowerCase().includes('exitosa')) color = '#34d399'; // Verde
+                
+                line.style.color = color;
+                line.innerHTML = `<span style="opacity:0.5">[${time}]</span> ${logData.message}`;
+                
+                consoleEl.appendChild(line);
+                
+                // Mantener un máximo de 200 líneas para no saturar el DOM
+                if (consoleEl.children.length > 200) {
+                    consoleEl.removeChild(consoleEl.firstChild);
+                }
+                
+                // Auto-scroll al final
+                consoleEl.scrollTop = consoleEl.scrollHeight;
+            } catch(e) {
+                // Ignore parse errors from initial ping
+            }
+        };
+
+        // Init
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCandidates();
+            if (typeof loadCronConfig === 'function') {
+                loadCronConfig();
+            }
+        });
+    </script>
+
+    <!-- Modal para ver data cruda -->
+    <div id="raw-data-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center;">
+        <div style="background: var(--surface); width: 80%; max-width: 800px; max-height: 80vh; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border);">
+            <div style="padding: 1rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg);">
+                <h3 style="margin: 0; color: var(--text-main);">Data Cruda Extraída (Scraper)</h3>
+                <button onclick="closeModal()" style="margin: 0; padding: 0.3rem 0.6rem; background: transparent; color: var(--text-main); border: 1px solid var(--border);">Cerrar ✕</button>
+            </div>
+            <div style="padding: 1rem; overflow-y: auto; background: #000; flex-grow: 1;">
+                <pre id="raw-data-content" style="color: #0f0; font-family: monospace; font-size: 0.9rem; white-space: pre-wrap; word-wrap: break-word; margin: 0;"></pre>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

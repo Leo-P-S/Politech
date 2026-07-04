@@ -1,0 +1,713 @@
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-16 21:38:12"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-16 21:38:12"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-16 21:38:12"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-16 21:38:12"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-16 21:39:59"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-16 21:39:59"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-16 21:39:59"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-16 21:39:59"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-16 21:39:59"}
+{"level":"info","message":"Iniciando scraping histórico para Candidato Test","service":"worker-pipeline","timestamp":"2026-06-16 21:39:59"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-16 21:39:59"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-16 21:39:59"}
+{"level":"info","message":"Iniciando Worker/Pipeline Node.js","service":"worker-pipeline","timestamp":"2026-06-16 21:42:27"}
+{"level":"error","message":"Fallo crítico al conectar a MongoDB: options usenewurlparser, useunifiedtopology are not supported","service":"worker-pipeline","timestamp":"2026-06-16 21:42:27"}
+{"level":"info","message":"Worker esperando tareas...","service":"worker-pipeline","timestamp":"2026-06-16 21:42:27"}
+{"level":"info","message":"Iniciando Worker/Pipeline Node.js","service":"worker-pipeline","timestamp":"2026-06-16 21:44:03"}
+{"level":"error","message":"Fallo crítico al conectar a MongoDB: options usenewurlparser, useunifiedtopology are not supported","service":"worker-pipeline","timestamp":"2026-06-16 21:44:03"}
+{"level":"info","message":"Worker esperando tareas...","service":"worker-pipeline","timestamp":"2026-06-16 21:44:03"}
+{"level":"info","message":"Iniciando Worker/Pipeline Node.js","service":"worker-pipeline","timestamp":"2026-06-16 21:51:43"}
+{"level":"info","message":"Conectado a MongoDB Exitosamente","service":"worker-pipeline","timestamp":"2026-06-16 21:51:43"}
+{"level":"info","message":"Worker esperando tareas...","service":"worker-pipeline","timestamp":"2026-06-16 21:51:43"}
+{"level":"info","message":"Iniciando Worker/Pipeline Node.js","service":"worker-pipeline","timestamp":"2026-06-17 00:22:58"}
+{"level":"info","message":"Conectado a MongoDB Exitosamente","service":"worker-pipeline","timestamp":"2026-06-17 00:22:58"}
+{"level":"info","message":"Ejecutando prueba inicial al arrancar...","service":"worker-pipeline","timestamp":"2026-06-17 00:22:58"}
+{"level":"info","message":"=== INICIANDO PIPELINE PARA Candidato Generico ===","service":"worker-pipeline","timestamp":"2026-06-17 00:22:58"}
+{"level":"info","message":"Iniciando scraping histórico para Candidato Generico","service":"worker-pipeline","timestamp":"2026-06-17 00:22:58"}
+{"level":"info","message":"Buscando URLs para candidato: Candidato Generico entre 2023-12-01 y 2023-12-31","service":"worker-pipeline","timestamp":"2026-06-17 00:22:58"}
+{"level":"info","message":"Worker esperando tareas programadas...","service":"worker-pipeline","timestamp":"2026-06-17 00:22:58"}
+{"level":"info","message":"Finalizado scraping para Candidato Generico. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 00:23:00"}
+{"level":"warn","message":"No se encontraron artículos para Candidato Generico. Abortando pipeline.","service":"worker-pipeline","timestamp":"2026-06-17 00:23:00"}
+{"level":"info","message":"Prueba inicial iniciada. Worker también escuchando cron jobs...","service":"worker-pipeline","timestamp":"2026-06-17 00:23:00"}
+{"level":"info","message":"--- INICIANDO EJECUCIÓN MOCK A VOLUNTAD ---","service":"worker-pipeline","timestamp":"2026-06-17 00:32:43"}
+{"level":"info","message":"Conectado a MongoDB Exitosamente para el Mock","service":"worker-pipeline","timestamp":"2026-06-17 00:32:43"}
+{"level":"info","message":"=== INICIANDO PIPELINE PARA Candidato de Prueba MOCK ===","service":"worker-pipeline","timestamp":"2026-06-17 00:32:43"}
+{"level":"info","message":"Iniciando scraping histórico para Candidato de Prueba MOCK","service":"worker-pipeline","timestamp":"2026-06-17 00:32:43"}
+{"level":"info","message":"Buscando URLs para candidato: Candidato de Prueba MOCK entre 2023-01-01 y 2023-12-31","service":"worker-pipeline","timestamp":"2026-06-17 00:32:43"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://example-news.com/politica/candidato-1","service":"worker-pipeline","timestamp":"2026-06-17 00:32:43"}
+{"level":"info","message":"Extracción exitosa para URL: https://example-news.com/politica/candidato-1","service":"worker-pipeline","timestamp":"2026-06-17 00:32:44"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://example-news.com/politica/candidato-2","service":"worker-pipeline","timestamp":"2026-06-17 00:32:44"}
+{"level":"info","message":"Extracción exitosa para URL: https://example-news.com/politica/candidato-2","service":"worker-pipeline","timestamp":"2026-06-17 00:32:44"}
+{"level":"info","message":"Finalizado scraping para Candidato de Prueba MOCK. Artículos extraídos: 2","service":"worker-pipeline","timestamp":"2026-06-17 00:32:44"}
+{"level":"info","message":"Procesando lote de 2 noticias para Candidato de Prueba MOCK mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 00:32:44"}
+{"level":"info","message":"[MOCK MODE] Retornando JSON falso para el lote de noticias","service":"worker-pipeline","timestamp":"2026-06-17 00:32:44"}
+{"level":"info","message":"Guardando 2 noticias en la BD para Candidato de Prueba MOCK","service":"worker-pipeline","timestamp":"2026-06-17 00:32:44"}
+{"level":"info","message":"Persistencia exitosa para Candidato de Prueba MOCK. Total de noticias ahora: 2","service":"worker-pipeline","timestamp":"2026-06-17 00:32:44"}
+{"level":"info","message":"--- INICIANDO EJECUCIÓN MOCK A VOLUNTAD ---","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Conectado a MongoDB Exitosamente para el Mock","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"=== INICIANDO PIPELINE PARA Candidato de Prueba MOCK ===","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Iniciando scraping histórico para Candidato de Prueba MOCK","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Buscando URLs para candidato: Candidato de Prueba MOCK entre 2023-01-01 y 2023-12-31","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://example-news.com/politica/candidato-1","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Extracción exitosa para URL: https://example-news.com/politica/candidato-1","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://example-news.com/politica/candidato-2","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Extracción exitosa para URL: https://example-news.com/politica/candidato-2","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Finalizado scraping para Candidato de Prueba MOCK. Artículos extraídos: 2","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Procesando lote de 2 noticias para Candidato de Prueba MOCK mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"[MOCK MODE] Retornando JSON falso para el lote de noticias","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Guardando 2 noticias en la BD para Candidato de Prueba MOCK","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"Persistencia exitosa para Candidato de Prueba MOCK. Total de noticias ahora: 4","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"=== PIPELINE COMPLETADO PARA Candidato de Prueba MOCK EN 0.00 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"--- EJECUCIÓN MOCK FINALIZADA CON ÉXITO ---","service":"worker-pipeline","timestamp":"2026-06-17 00:38:20"}
+{"level":"info","message":"=== INICIANDO PIPELINE PARA KEIKO ===","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"Iniciando scraping histórico para KEIKO","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"Buscando URLs para candidato: KEIKO entre 2023-01-01 y 2023-12-31","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://example-news.com/politica/candidato-1","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"Extracción exitosa para URL: https://example-news.com/politica/candidato-1","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://example-news.com/politica/candidato-2","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"Extracción exitosa para URL: https://example-news.com/politica/candidato-2","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"Finalizado scraping para KEIKO. Artículos extraídos: 2","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"Procesando lote de 2 noticias para KEIKO mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"[MOCK MODE] Retornando JSON falso para el lote de noticias","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"Guardando 2 noticias en la BD para KEIKO","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"Persistencia exitosa para KEIKO. Total de noticias ahora: 2","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"=== PIPELINE COMPLETADO PARA KEIKO EN 0.00 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 01:25:15"}
+{"level":"info","message":"=== INICIANDO PIPELINE PARA KEIKO ===","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"Iniciando scraping histórico para KEIKO","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"Buscando URLs para candidato: KEIKO entre 2023-01-01 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://example-news.com/politica/candidato-1","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"Extracción exitosa para URL: https://example-news.com/politica/candidato-1","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://example-news.com/politica/candidato-2","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"Extracción exitosa para URL: https://example-news.com/politica/candidato-2","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"Finalizado scraping para KEIKO. Artículos extraídos: 2","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"Procesando lote de 2 noticias para KEIKO mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"[MOCK MODE] Retornando JSON falso para el lote de noticias","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"Guardando 2 noticias en la BD para KEIKO","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"Persistencia exitosa para KEIKO. Total de noticias ahora: 4","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"=== PIPELINE COMPLETADO PARA KEIKO EN 0.00 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 01:25:40"}
+{"level":"info","message":"=== INICIANDO PIPELINE PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 10:05:32"}
+{"level":"info","message":"Iniciando scraping histórico para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:05:32"}
+{"level":"info","message":"Buscando noticias reales para candidato: Keiko Fujimori (Fechas referenciales: 2026-01-01 - 2026-04-30)","service":"worker-pipeline","timestamp":"2026-06-17 10:05:32"}
+{"level":"info","message":"Se descubrieron 3 URLs reales para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://peru21.pe/noticias/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"Extracción exitosa para URL: https://peru21.pe/noticias/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://elpais.com/noticias/keiko-sofia-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"Extracción exitosa para URL: https://elpais.com/noticias/keiko-sofia-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://wapa.pe/tag/keiko-fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"Extracción exitosa para URL: https://wapa.pe/tag/keiko-fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"Procesando lote de 3 noticias para Keiko Fujimori mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"[MOCK MODE] Retornando JSON falso para el lote de noticias","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"Guardando 3 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 3","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"=== PIPELINE COMPLETADO PARA Keiko Fujimori EN 0.02 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 10:05:33"}
+{"level":"info","message":"=== INICIANDO PIPELINE PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 10:25:46"}
+{"level":"info","message":"Iniciando scraping histórico para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:25:46"}
+{"level":"info","message":"Buscando noticias reales para candidato: Keiko Fujimori (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 10:25:46"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://elpais.com/noticias/keiko-sofia-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:25:47"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://wapa.pe/tag/keiko-fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:25:47"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://elpopular.pe/tag/keiko-fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:25:47"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.infobae.com/tag/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:25:47"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://peru21.pe/noticias/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:25:47"}
+{"level":"info","message":"Se descubrieron 3 URLs reales para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:25:47"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/elecciones-2026-quien-es-keiko-fujimori-y-cuales-son-las-propuestas-clave-de-su-plan-de-gobierno-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 10:25:49"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.infobae.com/peru/2026/06/07/keiko-fujimori-deja-en-suspenso-su-futuro-politico-espero-que-este-sea-mi-ultimo-desayuno-electoral/","service":"worker-pipeline","timestamp":"2026-06-17 10:25:50"}
+{"level":"info","message":"Extracción exitosa para URL: https://es-us.noticias.yahoo.com/per%C3%BA-filo-keiko-fujimori-victoria-184929060.html","service":"worker-pipeline","timestamp":"2026-06-17 10:25:51"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-06-17 10:25:51"}
+{"level":"info","message":"Procesando lote de 3 noticias para Keiko Fujimori mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 10:25:51"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{\"@type\":\"type.googleapis.com/google.rpc.ErrorInfo\",\"reason\":\"API_KEY_INVALID\",\"domain\":\"googleapis.com\",\"metadata\":{\"service\":\"generativelanguage.googleapis.com\"}},{\"@type\":\"type.googleapis.com/google.rpc.LocalizedMessage\",\"locale\":\"en-US\",\"message\":\"API key not valid. Please pass a valid API key.\"}]","service":"worker-pipeline","timestamp":"2026-06-17 10:25:52"}
+{"level":"info","message":"=== PIPELINE COMPLETADO PARA Keiko Fujimori EN 0.11 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 10:25:52"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 10:42:02"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 10:42:46"}
+{"level":"info","message":"Procesando 4 noticias pendientes para Candidato de Prueba MOCK...","service":"worker-pipeline","timestamp":"2026-06-17 10:43:05"}
+{"level":"info","message":"Procesando 4 noticias pendientes para KEIKO...","service":"worker-pipeline","timestamp":"2026-06-17 10:43:05"}
+{"level":"info","message":"Procesando 3 noticias pendientes para Keiko Fujimori...","service":"worker-pipeline","timestamp":"2026-06-17 10:43:05"}
+{"level":"info","message":"Lote completado. Total de noticias procesadas por IA: 0","service":"worker-pipeline","timestamp":"2026-06-17 10:43:05"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 10:51:26"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 10:52:22"}
+{"level":"info","message":"Iniciando scraping histórico para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:22"}
+{"level":"info","message":"Buscando noticias reales para candidato: Keiko Fujimori (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 10:52:22"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://wapa.pe/tag/keiko-fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://peru21.pe/noticias/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.abc.es/noticias/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://elpais.com/noticias/keiko-sofia-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.expreso.com.pe/politica/keiko-fujimori-de-la-derrota-de-2021-a-su-revancha-en-2026-que-cambio-en-el-panorama-politico-y-judicial-para-la-candidata-de-fuerza-popular-roberto-sanchez-conteo-segunda-vuelta-noticia/1293994/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://elpopular.pe/tag/keiko-fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.bbc.com/mundo/articles/crkvxe1y4d4o","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.infobae.com/tag/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"Se descubrieron 2 URLs reales para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://cnnespanol.cnn.com/2026/06/07/latinoamerica/peru-keiko-fujimori-candidata-derecha-elecciones-quien-es-orix","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"Extracción exitosa para URL: https://cnnespanol.cnn.com/2026/06/07/latinoamerica/peru-keiko-fujimori-candidata-derecha-elecciones-quien-es-orix","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://es-us.noticias.yahoo.com/per%C3%BA-filo-keiko-fujimori-victoria-184929060.html","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"Extracción exitosa para URL: https://es-us.noticias.yahoo.com/per%C3%BA-filo-keiko-fujimori-victoria-184929060.html","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 2","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"Guardando 2 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 2","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.02 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 10:52:23"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 10:52:38"}
+{"level":"info","message":"Iniciando scraping histórico para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:38"}
+{"level":"info","message":"Buscando noticias reales para candidato: Keiko Fujimori (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 10:52:38"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://elpopular.pe/tag/keiko-fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://wapa.pe/tag/keiko-fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.infobae.com/tag/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://peru21.pe/noticias/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.expreso.com.pe/politica/keiko-fujimori-de-la-derrota-de-2021-a-su-revancha-en-2026-que-cambio-en-el-panorama-politico-y-judicial-para-la-candidata-de-fuerza-popular-roberto-sanchez-conteo-segunda-vuelta-noticia/1293994/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.bbc.com/mundo/articles/crkvxe1y4d4o","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.expreso.com.pe/politica/keiko-fujimori-sale-de-peru-antes-de-resultado-final-de-onpe-cual-es-la-razon-de-su-viaje-kyara-villanella-fuerza-popular-roberto-sanchez-noticia/1294586/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.abc.es/noticias/keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"Se descubrieron 2 URLs reales para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:39"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/elecciones/resultados-onpe-en-vivo-tras-segunda-vuelta-keiko-fujimori-y-roberto-sanchez-disputan-presidencia-de-peru-lbposting-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 10:52:40"}
+{"level":"info","message":"Extracción exitosa para URL: https://es-us.noticias.yahoo.com/per%C3%BA-filo-keiko-fujimori-victoria-184929060.html","service":"worker-pipeline","timestamp":"2026-06-17 10:52:40"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 2","service":"worker-pipeline","timestamp":"2026-06-17 10:52:40"}
+{"level":"info","message":"Guardando 2 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 10:52:40"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 2","service":"worker-pipeline","timestamp":"2026-06-17 10:52:40"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.04 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 10:52:40"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sanchez ===","service":"worker-pipeline","timestamp":"2026-06-17 10:53:39"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 10:53:39"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sanchez (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 10:53:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://larepublica.pe/tag/roberto-sanchez","service":"worker-pipeline","timestamp":"2026-06-17 10:53:40"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://peru21.pe/noticias/roberto-sanchez/","service":"worker-pipeline","timestamp":"2026-06-17 10:53:40"}
+{"level":"info","message":"Se descubrieron 3 URLs reales para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 10:53:40"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.infobae.com/peru/2026/06/17/roberto-sanchez-pidio-mantenerse-vigilantes-sobre-el-conteo-de-votos-la-verdad-de-las-urnas-pertenece-a-todos-los-peruanos/","service":"worker-pipeline","timestamp":"2026-06-17 10:53:40"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/roberto-sanchez-el-candidato-presidencial-con-8-denuncias-por-peculado-fraude-y-falsedad-ideologica-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 10:53:42"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/roberto-sanchez-y-las-claves-de-la-acusacion-de-fiscalia-que-pide-5-anos-y-4-meses-de-carcel-para-el-ahora-candidato-presidencial-de-juntos-por-el-peru-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 10:53:43"}
+{"level":"info","message":"Finalizado scraping para Roberto Sanchez. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-06-17 10:53:43"}
+{"level":"info","message":"Guardando 3 noticias en la BD para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 10:53:43"}
+{"level":"info","message":"Persistencia exitosa para Roberto Sanchez. Total de noticias ahora: 3","service":"worker-pipeline","timestamp":"2026-06-17 10:53:43"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Roberto Sanchez EN 0.08 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 10:53:43"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sanchez ===","service":"worker-pipeline","timestamp":"2026-06-17 10:53:54"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 10:53:54"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sanchez (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 10:53:54"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://larepublica.pe/tag/roberto-sanchez","service":"worker-pipeline","timestamp":"2026-06-17 10:53:55"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://peru21.pe/noticias/roberto-sanchez/","service":"worker-pipeline","timestamp":"2026-06-17 10:53:55"}
+{"level":"info","message":"Se descubrieron 3 URLs reales para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 10:53:55"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.infobae.com/peru/2026/06/17/roberto-sanchez-pidio-mantenerse-vigilantes-sobre-el-conteo-de-votos-la-verdad-de-las-urnas-pertenece-a-todos-los-peruanos/","service":"worker-pipeline","timestamp":"2026-06-17 10:53:56"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/roberto-sanchez-el-candidato-presidencial-con-8-denuncias-por-peculado-fraude-y-falsedad-ideologica-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 10:53:56"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/elecciones/resultados-onpe-en-vivo-tras-segunda-vuelta-keiko-fujimori-y-roberto-sanchez-disputan-presidencia-de-peru-lbposting-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 10:53:57"}
+{"level":"info","message":"Finalizado scraping para Roberto Sanchez. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-06-17 10:53:57"}
+{"level":"info","message":"Guardando 3 noticias en la BD para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 10:53:57"}
+{"level":"info","message":"Persistencia exitosa para Roberto Sanchez. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 10:53:57"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Roberto Sanchez EN 0.04 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 10:53:57"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sánchez ===","service":"worker-pipeline","timestamp":"2026-06-17 11:09:39"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:09:39"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sánchez (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:09:39"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://larepublica.pe/tag/roberto-sanchez","service":"worker-pipeline","timestamp":"2026-06-17 11:09:40"}
+{"level":"info","message":"Se descubrieron 3 URLs reales para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:09:40"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.infobae.com/peru/2026/06/04/roberto-sanchez-denuncias-entorno-mas-cercano-nuevo-plan-de-gobierno-y-el-peso-de-su-antivoto/","service":"worker-pipeline","timestamp":"2026-06-17 11:09:42"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/elecciones/resultados-onpe-en-vivo-tras-segunda-vuelta-keiko-fujimori-y-roberto-sanchez-disputan-presidencia-de-peru-lbposting-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:09:42"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/roberto-sanchez-y-las-claves-de-la-acusacion-de-fiscalia-que-pide-5-anos-y-4-meses-de-carcel-para-el-ahora-candidato-presidencial-de-juntos-por-el-peru-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:09:44"}
+{"level":"info","message":"Finalizado scraping para Roberto Sánchez. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-06-17 11:09:44"}
+{"level":"info","message":"Guardando 3 noticias en la BD para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:09:44"}
+{"level":"info","message":"Persistencia exitosa para Roberto Sánchez. Total de noticias ahora: 3","service":"worker-pipeline","timestamp":"2026-06-17 11:09:44"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Roberto Sánchez EN 0.08 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 11:09:44"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 11:18:24"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sánchez ===","service":"worker-pipeline","timestamp":"2026-06-17 11:19:30"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:19:30"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sánchez (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:19:30"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://www.expreso.com.pe/politica/roberto-sanchez-fiscalia-senala-que-exministro-suscribio-golpe-de-estado/912273/","service":"worker-pipeline","timestamp":"2026-06-17 11:19:31"}
+{"level":"info","message":"Se descubrieron 3 URLs reales para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:19:31"}
+{"level":"error","message":"Error al descargar HTML de https://willax.pe/politica/roberto-sanchez-es-una-oportunidad-para-el-esclarecimiento-de-los-hechos: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 11:19:31"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/congreso/roberto-sanchez-espera-que-pleno-valore-elementos-nuevos-que-lo-desvinculan-del-golpe-de-estado-de-pedro-castillo-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:19:33"}
+{"level":"error","message":"Error al descargar HTML de https://willax.pe/politica/roberto-sanchez-congreso-aprueba-denuncia-constitucional-contra-exministro-pero-no-lo-suspende-como-congresista: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 11:19:33"}
+{"level":"info","message":"Finalizado scraping para Roberto Sánchez. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-17 11:19:33"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:19:33"}
+{"level":"info","message":"Persistencia exitosa para Roberto Sánchez. Total de noticias ahora: 1","service":"worker-pipeline","timestamp":"2026-06-17 11:19:33"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Roberto Sánchez EN 0.06 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 11:19:33"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sánchez ===","service":"worker-pipeline","timestamp":"2026-06-17 11:20:02"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:20:02"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sánchez (Fechas referenciales: 2023-01-01 - 2025-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:20:02"}
+{"level":"info","message":"Se descubrieron 3 URLs reales para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:20:03"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.infobae.com/peru/2025/11/03/roberto-sanchez-niega-inhabilitacion-y-anuncia-formula-presidencial-para-las-elecciones-de-2026/","service":"worker-pipeline","timestamp":"2026-06-17 11:20:04"}
+{"level":"error","message":"Error al descargar HTML de https://peru21.pe/politica/roberto-sanchez-niega-estar-inhabilitado-para-postular-las-elecciones-2026/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 11:20:05"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/congreso/roberto-sanchez-denuncian-que-el-congresista-de-juntos-por-el-peru-utiliza-a-trabajadores-de-su-despacho-para-su-campana-elecciones-2026-ultimas-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:20:06"}
+{"level":"info","message":"Finalizado scraping para Roberto Sánchez. Artículos extraídos: 2","service":"worker-pipeline","timestamp":"2026-06-17 11:20:06"}
+{"level":"info","message":"Guardando 2 noticias en la BD para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:20:06"}
+{"level":"info","message":"Persistencia exitosa para Roberto Sánchez. Total de noticias ahora: 3","service":"worker-pipeline","timestamp":"2026-06-17 11:20:06"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Roberto Sánchez EN 0.07 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 11:20:06"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sánchez ===","service":"worker-pipeline","timestamp":"2026-06-17 11:20:20"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:20:20"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sánchez (Fechas referenciales: 2023-01-01 - 2026-06-17)","service":"worker-pipeline","timestamp":"2026-06-17 11:20:20"}
+{"level":"info","message":"[Scraper] Saltando URL genérica: https://larepublica.pe/tag/roberto-sanchez","service":"worker-pipeline","timestamp":"2026-06-17 11:20:21"}
+{"level":"info","message":"Se descubrieron 3 URLs reales para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:20:21"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.infobae.com/peru/2026/06/04/roberto-sanchez-denuncias-entorno-mas-cercano-nuevo-plan-de-gobierno-y-el-peso-de-su-antivoto/","service":"worker-pipeline","timestamp":"2026-06-17 11:20:21"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/roberto-sanchez-y-las-claves-de-la-acusacion-de-fiscalia-que-pide-5-anos-y-4-meses-de-carcel-para-el-ahora-candidato-presidencial-de-juntos-por-el-peru-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:20:23"}
+{"level":"error","message":"Error al descargar HTML de https://cnnespanol.cnn.com/2026/06/07/latinoamerica/peru-roberto-sanchez-candidato-izquierda-quien-es-orix: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 11:20:23"}
+{"level":"info","message":"Finalizado scraping para Roberto Sánchez. Artículos extraídos: 2","service":"worker-pipeline","timestamp":"2026-06-17 11:20:23"}
+{"level":"info","message":"Guardando 2 noticias en la BD para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:20:23"}
+{"level":"info","message":"Persistencia exitosa para Roberto Sánchez. Total de noticias ahora: 5","service":"worker-pipeline","timestamp":"2026-06-17 11:20:23"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Roberto Sánchez EN 0.05 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 11:20:23"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-17 11:30:15"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 11:30:15"}
+{"level":"info","message":"Iniciando scraping histórico para Candidato Test","service":"worker-pipeline","timestamp":"2026-06-17 11:30:15"}
+{"level":"warn","message":"No se pudo descargar o limpiar el HTML de https://test.com/1. Usando fallback de snippet de búsqueda.","service":"worker-pipeline","timestamp":"2026-06-17 11:30:15"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-17 11:30:15"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-17 11:30:15"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 11:30:15"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-17 11:30:15"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-17 11:30:43"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 11:30:43"}
+{"level":"info","message":"Iniciando scraping histórico para Candidato Test","service":"worker-pipeline","timestamp":"2026-06-17 11:30:43"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-17 11:30:43"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-17 11:30:43"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-17 11:30:43"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 11:30:43"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-17 11:30:43"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 11:32:51"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sánchez ===","service":"worker-pipeline","timestamp":"2026-06-17 11:33:23"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:33:23"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sánchez (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:33:23"}
+{"level":"info","message":"Estructura estándar no encontrada. Usando selector fallback .result__url...","service":"worker-pipeline","timestamp":"2026-06-17 11:33:23"}
+{"level":"info","message":"Se descubrieron 0 URLs reales para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:33:23"}
+{"level":"info","message":"Finalizado scraping para Roberto Sánchez. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 11:33:23"}
+{"level":"warn","message":"No se encontraron artículos para Roberto Sánchez. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 11:33:23"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sánchez ===","service":"worker-pipeline","timestamp":"2026-06-17 11:33:43"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:33:43"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sánchez (Fechas referenciales: 2023-01-01 - 2024-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:33:43"}
+{"level":"info","message":"Estructura estándar no encontrada. Usando selector fallback .result__url...","service":"worker-pipeline","timestamp":"2026-06-17 11:33:43"}
+{"level":"info","message":"Se descubrieron 0 URLs reales para Roberto Sánchez","service":"worker-pipeline","timestamp":"2026-06-17 11:33:43"}
+{"level":"info","message":"Finalizado scraping para Roberto Sánchez. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 11:33:43"}
+{"level":"warn","message":"No se encontraron artículos para Roberto Sánchez. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 11:33:43"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 11:34:29"}
+{"level":"info","message":"Iniciando scraping histórico para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 11:34:29"}
+{"level":"info","message":"Buscando noticias reales para candidato: Keiko Fujimori (Fechas referenciales: 2023-01-01 - 2024-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:34:29"}
+{"level":"info","message":"Estructura estándar no encontrada. Usando selector fallback .result__url...","service":"worker-pipeline","timestamp":"2026-06-17 11:34:30"}
+{"level":"info","message":"Se descubrieron 0 URLs reales para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 11:34:30"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 11:34:30"}
+{"level":"warn","message":"No se encontraron artículos para Keiko Fujimori. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 11:34:30"}
+{"level":"info","message":"Buscando noticias reales para candidato: Keiko Fujimori (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:38:23"}
+{"level":"info","message":"Estructura estándar no encontrada. Usando selector fallback .result__url...","service":"worker-pipeline","timestamp":"2026-06-17 11:38:24"}
+{"level":"info","message":"Se descubrieron 0 URLs reales para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 11:38:24"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 11:46:17"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 11:46:35"}
+{"level":"info","message":"Iniciando scraping histórico para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 11:46:35"}
+{"level":"info","message":"Buscando noticias reales para candidato: Keiko Fujimori (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:46:35"}
+{"level":"info","message":"Se obtuvieron 12 items de Bing News RSS...","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Se descubrieron 12 URLs reales para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://diariocorreo.pe/politica/caso-cocteles-poder-judicial-confirma-archivo-definitivo-a-favor-de-keiko-fujimori-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/caso-cocteles-poder-judicial-confirma-archivo-definitivo-a-favor-de-keiko-fujimori-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://ojo.pe/politica/juran-que-keiko-contara-con-gabinete-de-consenso-y-sus-ministros-seran-los-mejores-tecnicos-web-ojo-print-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Extracción exitosa para URL: https://ojo.pe/politica/juran-que-keiko-contara-con-gabinete-de-consenso-y-sus-ministros-seran-los-mejores-tecnicos-web-ojo-print-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://elcomercio.pe/politica/justicia/keiko-fujimori-poder-judicial-confirma-archivamiento-definitivo-del-caso-cocteles-ultimas-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/justicia/keiko-fujimori-poder-judicial-confirma-archivamiento-definitivo-del-caso-cocteles-ultimas-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://diariocorreo.pe/politica/elecciones-2026-keiko-fujimori-le-recuerda-a-roberto-sanchez-sus-declaraciones-ha-senalado-que-va-a-respetar-los-votos-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/elecciones-2026-keiko-fujimori-le-recuerda-a-roberto-sanchez-sus-declaraciones-ha-senalado-que-va-a-respetar-los-votos-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://peru21.pe/politica/keiko-fujimori-anuncia-viaje-al-extranjero-luego-de-las-elecciones-y-explica-el-motivo/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Extracción exitosa para URL: https://peru21.pe/politica/keiko-fujimori-anuncia-viaje-al-extranjero-luego-de-las-elecciones-y-explica-el-motivo/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"[MOCK MODE] Retornando HTML falso para https://peru21.pe/politica/caso-cocteles-llega-su-fin-pj-cierra-proceso-contra-keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Extracción exitosa para URL: https://peru21.pe/politica/caso-cocteles-llega-su-fin-pj-cierra-proceso-contra-keiko-fujimori/","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Se alcanzó el objetivo de 6 noticias para Keiko Fujimori. Deteniendo descargas.","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 6","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Guardando 6 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.01 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 11:46:36"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sanchez ===","service":"worker-pipeline","timestamp":"2026-06-17 11:47:02"}
+{"level":"info","message":"Iniciando scraping histórico para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 11:47:02"}
+{"level":"info","message":"Buscando noticias reales para candidato: Roberto Sanchez (Fechas referenciales: 2023-01-01 - 2023-12-31)","service":"worker-pipeline","timestamp":"2026-06-17 11:47:02"}
+{"level":"info","message":"Se obtuvieron 12 items de Bing News RSS...","service":"worker-pipeline","timestamp":"2026-06-17 11:47:02"}
+{"level":"info","message":"Se descubrieron 12 URLs reales para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 11:47:02"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/onpe-al-99085-keiko-fujimori-supera-a-roberto-sanchez-por-35597-votos-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:47:05"}
+{"level":"info","message":"Extracción exitosa para URL: https://rpp.pe/politica/elecciones/juntos-por-el-peru-dejara-de-recibir-donaciones-para-costear-nulidades-de-actas-afirma-tesorera-noticia-1693167","service":"worker-pipeline","timestamp":"2026-06-17 11:47:05"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/luis-galarreta-sobre-pedido-de-roberto-sanchez-el-reconteo-de-votos-se-esta-haciendo-en-estos-momentos-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 11:47:06"}
+{"level":"error","message":"Error al descargar HTML de https://www.expreso.com.pe/politica/roberto-sanchez-pide-recuento-de-votos-pese-a-que-en-2025-estuvo-en-contra-de-crear-ese-mecanismo-onpe-jne-elecciones-2026-noticia/1294306/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 11:47:06"}
+{"level":"warn","message":"No se pudo descargar o limpiar el HTML de https://www.expreso.com.pe/politica/roberto-sanchez-pide-recuento-de-votos-pese-a-que-en-2025-estuvo-en-contra-de-crear-ese-mecanismo-onpe-jne-elecciones-2026-noticia/1294306/. Usando fallback de snippet de búsqueda.","service":"worker-pipeline","timestamp":"2026-06-17 11:47:06"}
+{"level":"error","message":"Error al descargar HTML de https://www.reporteindigo.com/internacional/resultados-onpe-segunda-vuelta-elecciones-peru-conteo-oficial-de-votos-keiko-fujimori-y-roberto-sanchez-20260615-0018.html: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"warn","message":"No se pudo descargar o limpiar el HTML de https://www.reporteindigo.com/internacional/resultados-onpe-segunda-vuelta-elecciones-peru-conteo-oficial-de-votos-keiko-fujimori-y-roberto-sanchez-20260615-0018.html. Usando fallback de snippet de búsqueda.","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"error","message":"Error al descargar HTML de https://peru21.pe/politica/roberto-sanchez-hoy-se-reanuda-audiencia-para-definir-juicio-oral/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"warn","message":"No se pudo descargar o limpiar el HTML de https://peru21.pe/politica/roberto-sanchez-hoy-se-reanuda-audiencia-para-definir-juicio-oral/. Usando fallback de snippet de búsqueda.","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"info","message":"Se alcanzó el objetivo de 6 noticias para Roberto Sanchez. Deteniendo descargas.","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"info","message":"Finalizado scraping para Roberto Sanchez. Artículos extraídos: 6","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"info","message":"Guardando 6 noticias en la BD para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"info","message":"Persistencia exitosa para Roberto Sanchez. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Roberto Sanchez EN 0.09 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 11:47:07"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 12:27:28"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Roberto Sanchez ===","service":"worker-pipeline","timestamp":"2026-06-17 12:27:58"}
+{"level":"info","message":"Iniciando scraping (RSS + Bing) para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 12:27:58"}
+{"level":"info","message":"Escaneando feeds RSS directos para el candidato: Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 12:27:58"}
+{"level":"info","message":"Consultando feed RSS: https://rpp.pe/rss","service":"worker-pipeline","timestamp":"2026-06-17 12:27:58"}
+{"level":"info","message":"Consultando feed RSS: https://larepublica.pe/rss/politica.xml","service":"worker-pipeline","timestamp":"2026-06-17 12:28:01"}
+{"level":"info","message":"Consultando feed RSS: https://peru21.pe/rss/politica/","service":"worker-pipeline","timestamp":"2026-06-17 12:28:03"}
+{"level":"info","message":"[Feed RSS] Coincidencia encontrada: JEE concede apelación a JPP por pedido de nulidad contra 1,751 mesas en Perú","service":"worker-pipeline","timestamp":"2026-06-17 12:28:05"}
+{"level":"info","message":"Consultando feed RSS: https://elcomercio.pe/arc/outboundfeeds/rss/category/politica/?outputType=xml","service":"worker-pipeline","timestamp":"2026-06-17 12:28:05"}
+{"level":"info","message":"[Feed RSS] Coincidencia encontrada: Elecciones 2026: consulta qué dijeron Keiko Fujimori y Roberto Sánchez sobre los temas que más dividen al país","service":"worker-pipeline","timestamp":"2026-06-17 12:28:08"}
+{"level":"info","message":"[Feed RSS] Coincidencia encontrada: Las rutas de Keiko Fujimori y Roberto Sánchez: diez gráficos interactivos sobre las regiones y distritos que recorrieron","service":"worker-pipeline","timestamp":"2026-06-17 12:28:08"}
+{"level":"info","message":"Consultando feed RSS: https://feeds.bbci.co.uk/news/world/latin_america/rss.xml","service":"worker-pipeline","timestamp":"2026-06-17 12:28:08"}
+{"level":"info","message":"Consultando feed RSS: https://www.politico.com/rss/politicopicks.xml","service":"worker-pipeline","timestamp":"2026-06-17 12:28:10"}
+{"level":"error","message":"Error procesando feed RSS https://www.politico.com/rss/politicopicks.xml: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 12:28:11"}
+{"level":"info","message":"Consultando feed RSS: https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/politics/rss.xml","service":"worker-pipeline","timestamp":"2026-06-17 12:28:11"}
+{"level":"info","message":"Consultando feed RSS: https://lannews.opennemas.com/rss/politica/","service":"worker-pipeline","timestamp":"2026-06-17 12:28:13"}
+{"level":"info","message":"Consultando feed RSS: https://latinamericareports.com/feed/","service":"worker-pipeline","timestamp":"2026-06-17 12:28:16"}
+{"level":"info","message":"Consultando feed RSS: https://news.un.org/feed/subscribe/es/news/region/americas/feed/rss.xml","service":"worker-pipeline","timestamp":"2026-06-17 12:28:19"}
+{"level":"info","message":"Se encontraron 3 noticias recientes en los Feeds RSS directos para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 12:28:21"}
+{"level":"info","message":"Buscando noticias históricas en Bing News para candidato: Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 12:28:21"}
+{"level":"info","message":"Se descubrieron 12 URLs en Bing para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 12:28:22"}
+{"level":"info","message":"Extracción exitosa para URL: http://peru21.pe/investigacion/roberto-sanchez-jee-concede-apelacion-para-anular-1751-mesas-en-peru/","service":"worker-pipeline","timestamp":"2026-06-17 12:28:25"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/ecdata/keiko-fujimori-roberto-sanchez-segunda-vuelta-elecciones-2026-presidente-del-peru-fuerza-popular-juntos-por-el-peru-onpe-jne-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:28:28"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/ecdata/keiko-fujimori-roberto-sanchez-fuerza-popular-juntos-por-el-peru-elecciones-2026-segunda-vuelta-presidente-del-peru-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:28:33"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/onpe-al-99085-keiko-fujimori-supera-a-roberto-sanchez-por-35597-votos-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:28:37"}
+{"level":"info","message":"Extracción exitosa para URL: https://rpp.pe/politica/elecciones/juntos-por-el-peru-dejara-de-recibir-donaciones-para-costear-nulidades-de-actas-afirma-tesorera-noticia-1693167","service":"worker-pipeline","timestamp":"2026-06-17 12:28:39"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/luis-galarreta-sobre-pedido-de-roberto-sanchez-el-reconteo-de-votos-se-esta-haciendo-en-estos-momentos-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:28:43"}
+{"level":"info","message":"Se alcanzó el objetivo de 6 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 12:28:43"}
+{"level":"info","message":"Finalizado scraping para Roberto Sanchez. Artículos extraídos: 6","service":"worker-pipeline","timestamp":"2026-06-17 12:28:43"}
+{"level":"info","message":"Guardando 6 noticias en la BD para Roberto Sanchez","service":"worker-pipeline","timestamp":"2026-06-17 12:28:43"}
+{"level":"info","message":"Persistencia exitosa para Roberto Sanchez. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 12:28:43"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Roberto Sanchez EN 0.74 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 12:28:43"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 12:55:55"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 12:57:37"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, Histórico: true)","service":"worker-pipeline","timestamp":"2026-06-17 12:57:37"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2023-01-01 y 2023-12-31","service":"worker-pipeline","timestamp":"2026-06-17 12:57:37"}
+{"level":"warn","message":"Error buscando URLs en GDELT para Keiko Fujimori: timeout of 15000ms exceeded","service":"worker-pipeline","timestamp":"2026-06-17 12:57:54"}
+{"level":"info","message":"Buscando noticias históricas en Bing News para candidato: Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 12:57:54"}
+{"level":"info","message":"Se descubrieron 12 URLs en Bing para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 12:57:56"}
+{"level":"info","message":"Extracción exitosa para URL: https://ojo.pe/politica/juran-que-keiko-contara-con-gabinete-de-consenso-y-sus-ministros-seran-los-mejores-tecnicos-web-ojo-print-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:57:58"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/caso-cocteles-poder-judicial-confirma-archivo-definitivo-a-favor-de-keiko-fujimori-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:58:02"}
+{"level":"info","message":"Extracción exitosa para URL: https://elcomercio.pe/politica/justicia/keiko-fujimori-poder-judicial-confirma-archivamiento-definitivo-del-caso-cocteles-ultimas-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:58:05"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/elecciones-2026-keiko-fujimori-le-recuerda-a-roberto-sanchez-sus-declaraciones-ha-senalado-que-va-a-respetar-los-votos-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:58:09"}
+{"level":"error","message":"Error al descargar HTML de https://peru21.pe/politica/keiko-fujimori-anuncia-viaje-al-extranjero-luego-de-las-elecciones-y-explica-el-motivo/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 12:58:12"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://peru21.pe/politica/keiko-fujimori-anuncia-viaje-al-extranjero-luego-de-las-elecciones-y-explica-el-motivo/. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 12:58:12"}
+{"level":"info","message":"Extracción exitosa para URL: https://ojo.pe/politica/keiko-fujimori-se-va-del-pais-y-deja-a-personeros-mientras-el-peru-esta-convulsionado-web-ojo-print-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 12:58:15"}
+{"level":"info","message":"Se alcanzó el objetivo de 6 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 12:58:15"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 6","service":"worker-pipeline","timestamp":"2026-06-17 12:58:15"}
+{"level":"info","message":"Guardando 6 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 12:58:15"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 12:58:15"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.63 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 12:58:15"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 13:04:07"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 13:04:48"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, Histórico: true)","service":"worker-pipeline","timestamp":"2026-06-17 13:04:48"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2023-01-01 y 2023-04-30","service":"worker-pipeline","timestamp":"2026-06-17 13:04:48"}
+{"level":"warn","message":"El rango de fechas supera los 90 días (119 días). GDELT se limitará a los últimos 90 días del rango.","service":"worker-pipeline","timestamp":"2026-06-17 13:04:48"}
+{"level":"info","message":"Se descubrieron 20 URLs en GDELT para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 13:05:07"}
+{"level":"info","message":"Buscando noticias históricas en Bing News para candidato: Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 13:05:07"}
+{"level":"info","message":"Se descubrieron 12 URLs en Bing para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 13:05:09"}
+{"level":"error","message":"Error al descargar HTML de https://www.expreso.com.pe/politica/vladimir-cerron-subraya-que-peru-libre-no-buscara-consensos-con-el-gobierno/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 13:05:12"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://www.expreso.com.pe/politica/vladimir-cerron-subraya-que-peru-libre-no-buscara-consensos-con-el-gobierno/. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 13:05:12"}
+{"level":"error","message":"Error al descargar HTML de https://www.expreso.com.pe/politica/keiko-fujimori-sobre-adelanto-de-elecciones-fue-boicoteado-por-extremos-de-izquierda-y-derecha/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 13:05:14"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://www.expreso.com.pe/politica/keiko-fujimori-sobre-adelanto-de-elecciones-fue-boicoteado-por-extremos-de-izquierda-y-derecha/. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 13:05:14"}
+{"level":"error","message":"Error al descargar HTML de https://www.expreso.com.pe/politica/beto-ortiz-la-gente-prefiere-votar-por-una-palta-que-por-keiko-fujimori/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 13:05:16"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://www.expreso.com.pe/politica/beto-ortiz-la-gente-prefiere-votar-por-una-palta-que-por-keiko-fujimori/. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 13:05:16"}
+{"level":"error","message":"Error al descargar HTML de https://www.expreso.com.pe/politica/patricia-juarez-keiko-fujimori-no-va-a-postular-a-las-elecciones-dina-boluarte-congreso-adelanto-de-elecciones/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 13:05:19"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://www.expreso.com.pe/politica/patricia-juarez-keiko-fujimori-no-va-a-postular-a-las-elecciones-dina-boluarte-congreso-adelanto-de-elecciones/. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 13:05:19"}
+{"level":"info","message":"Extracción exitosa para URL: https://andina.pe/agencia/noticia-peru-keiko-fujimori-says-she-will-not-run-as-presidential-candidate-in-early-elections-928997.aspx","service":"worker-pipeline","timestamp":"2026-06-17 13:05:22"}
+{"level":"error","message":"Error al descargar HTML de https://www.expreso.com.pe/judicial/poder-judicial-ratifica-impedimento-de-keiko-fujimori-para-viajar-a-espana/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 13:05:24"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://www.expreso.com.pe/judicial/poder-judicial-ratifica-impedimento-de-keiko-fujimori-para-viajar-a-espana/. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 13:05:24"}
+{"level":"info","message":"Se alcanzó el objetivo de 6 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 13:05:24"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 6","service":"worker-pipeline","timestamp":"2026-06-17 13:05:24"}
+{"level":"info","message":"Guardando 6 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 13:05:24"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 13:05:24"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.61 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 13:05:24"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 13:20:07"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 13:20:36"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, Histórico: true)","service":"worker-pipeline","timestamp":"2026-06-17 13:20:36"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2026-04-17 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 13:20:36"}
+{"level":"info","message":"GDELT Chunk: 2026-04-17 a 2026-06-16","service":"worker-pipeline","timestamp":"2026-06-17 13:20:36"}
+{"level":"warn","message":"Error en chunk de GDELT: Request failed with status code 429","service":"worker-pipeline","timestamp":"2026-06-17 13:20:56"}
+{"level":"info","message":"GDELT Chunk: 2026-06-17 a 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 13:20:56"}
+{"level":"warn","message":"Error en chunk de GDELT: Request failed with status code 429","service":"worker-pipeline","timestamp":"2026-06-17 13:21:12"}
+{"level":"info","message":"Se descubrieron un total de 0 URLs en GDELT para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 13:21:12"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 13:21:12"}
+{"level":"warn","message":"No se encontraron artículos para Keiko Fujimori. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 13:21:12"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 13:30:12"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 13:30:57"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, Histórico: true)","service":"worker-pipeline","timestamp":"2026-06-17 13:30:57"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2026-04-17 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 13:30:57"}
+{"level":"info","message":"GDELT Chunk: 2026-04-17 a 2026-06-16","service":"worker-pipeline","timestamp":"2026-06-17 13:30:57"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 13:31:20"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (2/3)...","service":"worker-pipeline","timestamp":"2026-06-17 13:31:51"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (3/3)...","service":"worker-pipeline","timestamp":"2026-06-17 13:32:21"}
+{"level":"info","message":"GDELT Chunk: 2026-06-17 a 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 13:32:31"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 13:36:14"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 13:36:25"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, Histórico: true)","service":"worker-pipeline","timestamp":"2026-06-17 13:36:25"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2026-04-17 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 13:36:25"}
+{"level":"info","message":"GDELT Chunk: 2026-04-17 a 2026-06-16","service":"worker-pipeline","timestamp":"2026-06-17 13:36:25"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 13:36:44"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 14:23:46"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 14:24:19"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: true, DeepWeb: false [duckduckgo])","service":"worker-pipeline","timestamp":"2026-06-17 14:24:19"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2025-04-17 y 2025-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:24:19"}
+{"level":"info","message":"GDELT Chunk: 2025-04-17 a 2025-06-16","service":"worker-pipeline","timestamp":"2026-06-17 14:24:19"}
+{"level":"info","message":"GDELT Chunk: 2025-06-17 a 2025-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:24:39"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 14:25:01"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (2/3)...","service":"worker-pipeline","timestamp":"2026-06-17 14:25:28"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (3/3)...","service":"worker-pipeline","timestamp":"2026-06-17 14:25:57"}
+{"level":"info","message":"Se descubrieron un total de 5 URLs en GDELT para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:26:07"}
+{"level":"info","message":"Extracción exitosa para URL: https://charter97.org/en/news/2025/4/17/637281/","service":"worker-pipeline","timestamp":"2026-06-17 14:26:10"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.prospectmagazine.co.uk/culture/69805/in-search-of-lost-freedom-the-meaning-of-mario-vargas-llosa","service":"worker-pipeline","timestamp":"2026-06-17 14:26:13"}
+{"level":"info","message":"Extracción exitosa para URL: https://reason.com/2025/04/18/the-liberal-legacy-of-mario-vargas-llosa/","service":"worker-pipeline","timestamp":"2026-06-17 14:26:18"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.wsws.org/en/articles/2025/05/19/snum-m19.html","service":"worker-pipeline","timestamp":"2026-06-17 14:26:21"}
+{"level":"info","message":"Extracción exitosa para URL: https://foreignpolicy.com/2025/04/18/ecuador-election-noboa-gonzalez-trump-security-correa/?tpcc=recirc_trending062921","service":"worker-pipeline","timestamp":"2026-06-17 14:26:26"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 5","service":"worker-pipeline","timestamp":"2026-06-17 14:26:26"}
+{"level":"info","message":"Guardando 5 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:26:26"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 5","service":"worker-pipeline","timestamp":"2026-06-17 14:26:26"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 2.12 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 14:26:26"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 14:29:39"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, DeepWeb: true [duckduckgo])","service":"worker-pipeline","timestamp":"2026-06-17 14:29:39"}
+{"level":"info","message":"Buscando noticias en Deep Web (duckduckgo) para: Keiko Fujimori entre 2025-04-17 y 2025-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:29:39"}
+{"level":"error","message":"Error buscando URLs en Deep Web (duckduckgo) para Keiko Fujimori: cheerio is not defined","service":"worker-pipeline","timestamp":"2026-06-17 14:29:44"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 14:29:44"}
+{"level":"warn","message":"No se encontraron artículos para Keiko Fujimori. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 14:29:44"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 14:30:01"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, DeepWeb: true [bing])","service":"worker-pipeline","timestamp":"2026-06-17 14:30:01"}
+{"level":"info","message":"Buscando noticias en Deep Web (bing) para: Keiko Fujimori entre 2025-04-17 y 2025-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:30:01"}
+{"level":"error","message":"Error buscando URLs en Deep Web (bing) para Keiko Fujimori: cheerio is not defined","service":"worker-pipeline","timestamp":"2026-06-17 14:30:06"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 14:30:06"}
+{"level":"warn","message":"No se encontraron artículos para Keiko Fujimori. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 14:30:06"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 14:34:05"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 14:34:52"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, DeepWeb: true [duckduckgo])","service":"worker-pipeline","timestamp":"2026-06-17 14:34:52"}
+{"level":"info","message":"Buscando noticias en Deep Web (duckduckgo) para: Keiko Fujimori entre 2020-04-17 y 2020-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:34:52"}
+{"level":"info","message":"Se descubrieron un total de 0 URLs en Deep Web (duckduckgo) para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:34:57"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 14:34:57"}
+{"level":"warn","message":"No se encontraron artículos para Keiko Fujimori. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 14:34:57"}
+{"level":"info","message":"Buscando noticias en Deep Web (bing) para: Keiko Fujimori entre 2025-04-17 y 2025-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:37:31"}
+{"level":"info","message":"Consultando URL de búsqueda (bing): https://www.bing.com/news/search?q=%22Keiko%20Fujimori%22&format=rss","service":"worker-pipeline","timestamp":"2026-06-17 14:37:31"}
+{"level":"info","message":"Se descubrieron un total de 12 URLs en Deep Web (bing) para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:37:35"}
+{"level":"info","message":"Buscando noticias en Deep Web (duckduckgo) para: Keiko Fujimori entre 2025-04-17 y 2025-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:37:35"}
+{"level":"info","message":"Consultando URL de búsqueda (duckduckgo): https://html.duckduckgo.com/html/?q=%22Keiko%20Fujimori%22","service":"worker-pipeline","timestamp":"2026-06-17 14:37:35"}
+{"level":"warn","message":"Búsqueda en DuckDuckGo fue bloqueada por CAPTCHA.","service":"worker-pipeline","timestamp":"2026-06-17 14:37:37"}
+{"level":"warn","message":"DuckDuckGo no retornó resultados (bloqueo por CAPTCHA o vacío). Usando fallback automático a Google News RSS...","service":"worker-pipeline","timestamp":"2026-06-17 14:37:37"}
+{"level":"info","message":"Consultando URL de búsqueda (google): https://news.google.com/rss/search?q=%22Keiko%20Fujimori%22&hl=es-419&gl=PE&ceid=PE:es-419","service":"worker-pipeline","timestamp":"2026-06-17 14:37:37"}
+{"level":"info","message":"Se descubrieron un total de 104 URLs en Deep Web (duckduckgo) para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:37:42"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 14:39:24"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 14:39:44"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, DeepWeb: true [bing])","service":"worker-pipeline","timestamp":"2026-06-17 14:39:44"}
+{"level":"info","message":"Buscando noticias en Deep Web (bing) para: Keiko Fujimori entre 2020-04-17 y 2020-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:39:44"}
+{"level":"info","message":"Consultando URL de búsqueda (bing): https://www.bing.com/news/search?q=%22Keiko%20Fujimori%22&format=rss","service":"worker-pipeline","timestamp":"2026-06-17 14:39:44"}
+{"level":"info","message":"Se descubrieron un total de 12 URLs en Deep Web (bing) para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:39:48"}
+{"level":"info","message":"Extracción exitosa para URL: http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a32f80587bd4da2bd366985a1676fdf&url=https%3a%2f%2fradiomitre.cienradios.com%2fmundo%2felecciones-en-peru-roberto-sanchez-revelo-que-no-reconocera-el-resultado-de-keiko-fujimori%2f&c=2931955782561791822&mkt=es-xl","service":"worker-pipeline","timestamp":"2026-06-17 14:39:52"}
+{"level":"error","message":"Error al descargar HTML de http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a32f80587bd4da2bd366985a1676fdf&url=https%3a%2f%2fwww.reporteindigo.com%2finternacional%2fquien-gano-las-elecciones-peru-2026-keiko-fujimori-amplia-su-ventaja-20260617-0020.html&c=11305087320402837895&mkt=es-xl: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 14:39:54"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a32f80587bd4da2bd366985a1676fdf&url=https%3a%2f%2fwww.reporteindigo.com%2finternacional%2fquien-gano-las-elecciones-peru-2026-keiko-fujimori-amplia-su-ventaja-20260617-0020.html&c=11305087320402837895&mkt=es-xl. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:39:54"}
+{"level":"info","message":"Extracción exitosa para URL: http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a32f80587bd4da2bd366985a1676fdf&url=https%3a%2f%2fmvsnoticias.com%2fmundo%2f2026%2f6%2f17%2fkeiko-fujimori-toma-la-delantera-en-peru-743170.html&c=14027970610377732335&mkt=es-xl","service":"worker-pipeline","timestamp":"2026-06-17 14:39:56"}
+{"level":"error","message":"Error al descargar HTML de http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a32f80587bd4da2bd366985a1676fdf&url=https%3a%2f%2fperu21.pe%2fpolitica%2fmisericordia-eliane-karp-pide-keiko-fujimori-indulto-humanitario-para-alejandro-toledo%2f&c=16972165384447848725&mkt=es-xl: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-06-17 14:39:59"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a32f80587bd4da2bd366985a1676fdf&url=https%3a%2f%2fperu21.pe%2fpolitica%2fmisericordia-eliane-karp-pide-keiko-fujimori-indulto-humanitario-para-alejandro-toledo%2f&c=16972165384447848725&mkt=es-xl. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:39:59"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a32f80587bd4da2bd366985a1676fdf&url=https%3a%2f%2fwww.msn.com%2fes-es%2fnoticias%2fnacional%2fla-justicia-electoral-de-per%25C3%25BA-rechaza-peticiones-de-s%25C3%25A1nchez-y-fujimori-para-anular-miles-de-votos%2far-AA25RYYX&c=16315103375635177068&mkt=es-xl. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:40:02"}
+{"level":"info","message":"Extracción exitosa para URL: http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a32f80587bd4da2bd366985a1676fdf&url=https%3a%2f%2flarepublica.pe%2fespectaculos%2f2026%2f06%2f16%2fmajo-con-sabor-deja-en-shock-al-confesar-que-atraso-a-keiko-fujimori-con-gabriel-calvo-y-lanza-picante-mensaje-para-que-veas-869408&c=15071297206480616464&mkt=es-xl","service":"worker-pipeline","timestamp":"2026-06-17 14:40:07"}
+{"level":"info","message":"Se alcanzó el objetivo de 6 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 14:40:07"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 6","service":"worker-pipeline","timestamp":"2026-06-17 14:40:07"}
+{"level":"info","message":"Guardando 6 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:40:07"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 14:40:07"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.37 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 14:40:07"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 14:41:48"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, DeepWeb: true [google])","service":"worker-pipeline","timestamp":"2026-06-17 14:41:48"}
+{"level":"info","message":"Buscando noticias en Deep Web (google) para: Keiko Fujimori entre 2020-04-17 y 2020-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:41:48"}
+{"level":"info","message":"Consultando URL de búsqueda (google): https://news.google.com/rss/search?q=%22Keiko%20Fujimori%22&hl=es-419&gl=PE&ceid=PE:es-419","service":"worker-pipeline","timestamp":"2026-06-17 14:41:48"}
+{"level":"info","message":"Se descubrieron un total de 104 URLs en Deep Web (google) para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:41:52"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://news.google.com/rss/articles/CBMi-gFBVV95cUxPSF94QXMxOHZSWlZsaGlRcXdmajdKb3QxU2ZwMU81N1JrY2hBYlBfWEoyUl9HWm1aMUlFT0JkYmpyZjhvYjVubWFBN2tQSE9FTkQ4ZnBPV1lkWUlCQzNnYlNpbmwyLU5kcGYzZF9mQnRBUlEtWGxwdlNja29GajRjblQyM0VNdFdVa3JVNTRZb2RmbG4tQ1AxOVdldXFLRlBrQVl2Zm5YLVFxdkJIbm0tRzZNTWxUeDhuemx4amlTc0pRWkZSaEhseVVtVC1BVldjSjJ0ZkkxZEdTVzRiT2FySndIM3dvRXpBU3ZNRk9Jd3VjSk5PMGFHdzBB?oc=5. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:41:55"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://news.google.com/rss/articles/CBMi0AFBVV95cUxObFVKcWFLVTBibjFRdTdZMXRoeFM2c0xZZWVPdld5UTZDaTd0T3hPZjFjaHYtbUhzb1VPdzNzclpoc3Y2c2RXOUJvZnY1b0VCbW1pM0FsbThZd2tsMXlfcVI0U216dXZEU0NhYklwc0VzSnJUU3o1MTVSQmdmU1luUHFZb2YtaFVIRllEWEUxQmlsMGt5UVpVYUVoZC1PTmsyZzZESGxVVWs2Z29wT2paYUN1bHVYcXYtbXluLXBzMFVzY1VxMXV6V2x6VGlUTHVF?oc=5. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:41:57"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://news.google.com/rss/articles/CBMizwFBVV95cUxQaG1TdHI5LVdTWE5JdUVWaENrV2lXb2E2dnZaR2RNMTJvSDhMVXVvX3JPTnZJbFBmWjYyY251blJyekV6TV9FeW1QYUpyWTNTR2hTZTZNeG5JRDBVZlRnWFFOSDB1Q2d6YTlPUm9kRVhvZThnN2p2QkFaQUxGbXo3MTR3amhveF9IcDBEbjZvSDhXd2NuMC1kal81Y3Z0SmNCUzA2NzJtNUZZUTd0T1VFODBiWTJNQlRLdHZLSEVPbnlLSEIxWDlNRWJEUDVUZmM?oc=5. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:42:01"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://news.google.com/rss/articles/CBMi9wFBVV95cUxNTHFWUDFVcjBhSlRyWFoybVZlbWVDaDdNVTViWGlqTTNUb3MxN01zY0RnWDFQdldpYWNQMGt0NzVGSEJPRFIyNFZfd19rVGc2b3NXYk03bVJXek1MZjNXd1ZObUFpcjVWNnZsX2s4UGg2bzdlTGFINHFCSU54M0ZKY3VpZFUzUzBLV2p0TV9QaWhaaXNJek5JWUUxdGMta2pJd2U2U1VnemFYVDdmbmZRM0dLd2V4ejRmRVY1ci1mMVRrcmNJM3Y2NkIteTdJSkhya19XWndJV2dYNXZ0VlFDN0hHRWpPdGp6VXRFbHdKUmhvV3FfaTVj0gGSAkFVX3lxTFBBQ2JyLUN2LWR4VTBHZ3g3bEUwRnZLZW9nU2tWZklidVM2VXBON1FxdlYyMEdGNjVNcDJGSWVCVUt1cFZwODRQZXRqZ2FsYVJ4OHpLcks4cUJmN3QxRXhwZlVjV04wVEFFTXJZZkJYQWgwZHZMLW1vbHJXUkM3dXItVWVkcWVIbWI3eFUwYjZmQmRXV1ZBTEdnaEpjWnZ6d1FXaXVZeW1xVVgyWTJaeGVKNDlNVnB2UjMtMm4zbFhNMkloYTYtT1FINEh1azRGeTlabkRhZEdlMWJOcjFyT3d4dDFQdURvT1JLNS16RWdYZDRVQXlkS2liZHNDUW50RjZxNDVsWktCZmpZaWlMcGVveGc?oc=5. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:42:03"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://news.google.com/rss/articles/CBMimgFBVV95cUxORGxRZERfUTZ1VnRqbjRaV1VrVUROZVdwTVJGYXZtTGhUczdiQ2VUUTQ0RTNQTmNkNXNSYmUzNEdOazhRWExETWJMV0xDeGZYUzk1bFRNd2VMSVJCQlBWMC1mUnNyUXZ5cEFPREdndUpZNkdzNy1ZX2Q3Q3lLaTN2YlRhT3ZJdTFxM0NQYUVRZ2x0ck9lSGlZRDZB?oc=5. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:42:06"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://news.google.com/rss/articles/CBMinAFBVV95cUxOeHVmZTg5SDNPdHFCaXFvTXhxR0ZjdG8yc2JYTkVCeUl4SjF6LUt1OUFlWWhEalA4ZGQxZFJFRFhJNHp4UHZ1VEZUVTYyQTJtSF83ZTZMZmRvUUlHdjVRamt0d3NlSFluVlJ4T0xPS0F0Y09acFZIYTl6ZHJUYi1GbC14UVBhcm1DMlhuRUNpbmZWYzY0NkV5TUdzbTk?oc=5. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-06-17 14:42:09"}
+{"level":"info","message":"Se alcanzó el objetivo de 6 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 14:42:09"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 6","service":"worker-pipeline","timestamp":"2026-06-17 14:42:09"}
+{"level":"info","message":"Guardando 6 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:42:09"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 14:42:09"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.36 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 14:42:09"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Keiko Fujimori entre 2026-06-02 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 14:58:11"}
+{"level":"info","message":"Se descubrieron un total de 100 URLs en NewsAPI para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 14:58:15"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 15:01:41"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 15:08:40"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 15:08:58"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, NewsAPI: true)","service":"worker-pipeline","timestamp":"2026-06-17 15:08:58"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Keiko Fujimori entre 2026-05-19 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 15:08:58"}
+{"level":"info","message":"Se descubrieron un total de 100 URLs en NewsAPI para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:09:02"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.bbc.com/mundo/articles/c1kye78j4nyo","service":"worker-pipeline","timestamp":"2026-06-17 15:09:05"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.bbc.com/mundo/articles/clyp48mgke1o","service":"worker-pipeline","timestamp":"2026-06-17 15:09:08"}
+{"level":"info","message":"Extracción exitosa para URL: https://actualidad.rt.com/actualidad/609958-tension-incertidumbre-elecciones-peru-desenlace-pelicula","service":"worker-pipeline","timestamp":"2026-06-17 15:09:12"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.expansion.com/economia/politica/2026/06/06/6a245b3ee5fdea1f728b45a0.html","service":"worker-pipeline","timestamp":"2026-06-17 15:09:16"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.expansion.com/latinoamerica/2026/06/11/6a2a53c0468aebb3478b457b.html","service":"worker-pipeline","timestamp":"2026-06-17 15:09:18"}
+{"level":"info","message":"Extracción exitosa para URL: https://actualidad.rt.com/actualidad/609273-regreso-fujimorismo-izquierda-peru-definir-destino","service":"worker-pipeline","timestamp":"2026-06-17 15:09:22"}
+{"level":"info","message":"Se alcanzó el objetivo de 6 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 15:09:22"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 6","service":"worker-pipeline","timestamp":"2026-06-17 15:09:22"}
+{"level":"info","message":"Guardando 6 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:09:22"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 6","service":"worker-pipeline","timestamp":"2026-06-17 15:09:22"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.40 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 15:09:22"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 15:27:56"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 15:28:25"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, NewsAPI: true, Límite: 10)","service":"worker-pipeline","timestamp":"2026-06-17 15:28:25"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Keiko Fujimori entre 2026-05-19 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 15:28:25"}
+{"level":"info","message":"Se descubrieron un total de 100 URLs en NewsAPI para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:28:29"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.bbc.com/mundo/articles/c1kye78j4nyo","service":"worker-pipeline","timestamp":"2026-06-17 15:28:34"}
+{"level":"info","message":"Extracción exitosa para URL: https://actualidad.rt.com/actualidad/609958-tension-incertidumbre-elecciones-peru-desenlace-pelicula","service":"worker-pipeline","timestamp":"2026-06-17 15:28:40"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.expansion.com/economia/politica/2026/06/06/6a245b3ee5fdea1f728b45a0.html","service":"worker-pipeline","timestamp":"2026-06-17 15:28:44"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.20minutos.es/internacional/empate-tecnico-entre-fujimori-sanchez-peru-los-resultados-conteo-rapido-obligan-esperar-para-conocer-proximo-presidente_6980386_0.html","service":"worker-pipeline","timestamp":"2026-06-17 15:28:49"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.huffingtonpost.es/global/y-nueva-vuelta-peru-derechista-fujimori-vez-delante-recta-final-escrutiniobr-f202606.html","service":"worker-pipeline","timestamp":"2026-06-17 15:28:54"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.abc.es/internacional/keiko-fujimori-juega-presidencia-peru-elecciones-ajustadas-20260608030703-nt.html","service":"worker-pipeline","timestamp":"2026-06-17 15:28:58"}
+{"level":"info","message":"Extracción exitosa para URL: https://aristeguinoticias.com/0706/mundo/roberto-sanchez-y-keiko-fujimori-se-disputan-la-presidencia-de-peru-en-segunda-vuelta/","service":"worker-pipeline","timestamp":"2026-06-17 15:29:02"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.elmundo.es/internacional/2026/06/07/6a241bf321efa05c1c8b4575.html","service":"worker-pipeline","timestamp":"2026-06-17 15:29:06"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.elpais.com.uy/mundo/elecciones-en-peru-se-achica-diferencia-y-crece-expectativa-por-votos-del-exterior-y-actas-observadas","service":"worker-pipeline","timestamp":"2026-06-17 15:29:10"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.nacion.com/el-mundo/acusaciones-de-complot-contra-expresidente/IJQ7GPFVRRDLJOOHD7QH7YP3ZM/story/","service":"worker-pipeline","timestamp":"2026-06-17 15:29:16"}
+{"level":"info","message":"Se alcanzó el objetivo de 10 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 15:29:16"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 10","service":"worker-pipeline","timestamp":"2026-06-17 15:29:16"}
+{"level":"info","message":"Guardando 10 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:29:16"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Total de noticias ahora: 10","service":"worker-pipeline","timestamp":"2026-06-17 15:29:16"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.84 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 15:29:16"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 15:35:19"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 15:41:03"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 15:41:18"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, NewsAPI: true, Límite: 5)","service":"worker-pipeline","timestamp":"2026-06-17 15:41:18"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Keiko Fujimori entre 2026-05-19 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 15:41:18"}
+{"level":"info","message":"Se descubrieron un total de 100 URLs en NewsAPI para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:41:22"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.bbc.com/mundo/articles/c1kye78j4nyo","service":"worker-pipeline","timestamp":"2026-06-17 15:41:26"}
+{"level":"info","message":"Extracción exitosa para URL: https://actualidad.rt.com/actualidad/609958-tension-incertidumbre-elecciones-peru-desenlace-pelicula","service":"worker-pipeline","timestamp":"2026-06-17 15:41:30"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.expansion.com/economia/politica/2026/06/06/6a245b3ee5fdea1f728b45a0.html","service":"worker-pipeline","timestamp":"2026-06-17 15:41:33"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.20minutos.es/internacional/empate-tecnico-entre-fujimori-sanchez-peru-los-resultados-conteo-rapido-obligan-esperar-para-conocer-proximo-presidente_6980386_0.html","service":"worker-pipeline","timestamp":"2026-06-17 15:41:36"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.huffingtonpost.es/global/y-nueva-vuelta-peru-derechista-fujimori-vez-delante-recta-final-escrutiniobr-f202606.html","service":"worker-pipeline","timestamp":"2026-06-17 15:41:41"}
+{"level":"info","message":"Se alcanzó el objetivo de 5 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 15:41:41"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 5","service":"worker-pipeline","timestamp":"2026-06-17 15:41:41"}
+{"level":"info","message":"Guardando 5 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:41:41"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Se añadieron 5 noticias nuevas. Total ahora: 5","service":"worker-pipeline","timestamp":"2026-06-17 15:41:41"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.40 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 15:41:41"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 15:47:15"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, NewsAPI: true, Límite: 5)","service":"worker-pipeline","timestamp":"2026-06-17 15:47:15"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Keiko Fujimori entre 2026-05-19 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 15:47:15"}
+{"level":"info","message":"Se descubrieron un total de 100 URLs en NewsAPI para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:47:19"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.bbc.com/mundo/articles/c1kye78j4nyo","service":"worker-pipeline","timestamp":"2026-06-17 15:47:23"}
+{"level":"info","message":"Extracción exitosa para URL: https://actualidad.rt.com/actualidad/609958-tension-incertidumbre-elecciones-peru-desenlace-pelicula","service":"worker-pipeline","timestamp":"2026-06-17 15:47:27"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.expansion.com/economia/politica/2026/06/06/6a245b3ee5fdea1f728b45a0.html","service":"worker-pipeline","timestamp":"2026-06-17 15:47:32"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.20minutos.es/internacional/empate-tecnico-entre-fujimori-sanchez-peru-los-resultados-conteo-rapido-obligan-esperar-para-conocer-proximo-presidente_6980386_0.html","service":"worker-pipeline","timestamp":"2026-06-17 15:47:37"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.huffingtonpost.es/global/y-nueva-vuelta-peru-derechista-fujimori-vez-delante-recta-final-escrutiniobr-f202606.html","service":"worker-pipeline","timestamp":"2026-06-17 15:47:40"}
+{"level":"info","message":"Se alcanzó el objetivo de 5 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 15:47:40"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 5","service":"worker-pipeline","timestamp":"2026-06-17 15:47:40"}
+{"level":"info","message":"Guardando 5 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:47:40"}
+{"level":"info","message":"Las 5 noticias descubiertas para Keiko Fujimori ya existían en la BD. No se añadieron duplicados.","service":"worker-pipeline","timestamp":"2026-06-17 15:47:40"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.42 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 15:47:40"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 15:48:35"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: true, NewsAPI: false, Límite: 10)","service":"worker-pipeline","timestamp":"2026-06-17 15:48:35"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2026-04-17 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 15:48:35"}
+{"level":"info","message":"GDELT Chunk: 2026-04-17 a 2026-06-16","service":"worker-pipeline","timestamp":"2026-06-17 15:48:35"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 15:48:52"}
+{"level":"info","message":"GDELT Chunk: 2026-06-17 a 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 15:49:27"}
+{"level":"info","message":"Se descubrieron un total de 65 URLs en GDELT para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:49:46"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.democracynow.org/2026/6/5/headlines/peruvians_march_against_keiko_fujimori_ahead_of_presidential_vote_warning_of_return_to_dictatorship","service":"worker-pipeline","timestamp":"2026-06-17 15:49:50"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.npr.org/2026/06/06/nx-s1-5847845/peru-election","service":"worker-pipeline","timestamp":"2026-06-17 15:49:53"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.asahi.com/articles/ASV647QGSV64UHBI007M.html","service":"worker-pipeline","timestamp":"2026-06-17 15:50:01"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.freemalaysiatoday.com/category/world/2026/05/31/hundreds-march-in-peru-against-right-wing-presidential-candidate","service":"worker-pipeline","timestamp":"2026-06-17 15:50:07"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.jomo-news.co.jp/articles/-/951634","service":"worker-pipeline","timestamp":"2026-06-17 15:50:14"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.newsweekjapan.jp/articles/-/322180","service":"worker-pipeline","timestamp":"2026-06-17 15:50:19"}
+{"level":"info","message":"Extracción exitosa para URL: https://arynews.tv/hundreds-march-peru-against-right-wing-presidential-candidate","service":"worker-pipeline","timestamp":"2026-06-17 15:50:21"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.digitaljournal.com/article/hundreds-march-in-peru-against-right-wing-presidential-candidate/","service":"worker-pipeline","timestamp":"2026-06-17 15:50:26"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.chunichi.co.jp:443/article/1263371","service":"worker-pipeline","timestamp":"2026-06-17 15:50:32"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.manilatimes.net/2026/06/01/world/americas-emea/hundreds-march-in-peru-against-right-wing-presidential-candidate/2355174","service":"worker-pipeline","timestamp":"2026-06-17 15:50:36"}
+{"level":"info","message":"Se alcanzó el objetivo de 10 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 15:50:36"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 10","service":"worker-pipeline","timestamp":"2026-06-17 15:50:36"}
+{"level":"info","message":"Guardando 10 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 15:50:36"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Se añadieron 10 noticias nuevas. Total ahora: 15","service":"worker-pipeline","timestamp":"2026-06-17 15:50:36"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 2.02 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 15:50:36"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 16:03:56"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: true, NewsAPI: false, Límite: 10)","service":"worker-pipeline","timestamp":"2026-06-17 16:03:56"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2020-01-01 y 2020-02-01","service":"worker-pipeline","timestamp":"2026-06-17 16:03:56"}
+{"level":"info","message":"GDELT Chunk: 2020-01-01 a 2020-02-01","service":"worker-pipeline","timestamp":"2026-06-17 16:03:56"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 16:04:14"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 16:05:22"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: true, NewsAPI: false, Límite: 5)","service":"worker-pipeline","timestamp":"2026-06-17 16:05:22"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2020-04-17 y 2020-05-17","service":"worker-pipeline","timestamp":"2026-06-17 16:05:22"}
+{"level":"info","message":"GDELT Chunk: 2020-04-17 a 2020-05-17","service":"worker-pipeline","timestamp":"2026-06-17 16:05:22"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:05:43"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (2/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:06:13"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (3/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:06:43"}
+{"level":"info","message":"Se descubrieron un total de 0 URLs en GDELT para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:06:53"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 16:06:53"}
+{"level":"warn","message":"No se encontraron artículos para Keiko Fujimori. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 16:06:53"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 16:20:12"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: true, NewsAPI: false, Límite: 5)","service":"worker-pipeline","timestamp":"2026-06-17 16:20:12"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2016-04-17 y 2016-06-17","service":"worker-pipeline","timestamp":"2026-06-17 16:20:12"}
+{"level":"info","message":"GDELT Chunk: 2016-04-17 a 2016-06-16","service":"worker-pipeline","timestamp":"2026-06-17 16:20:12"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:20:30"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (2/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:20:57"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (3/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:21:25"}
+{"level":"info","message":"GDELT Chunk: 2016-06-17 a 2016-06-17","service":"worker-pipeline","timestamp":"2026-06-17 16:21:35"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:21:54"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (2/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:22:22"}
+{"level":"info","message":"Se descubrieron un total de 0 URLs en GDELT para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:22:49"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 0","service":"worker-pipeline","timestamp":"2026-06-17 16:22:49"}
+{"level":"warn","message":"No se encontraron artículos para Keiko Fujimori. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-06-17 16:22:49"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 16:28:21"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 16:28:35"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: false, NewsAPI: true, Límite: 5)","service":"worker-pipeline","timestamp":"2026-06-17 16:28:35"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Keiko Fujimori entre 2026-05-19 y 2026-06-17","service":"worker-pipeline","timestamp":"2026-06-17 16:28:35"}
+{"level":"info","message":"Se descubrieron un total de 100 URLs en NewsAPI para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:28:38"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.bbc.com/mundo/articles/c1kye78j4nyo","service":"worker-pipeline","timestamp":"2026-06-17 16:28:42"}
+{"level":"info","message":"Extracción exitosa para URL: https://actualidad.rt.com/actualidad/609958-tension-incertidumbre-elecciones-peru-desenlace-pelicula","service":"worker-pipeline","timestamp":"2026-06-17 16:28:47"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.expansion.com/economia/politica/2026/06/06/6a245b3ee5fdea1f728b45a0.html","service":"worker-pipeline","timestamp":"2026-06-17 16:28:50"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.20minutos.es/internacional/empate-tecnico-entre-fujimori-sanchez-peru-los-resultados-conteo-rapido-obligan-esperar-para-conocer-proximo-presidente_6980386_0.html","service":"worker-pipeline","timestamp":"2026-06-17 16:28:54"}
+{"level":"info","message":"Extracción exitosa para URL: https://www.huffingtonpost.es/global/y-nueva-vuelta-peru-derechista-fujimori-vez-delante-recta-final-escrutiniobr-f202606.html","service":"worker-pipeline","timestamp":"2026-06-17 16:28:59"}
+{"level":"info","message":"Se alcanzó el objetivo de 5 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 16:28:59"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 5","service":"worker-pipeline","timestamp":"2026-06-17 16:28:59"}
+{"level":"info","message":"Guardando 5 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:28:59"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Se añadieron 5 noticias nuevas. Total ahora: 5","service":"worker-pipeline","timestamp":"2026-06-17 16:28:59"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 0.40 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 16:28:59"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 16:30:33"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: true, NewsAPI: false, Límite: 5)","service":"worker-pipeline","timestamp":"2026-06-17 16:30:33"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2017-04-17 y 2017-06-17","service":"worker-pipeline","timestamp":"2026-06-17 16:30:33"}
+{"level":"info","message":"GDELT Chunk: 2017-04-17 a 2017-06-16 (Pidiendo max 10)","service":"worker-pipeline","timestamp":"2026-06-17 16:30:33"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:31:02"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (2/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:31:37"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (3/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:32:12"}
+{"level":"info","message":"GDELT Chunk: 2017-06-17 a 2017-06-17 (Pidiendo max 10)","service":"worker-pipeline","timestamp":"2026-06-17 16:32:22"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (1/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:32:49"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (2/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:33:25"}
+{"level":"warn","message":"Rate limit (429) en GDELT, reintentando chunk (3/3)...","service":"worker-pipeline","timestamp":"2026-06-17 16:33:59"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-06-17 16:39:40"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"info","message":"Iniciando scraping para Keiko Fujimori (RSS: false, GDELT: true, NewsAPI: false, Límite: 4)","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"info","message":"Buscando noticias en GDELT para: Keiko Fujimori entre 2020-04-17 y 2020-06-17","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"info","message":"GDELT Chunk: 2020-04-17 a 2020-06-16 (Pidiendo max 10)","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"info","message":"GDELT: Esperando 30s antes del intento 1/3...","service":"worker-pipeline","timestamp":"2026-06-17 16:40:09"}
+{"level":"warn","message":"Rate limit (429) en GDELT. Backoff exponencial: esperando 60s antes del siguiente intento...","service":"worker-pipeline","timestamp":"2026-06-17 16:40:50"}
+{"level":"info","message":"GDELT: Esperando 61s antes del intento 2/3...","service":"worker-pipeline","timestamp":"2026-06-17 16:40:50"}
+{"level":"info","message":"GDELT: Chunk exitoso, 10 artículos recibidos. Total acumulado: 10","service":"worker-pipeline","timestamp":"2026-06-17 16:42:02"}
+{"level":"info","message":"Límite de 4 noticias alcanzado para GDELT. Deteniendo peticiones.","service":"worker-pipeline","timestamp":"2026-06-17 16:42:02"}
+{"level":"info","message":"Se descubrieron 10 URLs históricas en GDELT para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:42:02"}
+{"level":"info","message":"Extracción exitosa para URL: https://diariocorreo.pe/politica/pier-figari-su-defensa-presento-hoy-recurso-de-apelacion-keiko-fujimori-caso-odebrecht-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 16:42:08"}
+{"level":"info","message":"Extracción exitosa para URL: https://larepublica.pe:443/politica/2020/06/05/keiko-fujimori-el-dia-en-que-perdio-las-elecciones-2016-luego-de-ganar-todas-las-encuestas-ppk/","service":"worker-pipeline","timestamp":"2026-06-17 16:42:12"}
+{"level":"info","message":"Extracción exitosa para URL: https://gestion.pe/peru/politica/keiko-fujimori-juez-richard-concepcion-carhuancho-se-aparta-del-caso-keiko-fujimori-coronavirus-nndc-noticia/","service":"worker-pipeline","timestamp":"2026-06-17 16:42:16"}
+{"level":"info","message":"Extracción exitosa para URL: https://larepublica.pe:443/politica/2020/05/15/keiko-fujimori-fiscal-jose-domingo-perez-pide-a-juzgado-llamarle-la-atencion-por-contactar-a-ursula-letona/","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"Se alcanzó el objetivo de 4 noticias. Deteniendo.","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"Finalizado scraping para Keiko Fujimori. Artículos extraídos: 4","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"Guardando 4 noticias en la BD para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"Persistencia exitosa para Keiko Fujimori. Se añadieron 4 noticias nuevas. Total ahora: 4","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Keiko Fujimori EN 2.21 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-06-17 16:42:21"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-17 17:10:08"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-17 17:10:08"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:12"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:12"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-17 17:10:38"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-17 17:10:46"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-17 17:10:46"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:48"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-17 17:10:48"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:11:49"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:11:55"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-18 15:11:55"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-18 15:11:57"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-18 15:11:57"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:12:51"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:12:57"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-18 15:12:57"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-18 15:13:00"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-18 15:13:00"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:22:41"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:22:47"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-18 15:22:47"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-18 15:22:50"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-18 15:22:50"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-06-18 15:24:17"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-06-18 15:24:23"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)","service":"worker-pipeline","timestamp":"2026-06-18 15:24:23"}
+{"level":"info","message":"Extracción exitosa para URL: https://test.com/1","service":"worker-pipeline","timestamp":"2026-06-18 15:24:27"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 1","service":"worker-pipeline","timestamp":"2026-06-18 15:24:27"}
