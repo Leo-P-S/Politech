@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: politech-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - politech-db-data:/data/db
+    restart: always
+
+volumes:
+  politech-db-data:
