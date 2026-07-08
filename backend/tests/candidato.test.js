@@ -82,4 +82,32 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
         findSpy.mockRestore();
         consoleSpy.mockRestore();
     });
+
+    test('DELETE /api/candidatos/:id - Debe eliminar un candidato con éxito', async () => {
+        Candidato.findByIdAndDelete = jest.fn().mockResolvedValue({ _id: '123' });
+        const res = await request(app).delete('/api/candidatos/123');
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('Candidato eliminado exitosamente');
+    });
+
+    test('DELETE /api/candidatos/:id - Debe retornar 404 si el candidato no existe', async () => {
+        Candidato.findByIdAndDelete = jest.fn().mockResolvedValue(null);
+        const res = await request(app).delete('/api/candidatos/123');
+        expect(res.statusCode).toBe(404);
+        expect(res.body.error).toBe('Candidato no encontrado');
+    });
+
+    test('DELETE /api/candidatos/:candidateId/news/:newsId - Debe eliminar la noticia', async () => {
+        Candidato.findByIdAndUpdate = jest.fn().mockResolvedValue({ _id: '123' });
+        const res = await request(app).delete('/api/candidatos/123/news/456');
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('Noticia eliminada exitosamente');
+    });
+
+    test('DELETE /api/candidatos/:candidateId/news/:newsId - Debe retornar 404 si el candidato no existe', async () => {
+        Candidato.findByIdAndUpdate = jest.fn().mockResolvedValue(null);
+        const res = await request(app).delete('/api/candidatos/123/news/456');
+        expect(res.statusCode).toBe(404);
+        expect(res.body.error).toBe('Candidato no encontrado');
+    });
 });

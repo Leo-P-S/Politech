@@ -1,0 +1,72 @@
+- generic [active] [ref=f2e1]:
+  - banner [ref=f2e2]:
+    - heading "Politech IA & WebScraping" [level=1] [ref=f2e3]
+    - paragraph [ref=f2e4]: Entorno de Pruebas Visual
+  - generic [ref=f2e6]:
+    - generic [ref=f2e12]: "PIPELINE STATUS: ACTIVE"
+    - generic [ref=f2e15]: Esperando inicialización del pipeline...
+  - generic [ref=f2e16]:
+    - button "1. Recolección y Candidatos" [ref=f2e17] [cursor=pointer]
+    - button "2. IA y Analíticas" [ref=f2e18] [cursor=pointer]
+  - generic [ref=f2e20]:
+    - generic [ref=f2e21]:
+      - heading "Añadir Candidato Oficial" [level=2] [ref=f2e22]
+      - generic [ref=f2e23]:
+        - textbox "Nombre completo exacto" [ref=f2e25]
+        - button "Guardar Candidato" [ref=f2e26] [cursor=pointer]
+      - separator [ref=f2e28]
+      - heading "Lanzar Scraping Manual" [level=2] [ref=f2e29]
+      - generic [ref=f2e30]:
+        - generic [ref=f2e31]:
+          - generic [ref=f2e32]: Candidato (Lista Oficial)
+          - combobox [ref=f2e33]:
+            - option "Selecciona un candidato..." [selected]
+            - option "Alberto Fujimori"
+        - generic [ref=f2e34]:
+          - checkbox "1. Búsqueda en Vivo (RSS)" [ref=f2e35]
+          - generic "Busca noticias recientes en portales RSS" [ref=f2e36]: 1. Búsqueda en Vivo (RSS)
+        - generic [ref=f2e37]:
+          - checkbox "2. GDELT Histórico (Fechas personalizadas)" [ref=f2e38]
+          - generic "Busca noticias históricas estructuradas en la API de GDELT" [ref=f2e39]: 2. GDELT Histórico (Fechas personalizadas)
+        - generic [ref=f2e40]:
+          - checkbox "3. NewsAPI (Hasta 1 mes atrás)" [ref=f2e41]
+          - generic "Usa NewsAPI para obtener artículos relevantes de hasta 1 mes atrás" [ref=f2e42]: 3. NewsAPI (Hasta 1 mes atrás)
+        - generic [ref=f2e43]:
+          - checkbox "Usar Modo Mock (Simulado)" [ref=f2e44]
+          - generic "Evita peticiones reales a web y API Gemini" [ref=f2e45]: Usar Modo Mock (Simulado)
+        - generic [ref=f2e46]:
+          - generic "Número máximo de artículos a descargar y extraer texto de todas las fuentes sumadas" [ref=f2e47]: Límite de Extracción de Noticias
+          - spinbutton "Límite de Extracción de Noticias" [ref=f2e48]: "50"
+        - button "Iniciar Scraping (Recolección)" [ref=f2e49] [cursor=pointer]
+    - generic [ref=f2e51]:
+      - generic [ref=f2e52]:
+        - heading "Noticias Procesadas" [level=2] [ref=f2e53]
+        - generic [ref=f2e54]:
+          - combobox [ref=f2e55]:
+            - option "Selecciona un candidato..."
+            - option "Alberto Fujimori" [selected]
+          - button "Actualizar datos" [ref=f2e56] [cursor=pointer]:
+            - img [ref=f2e57]
+          - button "Eliminar candidato" [ref=f2e61] [cursor=pointer]:
+            - img [ref=f2e62]
+      - generic [ref=f2e65]:
+        - generic [ref=f2e66]:
+          - generic [ref=f2e67]: bbc.co.uk • 2026-07-08
+          - button "Eliminar noticia" [ref=f2e68] [cursor=pointer]:
+            - img [ref=f2e69]
+        - generic [ref=f2e71]: Keiko Fujimori declared winner of Peru's presidential election weeks after vote
+        - generic [ref=f2e72]:
+          - generic [ref=f2e73]: ✔ Procesado por IA
+          - generic [ref=f2e74]: Economía
+          - generic [ref=f2e75]: Neutral
+          - generic [ref=f2e76]: "Sesgo: Informativo"
+        - generic [ref=f2e77]: Este es un resumen generado de prueba. Discute políticas económicas y posibles alianzas.
+        - generic [ref=f2e78]:
+          - generic [ref=f2e79]: Ministerio de Economía
+          - generic [ref=f2e80]: Banco Central
+        - generic [ref=f2e81]:
+          - link "Ver original ↗" [ref=f2e82] [cursor=pointer]:
+            - /url: https://www.bbc.co.uk/news/articles/cr5jpvv06e1o?at_medium=RSS&at_campaign=rss
+          - button "Ver data cruda" [ref=f2e83] [cursor=pointer]:
+            - img [ref=f2e84]
+            - text: Ver data cruda

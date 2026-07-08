@@ -1,0 +1,37 @@
+- generic [ref=f2e1]:
+  - banner [ref=f2e2]:
+    - heading "Politech IA & WebScraping" [level=1] [ref=f2e3]
+    - paragraph [ref=f2e4]: Entorno de Pruebas Visual
+  - generic [ref=f2e6]:
+    - generic [ref=f2e12]: "PIPELINE STATUS: ACTIVE"
+    - generic [ref=f2e15]: Esperando inicialización del pipeline...
+  - generic [ref=f2e16]:
+    - button "1. Recolección y Candidatos" [ref=f2e17] [cursor=pointer]
+    - button "2. IA y Analíticas" [active] [ref=f2e18] [cursor=pointer]
+  - generic [ref=f2e88]:
+    - generic [ref=f2e89]:
+      - heading "Panel de Inteligencia Artificial" [level=2] [ref=f2e90]
+      - generic [ref=f2e91]:
+        - paragraph [ref=f2e92]: Las noticias recolectadas se guardan en estado "Crudo". Presiona aquí para enviarlas a Gemini y obtener el resumen y análisis de sesgo.
+        - button "Ejecutar IA Manualmente" [ref=f2e93] [cursor=pointer]
+      - separator [ref=f2e95]
+      - generic [ref=f2e96]:
+        - heading "Programación Automática (Cron)" [level=2] [ref=f2e97]
+        - paragraph [ref=f2e98]: Define cuándo el servidor ejecutará Gemini automáticamente cada semana.
+        - generic [ref=f2e99]:
+          - combobox [ref=f2e100]:
+            - option "Domingo" [selected]
+            - option "Lunes"
+            - option "Martes"
+            - option "Miércoles"
+            - option "Jueves"
+            - option "Viernes"
+            - option "Sábado"
+          - spinbutton "Hora (0-23)" [ref=f2e101]: "3"
+        - button "Guardar Horario" [ref=f2e102] [cursor=pointer]
+    - generic [ref=f2e104]:
+      - heading "Métricas del Candidato Seleccionado" [level=2] [ref=f2e105]
+      - paragraph [ref=f2e106]: "Candidato actual: Alberto Fujimori"
+      - heading "Análisis de Categorías" [level=3] [ref=f2e107]
+      - separator [ref=f2e110]
+      - heading "Análisis de Sentimiento" [level=3] [ref=f2e111]

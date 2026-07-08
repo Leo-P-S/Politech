@@ -543,7 +543,7 @@
             <!-- Panel Derecho: Analíticas -->
             <div class="panel">
                 <h2 style="text-align: center;">Métricas del Candidato Seleccionado</h2>
-                <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: -0.5rem; margin-bottom: 1rem;">(Selecciona un candidato en la Pestaña 1)</p>
+                <p id="selected-candidate-subtitle" style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: -0.5rem; margin-bottom: 1rem;">(Selecciona un candidato en la Pestaña 1)</p>
                 
                 <h3 style="font-size: 1rem; color: var(--text-main);">Análisis de Categorías</h3>
                 <div class="chart-container" style="height: 200px;">
@@ -670,24 +670,19 @@
             } finally {
                 btn.disabled = false;
                 setTimeout(() => msg.textContent = '', 3000);
-                
-                // Auto-refresh: actualizar la grilla del candidato recién scrapeado (haya tenido éxito o error)
-                const currentSelected = document.getElementById('candidate-select').value;
-                if (currentSelected === candidateName || !currentSelected) {
-                    document.getElementById('candidate-select').value = candidateName;
-                    if (typeof fetchCandidateNews === 'function') {
-                        fetchCandidateNews(candidateName).catch(console.error);
-                    }
-                }
             }
         });
 
         // Renderizar las noticias del candidato seleccionado
         function renderNews(candidate) {
             const grid = document.getElementById('news-grid');
-            grid.innerHTML = '';
-
             const deleteCandBtn = document.getElementById('btn-delete-candidate');
+            grid.innerHTML = '';
+            
+            const subtitleEl = document.getElementById('selected-candidate-subtitle');
+            if (subtitleEl) {
+                subtitleEl.textContent = candidate ? `Candidato actual: ${candidate.nombre}` : '(Selecciona un candidato en la Pestaña 1)';
+            }
 
             if (!candidate || !candidate.historial_noticias || candidate.historial_noticias.length === 0) {
                 grid.innerHTML = '<p style="color: var(--text-muted)">No hay noticias procesadas para este candidato.</p>';

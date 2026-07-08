@@ -1,0 +1,57 @@
+- generic [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - heading "Politech IA & WebScraping" [level=1] [ref=f1e3]
+    - paragraph [ref=f1e4]: Entorno de Pruebas Visual
+  - generic [ref=f1e6]:
+    - generic [ref=f1e12]: "PIPELINE STATUS: ACTIVE"
+    - generic [ref=f1e14]:
+      - generic [ref=f1e15]: Esperando inicialización del pipeline...
+      - generic [ref=f1e66]: "[17:26:53] === INICIANDO SCRAPING PARA Alberto Fujimori ==="
+      - generic [ref=f1e67]: "[17:26:53] Iniciando scraping para Alberto Fujimori (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)"
+      - generic [ref=f1e68]: "[17:26:53] Escaneando feeds RSS directos para el candidato: Alberto Fujimori"
+      - generic [ref=f1e69]: "[17:26:53] Consultando feed RSS: https://rpp.pe/rss"
+      - generic [ref=f1e71]: "[17:26:55] Consultando feed RSS: https://larepublica.pe/rss/politica.xml"
+      - generic [ref=f1e72]: "[17:26:56] Consultando feed RSS: https://peru21.pe/rss/politica/"
+      - generic [ref=f1e75]: "[17:27:00] Consultando feed RSS: https://elcomercio.pe/arc/outboundfeeds/rss/category/politica/?outputType=xml"
+      - generic [ref=f1e76]: "[17:27:02] Consultando feed RSS: https://feeds.bbci.co.uk/news/world/latin_america/rss.xml"
+      - generic [ref=f1e77]: "[17:27:05] [Feed RSS] Coincidencia encontrada: Keiko Fujimori declared winner of Peru's presidential election weeks after vote"
+      - generic [ref=f1e78]: "[17:27:05] Consultando feed RSS: https://www.politico.com/rss/politicopicks.xml"
+      - generic [ref=f1e79]: "[17:27:07] Error procesando feed RSS https://www.politico.com/rss/politicopicks.xml: Request failed with status code 403"
+      - generic [ref=f1e80]: "[17:27:07] Consultando feed RSS: https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/politics/rss.xml"
+      - generic [ref=f1e81]: "[17:27:09] Consultando feed RSS: https://lannews.opennemas.com/rss/politica/"
+      - generic [ref=f1e82]: "[17:27:14] Consultando feed RSS: https://latinamericareports.com/feed/"
+      - generic [ref=f1e83]: "[17:27:17] Consultando feed RSS: https://news.un.org/feed/subscribe/es/news/region/americas/feed/rss.xml"
+      - generic [ref=f1e84]: "[17:27:19] Se encontraron 1 noticias recientes en los Feeds RSS directos para Alberto Fujimori"
+      - generic [ref=f1e85]: "[17:27:19] No se pudo extraer HTML limpio de https://www.bbc.co.uk/news/articles/cr5jpvv06e1o?at_medium=RSS&at_campaign=rss. Usando snippet de búsqueda/feed."
+      - generic [ref=f1e86]: "[17:27:19] Finalizado scraping para Alberto Fujimori. Artículos extraídos: 1"
+      - generic [ref=f1e87]: "[17:27:19] === SCRAPING COMPLETADO PARA Alberto Fujimori EN 0.43 MINUTOS ==="
+  - generic [ref=f1e16]:
+    - button "1. Recolección y Candidatos" [ref=f1e17] [cursor=pointer]
+    - button "2. IA y Analíticas" [active] [ref=f1e18] [cursor=pointer]
+  - generic [ref=f1e89]:
+    - generic [ref=f1e90]:
+      - heading "Panel de Inteligencia Artificial" [level=2] [ref=f1e91]
+      - generic [ref=f1e92]:
+        - paragraph [ref=f1e93]: Las noticias recolectadas se guardan en estado "Crudo". Presiona aquí para enviarlas a Gemini y obtener el resumen y análisis de sesgo.
+        - button "Ejecutar IA Manualmente" [ref=f1e94] [cursor=pointer]
+      - separator [ref=f1e96]
+      - generic [ref=f1e97]:
+        - heading "Programación Automática (Cron)" [level=2] [ref=f1e98]
+        - paragraph [ref=f1e99]: Define cuándo el servidor ejecutará Gemini automáticamente cada semana.
+        - generic [ref=f1e100]:
+          - combobox [ref=f1e101]:
+            - option "Domingo" [selected]
+            - option "Lunes"
+            - option "Martes"
+            - option "Miércoles"
+            - option "Jueves"
+            - option "Viernes"
+            - option "Sábado"
+          - spinbutton "Hora (0-23)" [ref=f1e102]: "3"
+        - button "Guardar Horario" [ref=f1e103] [cursor=pointer]
+    - generic [ref=f1e105]:
+      - heading "Métricas del Candidato Seleccionado" [level=2] [ref=f1e106]
+      - paragraph [ref=f1e107]: (Selecciona un candidato en la Pestaña 1)
+      - heading "Análisis de Categorías" [level=3] [ref=f1e108]
+      - separator [ref=f1e111]
+      - heading "Análisis de Sentimiento" [level=3] [ref=f1e112]

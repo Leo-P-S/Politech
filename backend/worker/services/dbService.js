@@ -1,4 +1,4 @@
-const Candidate = require('../../models/Candidate');
+const Candidato = require('../../models/Candidato');
 const logger = require('../logger');
 
 class DbService {
@@ -16,9 +16,13 @@ class DbService {
       logger.info(`Guardando ${newsArray.length} noticias en la BD para ${candidateName}`);
       
       // 1. Buscamos al candidato (o lo creamos si no existe)
-      let candidate = await Candidate.findOne({ nombre: candidateName });
+      let candidate = await Candidato.findOne({ nombre: candidateName });
       if (!candidate) {
-        candidate = new Candidate({ nombre: candidateName, historial_noticias: [] });
+        candidate = new Candidato({ 
+          nombre: candidateName, 
+          partidoPolitico: 'Desconocido', 
+          historial_noticias: [] 
+        });
       }
 
       // 2. Extraemos las URLs y fragmentos de texto crudo para no duplicar
