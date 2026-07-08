@@ -1,0 +1,95 @@
+- generic [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - heading "Politech IA & WebScraping" [level=1] [ref=f1e3]
+    - paragraph [ref=f1e4]: Entorno de Pruebas Visual
+  - generic [ref=f1e6]:
+    - generic [ref=f1e12]: "PIPELINE STATUS: ACTIVE"
+    - generic [ref=f1e14]:
+      - generic [ref=f1e15]: Esperando inicialización del pipeline...
+      - generic [ref=f1e66]: "[17:26:53] === INICIANDO SCRAPING PARA Alberto Fujimori ==="
+      - generic [ref=f1e67]: "[17:26:53] Iniciando scraping para Alberto Fujimori (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)"
+      - generic [ref=f1e68]: "[17:26:53] Escaneando feeds RSS directos para el candidato: Alberto Fujimori"
+      - generic [ref=f1e69]: "[17:26:53] Consultando feed RSS: https://rpp.pe/rss"
+      - generic [ref=f1e71]: "[17:26:55] Consultando feed RSS: https://larepublica.pe/rss/politica.xml"
+      - generic [ref=f1e72]: "[17:26:56] Consultando feed RSS: https://peru21.pe/rss/politica/"
+      - generic [ref=f1e75]: "[17:27:00] Consultando feed RSS: https://elcomercio.pe/arc/outboundfeeds/rss/category/politica/?outputType=xml"
+      - generic [ref=f1e76]: "[17:27:02] Consultando feed RSS: https://feeds.bbci.co.uk/news/world/latin_america/rss.xml"
+      - generic [ref=f1e77]: "[17:27:05] [Feed RSS] Coincidencia encontrada: Keiko Fujimori declared winner of Peru's presidential election weeks after vote"
+      - generic [ref=f1e78]: "[17:27:05] Consultando feed RSS: https://www.politico.com/rss/politicopicks.xml"
+      - generic [ref=f1e79]: "[17:27:07] Error procesando feed RSS https://www.politico.com/rss/politicopicks.xml: Request failed with status code 403"
+      - generic [ref=f1e80]: "[17:27:07] Consultando feed RSS: https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/politics/rss.xml"
+      - generic [ref=f1e81]: "[17:27:09] Consultando feed RSS: https://lannews.opennemas.com/rss/politica/"
+      - generic [ref=f1e82]: "[17:27:14] Consultando feed RSS: https://latinamericareports.com/feed/"
+      - generic [ref=f1e83]: "[17:27:17] Consultando feed RSS: https://news.un.org/feed/subscribe/es/news/region/americas/feed/rss.xml"
+      - generic [ref=f1e84]: "[17:27:19] Se encontraron 1 noticias recientes en los Feeds RSS directos para Alberto Fujimori"
+      - generic [ref=f1e85]: "[17:27:19] No se pudo extraer HTML limpio de https://www.bbc.co.uk/news/articles/cr5jpvv06e1o?at_medium=RSS&at_campaign=rss. Usando snippet de búsqueda/feed."
+      - generic [ref=f1e86]: "[17:27:19] Finalizado scraping para Alberto Fujimori. Artículos extraídos: 1"
+      - generic [ref=f1e87]: "[17:27:19] === SCRAPING COMPLETADO PARA Alberto Fujimori EN 0.43 MINUTOS ==="
+      - generic [ref=f1e115]: "[17:28:04] Procesando 1 noticias pendientes para Alberto Fujimori..."
+      - generic [ref=f1e116]: "[17:28:04] Procesando lote de 1 noticias para Alberto Fujimori mediante IA"
+  - generic [ref=f1e16]:
+    - button "1. Recolección y Candidatos" [active] [ref=f1e17] [cursor=pointer]
+    - button "2. IA y Analíticas" [ref=f1e18] [cursor=pointer]
+  - generic [ref=f1e20]:
+    - generic [ref=f1e21]:
+      - heading "Añadir Candidato Oficial" [level=2] [ref=f1e22]
+      - generic [ref=f1e23]:
+        - textbox "Nombre completo exacto" [ref=f1e25]
+        - button "Guardar Candidato" [ref=f1e26] [cursor=pointer]
+      - separator [ref=f1e28]
+      - heading "Lanzar Scraping Manual" [level=2] [ref=f1e29]
+      - generic [ref=f1e30]:
+        - generic [ref=f1e31]:
+          - generic [ref=f1e32]: Candidato (Lista Oficial)
+          - combobox [ref=f1e33]:
+            - option "Selecciona un candidato..."
+            - option "Alberto Fujimori" [selected]
+        - generic [ref=f1e34]:
+          - checkbox "1. Búsqueda en Vivo (RSS)" [checked] [ref=f1e35]
+          - generic "Busca noticias recientes en portales RSS" [ref=f1e36]: 1. Búsqueda en Vivo (RSS)
+        - generic [ref=f1e37]:
+          - checkbox "2. GDELT Histórico (Fechas personalizadas)" [ref=f1e38]
+          - generic "Busca noticias históricas estructuradas en la API de GDELT" [ref=f1e39]: 2. GDELT Histórico (Fechas personalizadas)
+        - generic [ref=f1e40]:
+          - checkbox "3. NewsAPI (Hasta 1 mes atrás)" [ref=f1e41]
+          - generic "Usa NewsAPI para obtener artículos relevantes de hasta 1 mes atrás" [ref=f1e42]: 3. NewsAPI (Hasta 1 mes atrás)
+        - generic [ref=f1e43]:
+          - checkbox "Usar Modo Mock (Simulado)" [checked] [ref=f1e44]
+          - generic "Evita peticiones reales a web y API Gemini" [ref=f1e45]: Usar Modo Mock (Simulado)
+        - generic [ref=f1e46]:
+          - generic "Número máximo de artículos a descargar y extraer texto de todas las fuentes sumadas" [ref=f1e47]: Límite de Extracción de Noticias
+          - spinbutton "Límite de Extracción de Noticias" [ref=f1e48]: "50"
+        - button "Iniciar Scraping (Recolección)" [ref=f1e73] [cursor=pointer]
+        - generic [ref=f1e50]: Scraping iniciado para Alberto Fujimori
+    - generic [ref=f1e51]:
+      - generic [ref=f1e52]:
+        - heading "Noticias Procesadas" [level=2] [ref=f1e53]
+        - generic [ref=f1e54]:
+          - combobox [ref=f1e55]:
+            - option "Selecciona un candidato..."
+            - option "Alberto Fujimori" [selected]
+          - button "Actualizar datos" [ref=f1e56] [cursor=pointer]:
+            - img [ref=f1e57]
+          - button "Eliminar candidato" [ref=f1e61] [cursor=pointer]:
+            - img [ref=f1e62]
+      - generic [ref=f1e118]:
+        - generic [ref=f1e119]:
+          - generic [ref=f1e120]: bbc.co.uk • 2026-07-08
+          - button "Eliminar noticia" [ref=f1e121] [cursor=pointer]:
+            - img [ref=f1e122]
+        - generic [ref=f1e124]: Keiko Fujimori declared winner of Peru's presidential election weeks after vote
+        - generic [ref=f1e125]:
+          - generic [ref=f1e126]: ✔ Procesado por IA
+          - generic [ref=f1e127]: Economía
+          - generic [ref=f1e128]: Neutral
+          - generic [ref=f1e129]: "Sesgo: Informativo"
+        - generic [ref=f1e130]: Este es un resumen generado de prueba. Discute políticas económicas y posibles alianzas.
+        - generic [ref=f1e131]:
+          - generic [ref=f1e132]: Ministerio de Economía
+          - generic [ref=f1e133]: Banco Central
+        - generic [ref=f1e134]:
+          - link "Ver original ↗" [ref=f1e135] [cursor=pointer]:
+            - /url: https://www.bbc.co.uk/news/articles/cr5jpvv06e1o?at_medium=RSS&at_campaign=rss
+          - button "Ver data cruda" [ref=f1e136] [cursor=pointer]:
+            - img [ref=f1e137]
+            - text: Ver data cruda

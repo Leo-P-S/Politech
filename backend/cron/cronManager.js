@@ -1,6 +1,6 @@
 const cron = require('node-cron');
 const Config = require('../models/Config');
-const Candidate = require('../models/Candidate');
+const Candidato = require('../models/Candidato');
 const aiService = require('../worker/services/aiService');
 const logger = require('../worker/logger');
 
@@ -47,7 +47,7 @@ class CronManager {
    */
   async runAIBatchProcess() {
     try {
-      const candidates = await Candidate.find({});
+      const candidates = await Candidato.find({});
       let totalProcessed = 0;
 
       for (let candidate of candidates) {

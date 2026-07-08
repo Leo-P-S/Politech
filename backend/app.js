@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db'); // De tu rama (mantiene la arquitectura limpia)
 const { runPipelineForCandidate } = require('./worker/index');
-const Candidate = require('./models/Candidate'); // Usamos el modelo de Josué
+const Candidato = require('./models/Candidato');
 const Config = require('./models/Config');
 const cronManager = require('./cron/cronManager');
 const logger = require('./worker/logger');
@@ -23,9 +23,6 @@ if (process.env.NODE_ENV !== 'test') {
 // 3. Middlewares
 app.use(express.json());
 
-const candidatoRoutes = require('./routes/candidato.routes');
-app.use('/api/candidatos', candidatoRoutes);
-
 // CORS personalizado simple
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -36,6 +33,10 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+const candidatoRoutes = require('./routes/candidato.routes');
+app.use('/api/candidatos', candidatoRoutes);
+app.use('/api/candidates', candidatoRoutes); // Alias para compatibilidad con frontend
 
 // Endpoint principal
 app.get('/', (req, res) => {
@@ -80,60 +81,6 @@ app.get('/api/logs/stream', (req, res) => {
     });
 });
 
-// Obtener todos los candidatos y sus noticias
-app.get('/api/candidates', async (req, res) => {
-    try {
-        const candidates = await Candidate.find().sort({ updatedAt: -1 });
-        res.json(candidates);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Crear un nuevo candidato vacío
-app.post('/api/candidates', async (req, res) => {
-    try {
-        const { nombre } = req.body;
-        if (!nombre) return res.status(400).json({ error: "El nombre es requerido" });
-        
-        // eslint-disable-next-line security/detect-non-literal-regexp
-        const existe = await Candidate.findOne({ nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } });
-        if (existe) return res.status(400).json({ error: "El candidato ya existe" });
-
-        const newCandidate = await Candidate.create({ nombre, historial_noticias: [] });
-        res.status(201).json(newCandidate);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Eliminar un candidato completo
-app.delete('/api/candidates/:id', async (req, res) => {
-    try {
-        const result = await Candidate.findByIdAndDelete(req.params.id);
-        if (!result) return res.status(404).json({ error: "Candidato no encontrado" });
-        res.json({ message: "Candidato eliminado exitosamente" });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Eliminar una noticia específica
-app.delete('/api/candidates/:candidateId/news/:newsId', async (req, res) => {
-    try {
-        const { candidateId, newsId } = req.params;
-        const result = await Candidate.findByIdAndUpdate(
-            candidateId,
-            { $pull: { historial_noticias: { _id: newsId } } },
-            { returnDocument: 'after' }
-        );
-        if (!result) return res.status(404).json({ error: "Candidato no encontrado" });
-        res.json({ message: "Noticia eliminada exitosamente", candidate: result });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
 // Disparar el pipeline de Webscraping
 app.post('/api/trigger', async (req, res) => {
     const { candidateId, startDate, endDate, mockMode, useRSS, useGdelt, useNewsApi, maxArticles } = req.body;
@@ -145,7 +92,7 @@ app.post('/api/trigger', async (req, res) => {
     process.env.MOCK_MODE = mockMode ? 'true' : 'false';
 
     try {
-        const candidate = await Candidate.findById(candidateId);
+        const candidate = await Candidato.findById(candidateId);
         if (!candidate) return res.status(404).json({ error: "Candidato no encontrado" });
 
         runPipelineForCandidate(candidate.nombre, startDate, endDate, useRSS, useGdelt, useNewsApi, maxArticles).catch(err => {
