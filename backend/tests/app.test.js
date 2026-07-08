@@ -17,14 +17,13 @@ const mockFind = jest.fn().mockResolvedValue([]);
 const mockFindOne = jest.fn().mockResolvedValue(null);
 const mockFindById = jest.fn().mockResolvedValue(null);
 const mockCreate = jest.fn().mockResolvedValue({});
-const mockSave = jest.fn().mockResolvedValue({});
 
 jest.mock('mongoose', () => {
     function SchemaMock() {}
     SchemaMock.Types = { Mixed: {} };
 
     const mockModelObj = {
-        find: jest.fn((...args) => ({
+        find: jest.fn(() => ({
             sort: jest.fn().mockResolvedValue([])
         })),
         findById: jest.fn(),

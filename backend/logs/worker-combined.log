@@ -1023,3 +1023,5 @@
 {"level":"info","message":"[MOCK MODE] Retornando JSON falso para el lote de noticias","service":"worker-pipeline","timestamp":"2026-07-08 17:38:15"}
 {"level":"info","message":"Lote completado. Total de noticias procesadas por IA: 4","service":"worker-pipeline","timestamp":"2026-07-08 17:38:15"}
 {"level":"info","message":"Lote completado. Total de noticias procesadas por IA: 0","service":"worker-pipeline","timestamp":"2026-07-08 17:42:27"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-07-08 17:47:54"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-07-08 17:47:59"}

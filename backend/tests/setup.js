@@ -21,8 +21,7 @@ beforeAll(async () => {
 // 2. Después de cada test: Limpiar las colecciones (equivalente al truncate de la guía del profe)
 afterEach(async () => {
     const collections = mongoose.connection.collections;
-    for (const key in collections) {
-        const collection = collections[key];
+    for (const collection of Object.values(collections)) {
         await collection.deleteMany(); // Borra los documentos, pero mantiene la estructura
     }
 });

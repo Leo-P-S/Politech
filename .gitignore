@@ -25,3 +25,7 @@ logs/
 *.log
 # Test coverage
 coverage/
+
+# Playwright
+.playwright/
+.playwright-cli/
