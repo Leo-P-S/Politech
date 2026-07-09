@@ -8,16 +8,23 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Proxy para redirigir /api al backend (puerto 3000)
 const http = require('http');
+const https = require('https');
+
+const backendUrlStr = process.env.BACKEND_URL || 'http://127.0.0.1:3000';
+const backendUrl = new URL(backendUrlStr);
+const isHttps = backendUrl.protocol === 'https:';
+const httpClient = isHttps ? https : http;
+
 app.use('/api', (req, res) => {
     const options = {
-        hostname: '127.0.0.1',
-        port: 3000,
+        hostname: backendUrl.hostname,
+        port: backendUrl.port ? parseInt(backendUrl.port, 10) : (isHttps ? 443 : 80),
         path: `/api${req.url}`,
         method: req.method,
-        headers: { ...req.headers, host: '127.0.0.1:3000' }
+        headers: { ...req.headers, host: backendUrl.host }
     };
 
-    const proxyReq = http.request(options, (proxyRes) => {
+    const proxyReq = httpClient.request(options, (proxyRes) => {
         const contentType = proxyRes.headers['content-type'] || '';
 
         // Soporte especial para SSE (Server-Sent Events)
