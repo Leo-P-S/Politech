@@ -41,6 +41,11 @@ jest.mock('mongoose', () => {
     return {
         connect: jest.fn().mockResolvedValue({}),
         Schema: SchemaMock,
+        Types: {
+            ObjectId: {
+                isValid: jest.fn((value) => /^[a-fA-F0-9]{24}$/.test(value))
+            }
+        },
         model: jest.fn().mockReturnValue(mockModelObj),
     };
 });
