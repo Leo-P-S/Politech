@@ -7,18 +7,22 @@ import Register from './pages/Register'
 import AdminDashboard from './pages/AdminDashboard'
 import ElectorAlerts from './pages/ElectorAlerts'
 
+import { AuthProvider } from './context/AuthContext'
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/candidato/:id" element={<CandidateProfile />} />
-        <Route path="/candidato/alertas" element={<ElectorAlerts />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/candidato/:id" element={<CandidateProfile />} />
+          <Route path="/candidato/alertas" element={<ElectorAlerts />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

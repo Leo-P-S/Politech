@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const securityMiddleware = require('./middleware/security');
 const { runPipelineForCandidate } = require('./worker/index');
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 // 3. Middlewares
 app.use(express.json());
+app.use(cookieParser());
 app.use(securityMiddleware);
 
 

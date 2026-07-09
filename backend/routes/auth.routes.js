@@ -57,8 +57,14 @@ router.post('/admin/login', async (req, res) => {
             { expiresIn: '30m' }
         );
 
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 30 * 60 * 1000 // 30 min
+        });
+
         res.json({
-            token,
             username: admin.username,
             role: 'admin',
             expiresIn: '30m'
@@ -122,8 +128,14 @@ router.post('/elector/login', async (req, res) => {
             { expiresIn: '30m' }
         );
 
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 30 * 60 * 1000 // 30 min
+        });
+
         res.json({
-            token,
             username: elector.username,
             role: 'elector',
             expiresIn: '30m'
@@ -132,6 +144,22 @@ router.post('/elector/login', async (req, res) => {
         console.error('Error en login elector:', error);
         res.status(500).json({ error: error.message });
     }
+});
+
+const authMiddleware = require('../middlewares/auth.middleware');
+
+// GET: Validar sesión actual
+router.get('/me', authMiddleware, (req, res) => {
+    res.json({
+        username: req.user.username,
+        role: req.user.role
+    });
+});
+
+// POST: Cerrar sesión (Logout)
+router.post('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.json({ message: 'Sesión cerrada exitosamente.' });
 });
 
 module.exports = router;

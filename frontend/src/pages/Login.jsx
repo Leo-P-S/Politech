@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { useAuth } from '../context/AuthContext';
 import { ShieldCheck, User, Lock, AlertCircle, Loader2 } from 'lucide-react';
 
 const Login = () => {
@@ -8,6 +9,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
@@ -16,6 +18,7 @@ const Login = () => {
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ username, password })
       });
       if (!res.ok) {
@@ -25,10 +28,8 @@ const Login = () => {
       return res.json();
     },
     onSuccess: (data) => {
-      // Guardar token y rol en localStorage
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('username', data.username);
-      localStorage.setItem('role', data.role);
+      // Guardar token y rol en context (la cookie se guarda sola)
+      login(data);
       
       if (data.role === 'admin') {
         navigate('/admin/dashboard');

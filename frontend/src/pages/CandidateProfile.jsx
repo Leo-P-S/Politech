@@ -50,11 +50,28 @@ const CandidateProfile = () => {
       <div className="max-w-5xl mx-auto px-4 py-8">
         
         {/* Navegación superior */}
-        <div className="mb-6">
+        <div className="flex justify-between items-center mb-6 print:hidden">
           <Link to="/" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             <span>Volver a búsqueda</span>
           </Link>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                alert("¡Enlace copiado al portapapeles!");
+              }}
+              className="text-xs font-semibold bg-white hover:bg-slate-50 text-slate-700 px-3 py-2 rounded-lg border border-slate-200 shadow-sm transition-all cursor-pointer font-bold"
+            >
+              Compartir Perfil
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="text-xs font-semibold bg-blue-700 hover:bg-blue-800 text-white px-3 py-2 rounded-lg border border-transparent shadow-sm transition-all cursor-pointer font-bold"
+            >
+              Descargar PDF
+            </button>
+          </div>
         </div>
 
         {/* Cabecera del Perfil */}

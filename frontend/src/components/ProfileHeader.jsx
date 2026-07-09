@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { ShieldAlert, Info, Bell, BellOff, Loader2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const ProfileHeader = ({ candidato }) => {
   const [isElector, setIsElector] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
 
+  const { user, role } = useAuth();
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    if (token && role === 'elector') {
+    if (user && role === 'elector') {
       setIsElector(true);
+      
+      // Consultar estado de suscripción inicial
+      fetch(`/api/elector/alerts/status/${candidato._id}`, {
+        credentials: 'include'
+      })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data) setSubscribed(data.subscribed);
+      })
+      .catch(err => console.error("Error al verificar suscripcion:", err));
     }
-  }, []);
+  }, [user, role, candidato._id]);
 
   // Generar alertas rápidas automáticas en base a los antecedentes judiciales (UH13)
   const alertas = candidato.antecedentesJudiciales?.map(msg => ({
@@ -24,13 +35,12 @@ const ProfileHeader = ({ candidato }) => {
 
   const subscribeMutation = useMutation({
     mutationFn: async () => {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/elector/alerts/subscribe', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({ candidatoId: candidato._id })
       });
       if (!res.ok) throw new Error('Error al suscribirse');
@@ -40,6 +50,32 @@ const ProfileHeader = ({ candidato }) => {
       setSubscribed(true);
     }
   });
+
+  const unsubscribeMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch('/api/elector/alerts/unsubscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ candidatoId: candidato._id })
+      });
+      if (!res.ok) throw new Error('Error al desuscribirse');
+      return res.json();
+    },
+    onSuccess: () => {
+      setSubscribed(false);
+    }
+  });
+
+  const handleAlertClick = () => {
+    if (subscribed) {
+      unsubscribeMutation.mutate();
+    } else {
+      subscribeMutation.mutate();
+    }
+  };
 
   return (
     <div className="bg-white border border-slate-200 p-8 rounded-xl shadow-sm mb-8">
@@ -90,24 +126,23 @@ const ProfileHeader = ({ candidato }) => {
           </div>
         </div>
 
-        {/* Suscripción a Alertas (Elector) */}
         {isElector && (
           <div className="w-full md:w-auto mt-4 md:mt-0">
             <button
-              onClick={() => subscribeMutation.mutate()}
-              disabled={subscribed || subscribeMutation.isPending}
+              onClick={handleAlertClick}
+              disabled={subscribeMutation.isPending || unsubscribeMutation.isPending}
               className={`w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
                 subscribed 
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200 cursor-default'
+                  ? 'bg-red-50 hover:bg-red-100 text-red-700 border-red-200'
                   : 'bg-blue-700 hover:bg-blue-800 text-white border-transparent'
               }`}
             >
-              {subscribeMutation.isPending ? (
+              {subscribeMutation.isPending || unsubscribeMutation.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : subscribed ? (
                 <>
                   <BellOff className="h-4 w-4" />
-                  <span>Suscrito a Alertas</span>
+                  <span>Cancelar Alertas</span>
                 </>
               ) : (
                 <>

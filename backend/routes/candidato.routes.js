@@ -13,12 +13,20 @@ const adminOnly = [authMiddleware, (req, res, next) => {
 
 // POST: Crear un nuevo candidato (SOLO ADMIN)
 router.post('/', adminOnly, async (req, res) => {
-    const { nombre, partidoPolitico } = req.body;
+    const { nombre, partidoPolitico, equipoTrabajo } = req.body;
     if (!nombre || nombre.trim().length < 2) {
         return res.status(400).json({ error: 'El campo nombre es requerido (mín. 2 caracteres).' });
     }
     try {
-        const nuevoCandidato = new Candidato({ nombre: nombre.trim(), partidoPolitico: partidoPolitico?.trim() });
+        const equipo = equipoTrabajo || [
+            { nombre: 'Carlos Mendoza', cargo: 'Jefe de Plan de Gobierno' },
+            { nombre: 'Ana María Torres', cargo: 'Portavoz Oficial' }
+        ];
+        const nuevoCandidato = new Candidato({ 
+            nombre: nombre.trim(), 
+            partidoPolitico: partidoPolitico?.trim() || 'Independiente',
+            equipoTrabajo: equipo
+        });
         const candidatoGuardado = await nuevoCandidato.save();
         res.status(201).json(candidatoGuardado);
     } catch (error) {

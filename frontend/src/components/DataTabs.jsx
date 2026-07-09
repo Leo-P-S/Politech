@@ -8,6 +8,7 @@ const DataTabs = ({ candidatoData }) => {
     { id: 'propuestas', label: 'Propuestas de Gobierno' },
     { id: 'antecedentes', label: 'Antecedentes y Alertas' },
     { id: 'noticias', label: 'Noticias Verificadas' },
+    { id: 'equipo', label: 'Equipo de Trabajo' },
   ];
 
   // Obtener categorías únicas dinámicas para noticias (UH08)
@@ -94,9 +95,9 @@ const DataTabs = ({ candidatoData }) => {
                       onClick={() => setSelectedCategory(cat)}
                       className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${
                         selectedCategory === cat
-                          ? 'bg-white text-blue-700 shadow-sm'
-                          : 'text-slate-500 hover:text-slate-900'
-                      }`}
+                           ? 'bg-white text-blue-700 shadow-sm'
+                           : 'text-slate-500 hover:text-slate-900'
+                       }`}
                     >
                       {cat}
                     </button>
@@ -157,6 +158,24 @@ const DataTabs = ({ candidatoData }) => {
               </div>
             ) : (
               <p className="text-slate-500 italic">No se han encontrado noticias verificadas en esta categoría para este candidato.</p>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'equipo' && (
+          <div className="text-slate-600">
+            <h3 className="text-lg font-bold text-slate-900 mb-4">Equipo de Asesores y Colaboradores</h3>
+            {candidatoData.equipoTrabajo && candidatoData.equipoTrabajo.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {candidatoData.equipoTrabajo.map((miembro, index) => (
+                  <div key={index} className="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                    <div className="font-bold text-slate-900 text-base">{miembro.nombre}</div>
+                    <div className="text-sm text-blue-700 font-medium">{miembro.cargo}</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-slate-500 italic">No se ha registrado información de asesores o equipo técnico para este candidato.</p>
             )}
           </div>
         )}

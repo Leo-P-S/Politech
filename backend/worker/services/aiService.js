@@ -6,8 +6,8 @@ class AIService {
     // Inicializar Gemini con la API key de entorno
     const apiKey = process.env.GEMINI_API_KEY || 'dummy_key_for_testing';
     this.genAI = new GoogleGenerativeAI(apiKey);
-    // Usamos el modelo recomendado para procesamiento general de texto
-    this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // Usamos el modelo recomendado para procesamiento general de texto (Gemini 3.1 Flash-Lite)
+    this.model = this.genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
   }
 
   /**

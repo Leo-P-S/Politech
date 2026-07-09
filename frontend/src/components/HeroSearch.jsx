@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Loader2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const HeroSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { user, role } = useAuth();
 
   useEffect(() => {
     if (searchTerm.trim().length < 3) {
@@ -31,18 +33,16 @@ const HeroSearch = () => {
   }, [searchTerm]);
 
   const handleSelectCandidate = async (candidato) => {
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
 
     // Registrar la búsqueda si es elector y está logueado (UH09)
-    if (token && role === 'elector') {
+    if (user && role === 'elector') {
       try {
         await fetch('/api/elector/searches', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json'
           },
+          credentials: 'include',
           body: JSON.stringify({ query: candidato.nombre })
         });
       } catch (error) {

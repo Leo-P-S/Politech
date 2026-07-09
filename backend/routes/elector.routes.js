@@ -93,10 +93,51 @@ router.get('/alerts', async (req, res) => {
                         mensaje: ante
                     });
                 });
+            } else {
+                // Alerta informativa para candidatos sin antecedentes registrados
+                alertsList.push({
+                    candidatoId: candidato._id,
+                    nombreCandidato: candidato.nombre,
+                    nivel: 'Info',
+                    mensaje: 'Sin antecedentes penales ni judiciales registrados a la fecha.'
+                });
             }
         });
 
         res.json(alertsList);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET: Verificar si el elector está suscrito a las alertas de un candidato específico
+router.get('/alerts/status/:candidatoId', async (req, res) => {
+    try {
+        const elector = await Elector.findById(req.user.id);
+        if (!elector) return res.status(404).json({ error: 'Elector no encontrado' });
+        
+        const isSubscribed = elector.alertSubscriptions.includes(req.params.candidatoId);
+        res.json({ subscribed: isSubscribed });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// POST: Cancelar suscripción a las alertas de un candidato
+router.post('/alerts/unsubscribe', async (req, res) => {
+    try {
+        const { candidatoId } = req.body;
+        if (!candidatoId) {
+            return res.status(400).json({ error: 'candidatoId es requerido' });
+        }
+
+        const elector = await Elector.findById(req.user.id);
+        if (!elector) return res.status(404).json({ error: 'Elector no encontrado' });
+
+        elector.alertSubscriptions = elector.alertSubscriptions.filter(id => id.toString() !== candidatoId);
+        await elector.save();
+
+        res.json({ message: `Suscripción cancelada con éxito.` });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

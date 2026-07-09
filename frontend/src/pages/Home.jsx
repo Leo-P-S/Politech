@@ -2,42 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import HeroSearch from '../components/HeroSearch';
+import { useAuth } from '../context/AuthContext';
 import { ShieldCheck, LogOut, User, Bell, Clock, LogIn } from 'lucide-react';
 
 const Home = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
-  const [role, setRole] = useState('');
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const storedUsername = localStorage.getItem('username');
-    const storedRole = localStorage.getItem('role');
-    if (token) {
-      setIsLoggedIn(true);
-      setUsername(storedUsername || '');
-      setRole(storedRole || '');
-    }
-  }, []);
+  const { user: username, role, logout } = useAuth();
+  const isLoggedIn = !!username;
 
   const handleLogout = () => {
-    localStorage.clear();
-    setIsLoggedIn(false);
-    setUsername('');
-    setRole('');
+    logout();
     queryClient.invalidateQueries(['recent-searches']);
-    navigate('/');
   };
 
   // Obtener búsquedas recientes si es elector y está logueado
   const { data: recentSearches } = useQuery({
     queryKey: ['recent-searches'],
     queryFn: async () => {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/elector/searches', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        credentials: 'include'
       });
       if (!res.ok) throw new Error('Error al cargar búsquedas recientes');
       return res.json();

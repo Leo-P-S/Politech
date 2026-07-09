@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useAuth } from '../context/AuthContext';
 import { ShieldAlert, Info, ArrowLeft, Loader2, Bell } from 'lucide-react';
 
 const ElectorAlerts = () => {
   const navigate = useNavigate();
-
-  // Validar rol del elector
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    if (!token || role !== 'elector') {
-      navigate('/login');
-    }
-  }, [navigate]);
+  const { user, role, loading } = useAuth();
 
   const { data: alerts, isLoading } = useQuery({
     queryKey: ['elector-alerts'],
     queryFn: async () => {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/elector/alerts', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        credentials: 'include'
       });
       if (!res.ok) throw new Error('Error al cargar alertas');
       return res.json();
-    }
+    },
+    enabled: !loading && !!user && role === 'elector'
   });
+
+  // Validar rol del elector
+  useEffect(() => {
+    if (!loading && (!user || role !== 'elector')) {
+      navigate('/login');
+    }
+  }, [user, role, loading, navigate]);
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-blue-600 h-10 w-10" /></div>;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
@@ -60,7 +64,11 @@ const ElectorAlerts = () => {
               <div 
                 key={index} 
                 className={`p-6 border rounded-xl shadow-sm bg-white flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all hover:shadow-md ${
-                  alerta.nivel === 'Alto' ? 'border-red-200 hover:border-red-300' : 'border-amber-200 hover:border-amber-300'
+                  alerta.nivel === 'Alto' 
+                    ? 'border-red-250 hover:border-red-350' 
+                    : alerta.nivel === 'Info'
+                    ? 'border-emerald-250 hover:border-emerald-350 bg-emerald-50/10'
+                    : 'border-amber-250 hover:border-amber-350'
                 }`}
               >
                 <div className="space-y-2">
@@ -70,6 +78,8 @@ const ElectorAlerts = () => {
                       className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${
                         alerta.nivel === 'Alto' 
                           ? 'bg-red-50 text-red-700 border-red-100' 
+                          : alerta.nivel === 'Info'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
                           : 'bg-amber-50 text-amber-700 border-amber-100'
                       }`}
                     >

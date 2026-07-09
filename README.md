@@ -17,12 +17,12 @@ El sistema adopta una arquitectura desacoplada estructurada en tres capas princi
 
 2. **Capa de Servicio (Backend REST API):**
    - API construida sobre **Node.js** y **Express**.
-   - Rutas principales bajo `/api/candidatos` (con alias `/api/candidates` para compatibilidad retroactiva) y `/api/elector`.
-   - Control de sesiones seguro mediante JWT con expiración a los 30 minutos de inactividad.
+   - Rutas principales bajo `/api/candidatos` (con alias `/api/candidates` para compatibilidad retroactiva), `/api/elector` y `/api/auth`.
+   - Control de sesiones altamente seguro mediante **Cookies HttpOnly** firmadas y cifradas en el backend, mitigando ataques de Cross-Site Scripting (XSS), con expiración automática de la sesión a los 30 minutos (cumplimiento RNF10).
 
 3. **Pipeline de Automatización (Worker & Cron):**
    - **Scraper:** Motor de scraping multicanal que extrae y limpia texto de portales RSS, GDELT API e históricamente desde NewsAPI.
-   - **IA Service (Optimizado):** Envía las noticias en **lotes de 5 artículos con un delay de seguridad de 4 segundos** entre lotes para mitigar errores de *Rate Limits* (Error 429) de la API gratuita de Gemini. Los prompts están fuertemente contextualizados en la coyuntura política y legal del **Perú**.
+   - **IA Service (Optimizado):** Utiliza **Gemini 3.1 Flash-Lite** (15 RPM, 250K TPM, 500 RPD) y envía las noticias en **lotes de 5 artículos con un delay de seguridad de 4 segundos** entre lotes para evitar saturar las cuotas de la API. Los prompts están fuertemente contextualizados en la coyuntura política y legal del **Perú**.
    - **CronManager:** Tarea agendada en segundo plano para procesar automáticamente de forma semanal las nuevas noticias recolectadas.
 
 ---

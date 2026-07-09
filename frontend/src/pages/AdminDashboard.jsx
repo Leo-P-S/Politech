@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Play, Calendar, Terminal, Settings, LogOut, Loader2, UserPlus, Trash2, Users, Eye } from 'lucide-react';
 
 const AdminDashboard = () => {
+  const { user, role, loading, logout, forceLogout } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const logContainerRef = useRef(null);
@@ -39,16 +41,13 @@ const AdminDashboard = () => {
 
   // Verificar sesión
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    if (!token || role !== 'admin') {
+    if (!loading && (!user || role !== 'admin')) {
       navigate('/login');
     }
-  }, [navigate]);
+  }, [user, role, loading, navigate]);
 
   const handleLogout = () => {
-    localStorage.clear();
-    navigate('/login');
+    logout();
   };
 
   // Obtener candidatos para el dropdown
@@ -58,16 +57,17 @@ const AdminDashboard = () => {
       const res = await fetch('/api/candidatos');
       if (!res.ok) throw new Error('Error al cargar candidatos');
       return res.json();
-    }
+    },
+    enabled: !loading && !!user && role === 'admin'
   });
 
   // Mutación para crear candidato
   const createCandidateMutation = useMutation({
     mutationFn: async ({ nombre, partidoPolitico }) => {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/candidatos', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ nombre, partidoPolitico })
       });
       if (!res.ok) {
@@ -91,10 +91,9 @@ const AdminDashboard = () => {
   // Mutación para eliminar candidato
   const deleteCandidateMutation = useMutation({
     mutationFn: async (id) => {
-      const token = localStorage.getItem('token');
       const res = await fetch(`/api/candidatos/${id}`, {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        credentials: 'include'
       });
       if (!res.ok) throw new Error('Error al eliminar candidato');
       return res.json();
@@ -107,10 +106,9 @@ const AdminDashboard = () => {
   // Mutación para eliminar noticia
   const deleteNewsMutation = useMutation({
     mutationFn: async ({ candidateId, newsId }) => {
-      const token = localStorage.getItem('token');
       const res = await fetch(`/api/candidatos/${candidateId}/news/${newsId}`, {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        credentials: 'include'
       });
       if (!res.ok) throw new Error('Error al eliminar la noticia');
       return res.json();
@@ -143,9 +141,8 @@ const AdminDashboard = () => {
   const { data: cronConfig } = useQuery({
     queryKey: ['cron-config'],
     queryFn: async () => {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/config/ai-schedule', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        credentials: 'include'
       });
       if (!res.ok) throw new Error('Error al cargar config cron');
       return res.json();
@@ -153,18 +150,18 @@ const AdminDashboard = () => {
     onSuccess: (data) => {
       setCronDay(data.day);
       setCronHour(data.hour);
-    }
+    },
+    enabled: !loading && !!user && role === 'admin'
   });
 
   // Mutación para disparar scraping manual
   const triggerScrapeMutation = useMutation({
     mutationFn: async (body) => {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/trigger', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
+
         },
         body: JSON.stringify(body)
       });
@@ -179,10 +176,9 @@ const AdminDashboard = () => {
   // Mutación para ejecutar procesamiento de IA manual
   const triggerAIMutation = useMutation({
     mutationFn: async () => {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/ai/process', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` }
+        credentials: 'include'
       });
       if (!res.ok) throw new Error('Error al disparar procesamiento IA');
       return res.json();
@@ -192,12 +188,11 @@ const AdminDashboard = () => {
   // Mutación para guardar configuración del cron
   const saveCronMutation = useMutation({
     mutationFn: async (body) => {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/config/ai-schedule', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
+
         },
         body: JSON.stringify(body)
       });
@@ -210,6 +205,10 @@ const AdminDashboard = () => {
       queryClient.invalidateQueries(['cron-config']);
     }
   });
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-blue-600 h-10 w-10" /></div>;
+  }
 
   // Escuchar logs en tiempo real (SSE)
   useEffect(() => {
@@ -225,6 +224,18 @@ const AdminDashboard = () => {
           if (updated.length > 100) updated.shift();
           return updated;
         });
+
+        // Autorefrescar lista de candidatos cuando se completen tareas de Scraping o IA
+        const msg = log.message || '';
+        if (
+          msg.includes('COMPLETADO') ||
+          msg.includes('completado') ||
+          msg.includes('Finalizado scraping') ||
+          msg.includes('Abortando pipeline') ||
+          msg.includes('Error no controlado')
+        ) {
+          queryClient.invalidateQueries(['candidatos-admin']);
+        }
       } catch (e) {
         // ignorar mensajes mal formateados
       }
@@ -246,6 +257,27 @@ const AdminDashboard = () => {
       logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
     }
   }, [logs]);
+
+  const exportLogsToCSV = () => {
+    if (logs.length === 0) return;
+    const csvRows = [
+      ["Timestamp", "Level", "Message"],
+      ...logs.map(log => [
+        log.timestamp || new Date().toISOString(),
+        log.level || 'info',
+        log.message || ''
+      ])
+    ];
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + csvRows.map(e => e.map(val => `"${val.toString().replace(/"/g, '""')}"`).join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `politech_logs_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const handleStartScrape = (e) => {
     e.preventDefault();
@@ -297,9 +329,19 @@ const AdminDashboard = () => {
               <span className="w-3 h-3 bg-green-500 rounded-full"></span>
               <span className="ml-2 text-xs font-semibold tracking-wider uppercase text-slate-400">Consola de logs en vivo</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase">
-              <span className={`w-2 h-2 rounded-full ${sseConnected ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></span>
-              <span className={sseConnected ? 'text-emerald-400' : 'text-red-400'}>{sseConnected ? 'Canal Activo' : 'Desconectado'}</span>
+            <div className="flex items-center gap-4">
+              {logs.length > 0 && (
+                <button 
+                  onClick={exportLogsToCSV}
+                  className="text-xs font-semibold uppercase bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded border border-slate-700 transition-colors cursor-pointer"
+                >
+                  Exportar CSV
+                </button>
+              )}
+              <div className="flex items-center gap-1.5 text-xs font-semibold uppercase">
+                <span className={`w-2 h-2 rounded-full ${sseConnected ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></span>
+                <span className={sseConnected ? 'text-emerald-400' : 'text-red-400'}>{sseConnected ? 'Canal Activo' : 'Desconectado'}</span>
+              </div>
             </div>
           </div>
           <div 
