@@ -21,7 +21,7 @@ jest.mock('jsdom', () => {
                     }
                   }];
                 }
-                if (content && content.includes('https://rpp.pe/1')) {
+                if (content && /<link>\s*https:\/\/rpp\.pe\/1\s*<\/link>/.test(content)) {
                   return [{
                     querySelector: (subSelector) => {
                       if (subSelector === 'title') return { textContent: 'Candidato Test en campaña' };
