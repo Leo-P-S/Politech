@@ -1,0 +1,48 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "Politech IA & WebScraping" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Entorno de Pruebas Visual
+  - generic [ref=e6]:
+    - generic [ref=e12]: "PIPELINE STATUS: ACTIVE"
+    - generic [ref=e15]: Esperando inicialización del pipeline...
+  - generic [ref=e16]:
+    - button "1. Recolección y Candidatos" [ref=e17] [cursor=pointer]
+    - button "2. IA y Analíticas" [ref=e18] [cursor=pointer]
+  - generic [ref=e20]:
+    - generic [ref=e21]:
+      - heading "Añadir Candidato Oficial" [level=2] [ref=e22]
+      - generic [ref=e23]:
+        - textbox "Nombre completo exacto" [ref=e25]
+        - button "Guardar Candidato" [ref=e26] [cursor=pointer]
+      - separator [ref=e28]
+      - heading "Lanzar Scraping Manual" [level=2] [ref=e29]
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]: Candidato (Lista Oficial)
+          - combobox [ref=e33]:
+            - option "Selecciona un candidato..." [selected]
+        - generic [ref=e34]:
+          - checkbox "1. Búsqueda en Vivo (RSS)" [ref=e35]
+          - generic "Busca noticias recientes en portales RSS" [ref=e36]: 1. Búsqueda en Vivo (RSS)
+        - generic [ref=e37]:
+          - checkbox "2. GDELT Histórico (Fechas personalizadas)" [ref=e38]
+          - generic "Busca noticias históricas estructuradas en la API de GDELT" [ref=e39]: 2. GDELT Histórico (Fechas personalizadas)
+        - generic [ref=e40]:
+          - checkbox "3. NewsAPI (Hasta 1 mes atrás)" [ref=e41]
+          - generic "Usa NewsAPI para obtener artículos relevantes de hasta 1 mes atrás" [ref=e42]: 3. NewsAPI (Hasta 1 mes atrás)
+        - generic [ref=e43]:
+          - checkbox "Usar Modo Mock (Simulado)" [ref=e44]
+          - generic "Evita peticiones reales a web y API Gemini" [ref=e45]: Usar Modo Mock (Simulado)
+        - generic [ref=e46]:
+          - generic "Número máximo de artículos a descargar y extraer texto de todas las fuentes sumadas" [ref=e47]: Límite de Extracción de Noticias
+          - spinbutton "Límite de Extracción de Noticias" [ref=e48]: "50"
+        - button "Iniciar Scraping (Recolección)" [ref=e49] [cursor=pointer]
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - heading "Noticias Procesadas" [level=2] [ref=e53]
+        - generic [ref=e54]:
+          - combobox [ref=e55]:
+            - option "Selecciona un candidato..." [selected]
+          - button "Actualizar datos" [ref=e56] [cursor=pointer]:
+            - img [ref=e57]
+      - paragraph [ref=e62]: No hay noticias procesadas para este candidato.

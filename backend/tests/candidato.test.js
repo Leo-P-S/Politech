@@ -3,6 +3,8 @@ const app = require('../app');
 const Candidato = require('../models/Candidato');
 const { faker } = require('@faker-js/faker');
 
+jest.mock('../models/Candidato');
+
 describe('Pruebas de Integración - Endpoints de Candidatos', () => {
     
     // CASO 1: Cuando FUNCIONA (Happy Path) - Crear candidato
@@ -12,6 +14,12 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
             nombre: faker.name.fullName(),
             partidoPolitico: faker.company.name()
         };
+
+        // Simulamos el guardado exitoso
+        Candidato.prototype.save = jest.fn().mockResolvedValue({
+            _id: 'mocked-id-123',
+            ...candidatoFalso
+        });
 
         const res = await request(app)
             .post('/api/candidatos')
@@ -27,6 +35,9 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
     test('POST /api/candidatos - Debe fallar si faltan datos obligatorios', async () => {
         const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
+        // Simulamos un error de Mongoose
+        Candidato.prototype.save = jest.fn().mockRejectedValue(new Error('Validation failed'));
+
         // Enviamos un objeto vacío. El motor real de Mongoose rechazará la petición
         // porque en tu modelo 'nombre' y 'partidoPolitico' son obligatorios.
         const res = await request(app)
@@ -41,9 +52,11 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
 
     // CASO 3: GET funciona correctamente con datos reales
     test('GET /api/candidatos - Debe listar los candidatos guardados', async () => {
-        // 1. Primero inyectamos datos reales en la BD en memoria
-        await Candidato.create({ nombre: "Candidato A", partidoPolitico: "Partido X" });
-        await Candidato.create({ nombre: "Candidato B", partidoPolitico: "Partido Y" });
+        // Simulamos la respuesta de la BD
+        Candidato.find = jest.fn().mockResolvedValue([
+            { nombre: "Candidato A", partidoPolitico: "Partido X" },
+            { nombre: "Candidato B", partidoPolitico: "Partido Y" }
+        ]);
 
         // 2. Hacemos la petición GET a tu API
         const res = await request(app).get('/api/candidatos');
@@ -68,5 +81,33 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
 
         findSpy.mockRestore();
         consoleSpy.mockRestore();
+    });
+
+    test('DELETE /api/candidatos/:id - Debe eliminar un candidato con éxito', async () => {
+        Candidato.findByIdAndDelete = jest.fn().mockResolvedValue({ _id: '123' });
+        const res = await request(app).delete('/api/candidatos/123');
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('Candidato eliminado exitosamente');
+    });
+
+    test('DELETE /api/candidatos/:id - Debe retornar 404 si el candidato no existe', async () => {
+        Candidato.findByIdAndDelete = jest.fn().mockResolvedValue(null);
+        const res = await request(app).delete('/api/candidatos/123');
+        expect(res.statusCode).toBe(404);
+        expect(res.body.error).toBe('Candidato no encontrado');
+    });
+
+    test('DELETE /api/candidatos/:candidateId/news/:newsId - Debe eliminar la noticia', async () => {
+        Candidato.findByIdAndUpdate = jest.fn().mockResolvedValue({ _id: '123' });
+        const res = await request(app).delete('/api/candidatos/123/news/456');
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('Noticia eliminada exitosamente');
+    });
+
+    test('DELETE /api/candidatos/:candidateId/news/:newsId - Debe retornar 404 si el candidato no existe', async () => {
+        Candidato.findByIdAndUpdate = jest.fn().mockResolvedValue(null);
+        const res = await request(app).delete('/api/candidatos/123/news/456');
+        expect(res.statusCode).toBe(404);
+        expect(res.body.error).toBe('Candidato no encontrado');
     });
 });

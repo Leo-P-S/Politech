@@ -1,0 +1,58 @@
+- generic [active] [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - heading "Politech IA & WebScraping" [level=1] [ref=f1e3]
+    - paragraph [ref=f1e4]: Entorno de Pruebas Visual
+  - generic [ref=f1e6]:
+    - generic [ref=f1e12]: "PIPELINE STATUS: ACTIVE"
+    - generic [ref=f1e14]:
+      - generic [ref=f1e15]: Esperando inicialización del pipeline...
+      - generic [ref=f1e66]: "[17:26:53] === INICIANDO SCRAPING PARA Alberto Fujimori ==="
+      - generic [ref=f1e67]: "[17:26:53] Iniciando scraping para Alberto Fujimori (RSS: true, GDELT: false, NewsAPI: false, Límite: 50)"
+      - generic [ref=f1e68]: "[17:26:53] Escaneando feeds RSS directos para el candidato: Alberto Fujimori"
+      - generic [ref=f1e69]: "[17:26:53] Consultando feed RSS: https://rpp.pe/rss"
+  - generic [ref=f1e16]:
+    - button "1. Recolección y Candidatos" [ref=f1e17] [cursor=pointer]
+    - button "2. IA y Analíticas" [ref=f1e18] [cursor=pointer]
+  - generic [ref=f1e20]:
+    - generic [ref=f1e21]:
+      - heading "Añadir Candidato Oficial" [level=2] [ref=f1e22]
+      - generic [ref=f1e23]:
+        - textbox "Nombre completo exacto" [ref=f1e25]
+        - button "Guardar Candidato" [ref=f1e26] [cursor=pointer]
+      - separator [ref=f1e28]
+      - heading "Lanzar Scraping Manual" [level=2] [ref=f1e29]
+      - generic [ref=f1e30]:
+        - generic [ref=f1e31]:
+          - generic [ref=f1e32]: Candidato (Lista Oficial)
+          - combobox [ref=f1e33]:
+            - option "Selecciona un candidato..."
+            - option "Alberto Fujimori" [selected]
+        - generic [ref=f1e34]:
+          - checkbox "1. Búsqueda en Vivo (RSS)" [checked] [ref=f1e35]
+          - generic "Busca noticias recientes en portales RSS" [ref=f1e36]: 1. Búsqueda en Vivo (RSS)
+        - generic [ref=f1e37]:
+          - checkbox "2. GDELT Histórico (Fechas personalizadas)" [ref=f1e38]
+          - generic "Busca noticias históricas estructuradas en la API de GDELT" [ref=f1e39]: 2. GDELT Histórico (Fechas personalizadas)
+        - generic [ref=f1e40]:
+          - checkbox "3. NewsAPI (Hasta 1 mes atrás)" [ref=f1e41]
+          - generic "Usa NewsAPI para obtener artículos relevantes de hasta 1 mes atrás" [ref=f1e42]: 3. NewsAPI (Hasta 1 mes atrás)
+        - generic [ref=f1e43]:
+          - checkbox "Usar Modo Mock (Simulado)" [checked] [ref=f1e44]
+          - generic "Evita peticiones reales a web y API Gemini" [ref=f1e45]: Usar Modo Mock (Simulado)
+        - generic [ref=f1e46]:
+          - generic "Número máximo de artículos a descargar y extraer texto de todas las fuentes sumadas" [ref=f1e47]: Límite de Extracción de Noticias
+          - spinbutton "Límite de Extracción de Noticias" [ref=f1e48]: "50"
+        - button "Scraping... (Revisa consola)" [disabled] [ref=f1e70]
+        - generic [ref=f1e50]: Scraping iniciado para Alberto Fujimori
+    - generic [ref=f1e51]:
+      - generic [ref=f1e52]:
+        - heading "Noticias Procesadas" [level=2] [ref=f1e53]
+        - generic [ref=f1e54]:
+          - combobox [ref=f1e55]:
+            - option "Selecciona un candidato..."
+            - option "Alberto Fujimori" [selected]
+          - button "Actualizar datos" [ref=f1e56] [cursor=pointer]:
+            - img [ref=f1e57]
+          - button "Eliminar candidato" [ref=f1e61] [cursor=pointer]:
+            - img [ref=f1e62]
+      - paragraph [ref=f1e65]: No hay noticias procesadas para este candidato.

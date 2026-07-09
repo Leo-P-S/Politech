@@ -20,5 +20,12 @@ build/
 .vscode/settings.json
 .idea/
 
+# Logs generados en tiempo de ejecución
+logs/
+*.log
 # Test coverage
 coverage/
+
+# Playwright
+.playwright/
+.playwright-cli/
