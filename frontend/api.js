@@ -2,11 +2,10 @@ import axios from 'axios';
 
 // variables de entorno en Vite usan el prefijo VITE_
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api', 
+  baseURL:'/api', // <- Cambio clave: solo '/api'
   headers: {
     'Content-Type': 'application/json',
   },
-  // timeout: 10000, // opcional: abortar si tarda más de 10 segundos
 });
 
 // Función para buscar candidatos (la usaríamos en HeroSearch)
