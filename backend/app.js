@@ -1,22 +1,20 @@
-// 1. Cargar las variables de entorno (Siempre al inicio)
 require('dotenv').config();
 
 const express = require('express');
-const connectDB = require('./config/db'); // 2. Importar la función de conexión
+const connectDB = require('./config/db');
+const securityMiddleware = require('./middleware/security');
+const candidateRoutes = require('./routes/candidate.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 3. Ejecutar la conexión a MongoDB
 if (process.env.NODE_ENV !== 'test') {
     connectDB();
 }
-// 4. Middleware fundamental para que tu API pueda recibir datos en formato JSON (Ej: cuando agreguen candidatos)
-app.use(express.json());
 
-const candidatoRoutes = require('./routes/candidato.routes');
-app.use('/api/candidatos', candidatoRoutes);
-// Endpoint principal
+app.use(express.json());
+app.use(securityMiddleware);
+
 app.get('/', (req, res) => {
     res.json({
         status: 'ok',
@@ -25,12 +23,12 @@ app.get('/', (req, res) => {
     });
 });
 
-// Smoke test endpoint
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'healthy' });
 });
 
-// Solo levanta el servidor si NO estamos corriendo pruebas con Jest
+app.use('/api/candidates', candidateRoutes);
+
 if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
         console.log(`Server on port ${PORT}`);
