@@ -1,14 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const Candidato = require('../models/Candidato');
+const authMiddleware = require('../middlewares/auth.middleware');
 
-// POST: Crear un nuevo candidato en la base de datos
-router.post('/', async (req, res) => {
+// Middleware de autorización: solo admins pueden escribir
+const adminOnly = [authMiddleware, (req, res, next) => {
+    if (req.user?.role !== 'admin') {
+        return res.status(403).json({ error: 'Acceso denegado. Se requiere rol de administrador.' });
+    }
+    next();
+}];
+
+// POST: Crear un nuevo candidato (SOLO ADMIN)
+router.post('/', adminOnly, async (req, res) => {
+    const { nombre, partidoPolitico } = req.body;
+    if (!nombre || nombre.trim().length < 2) {
+        return res.status(400).json({ error: 'El campo nombre es requerido (mín. 2 caracteres).' });
+    }
     try {
-        const nuevoCandidato = new Candidato(req.body);
+        const nuevoCandidato = new Candidato({ nombre: nombre.trim(), partidoPolitico: partidoPolitico?.trim() });
         const candidatoGuardado = await nuevoCandidato.save();
         res.status(201).json(candidatoGuardado);
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({ error: 'Ya existe un candidato con ese nombre.' });
+        }
         console.error("Error al guardar candidato:", error);
         res.status(500).json({ mensaje: 'Error al crear el candidato en la base de datos' });
     }
@@ -56,8 +72,8 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// DELETE: Eliminar un candidato completo
-router.delete('/:id', async (req, res) => {
+// DELETE: Eliminar un candidato completo (SOLO ADMIN)
+router.delete('/:id', adminOnly, async (req, res) => {
     try {
         const result = await Candidato.findByIdAndDelete(req.params.id);
         if (!result) return res.status(404).json({ error: "Candidato no encontrado" });
@@ -68,8 +84,8 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-// DELETE: Eliminar una noticia específica de un candidato
-router.delete('/:candidateId/news/:newsId', async (req, res) => {
+// DELETE: Eliminar una noticia específica de un candidato (SOLO ADMIN)
+router.delete('/:candidateId/news/:newsId', adminOnly, async (req, res) => {
     try {
         const { candidateId, newsId } = req.params;
         const result = await Candidato.findByIdAndUpdate(

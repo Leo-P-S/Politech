@@ -1099,3 +1099,176 @@
 {"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceB.com/news-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-09 01:08:19"}
 {"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceA.com/news2-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-09 01:08:19"}
 {"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-07-09 01:08:19"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Nuevo Candidato","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"info","message":"Persistencia exitosa para Nuevo Candidato. Se añadieron 1 noticias nuevas. Total ahora: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato Existente","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"info","message":"Las 1 noticias descubiertas para Candidato Existente ya existían en la BD. No se añadieron duplicados.","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato Existente","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"warn","message":"[Deduplicación de Texto] Noticia rechazada por ser copia exacta (aunque la URL es distinta): url2","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"info","message":"Las 1 noticias descubiertas para Candidato Existente ya existían en la BD. No se añadieron duplicados.","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"error","message":"Error al persistir noticias para Candidato en la BD: DB Query Failure","service":"worker-pipeline","timestamp":"2026-07-08 21:04:28"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"info","message":"Consultando tendencias para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"info","message":"Tarea de cron anterior detenida.","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 5 * * 1","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"info","message":"Procesando 2 noticias pendientes para Candidato Test...","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"info","message":"Lote completado. Total de noticias procesadas por IA: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:04:29"}
+{"level":"error","message":"Error durante el procesamiento por lotes de IA: DB Error","service":"worker-pipeline","stack":"Error: DB Error\n    at Object.<anonymous> (/home/o1101ol/Repositorios/Politech/backend/tests/cronManager.test.js:110:42)\n    at Promise.then.completed (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:316:40)\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at _runTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:121:9)\n    at run (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/runTest.js:444:34)\n    at Object.worker (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/testWorker.js:106:12)","timestamp":"2026-07-08 21:04:29"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-07-08 21:04:30"}
+{"level":"info","message":"Escaneando feeds RSS directos para el candidato: Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:04:30"}
+{"level":"info","message":"Consultando feed RSS: https://rpp.pe/rss","service":"worker-pipeline","timestamp":"2026-07-08 21:04:30"}
+{"level":"info","message":"[Feed RSS] Coincidencia encontrada: Candidato Test en campaña","service":"worker-pipeline","timestamp":"2026-07-08 21:04:30"}
+{"level":"info","message":"Consultando feed RSS: https://larepublica.pe/rss/politica.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Consultando feed RSS: https://peru21.pe/rss/politica/","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Consultando feed RSS: https://elcomercio.pe/arc/outboundfeeds/rss/category/politica/?outputType=xml","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Consultando feed RSS: https://feeds.bbci.co.uk/news/world/latin_america/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Consultando feed RSS: https://www.politico.com/rss/politicopicks.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Consultando feed RSS: https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/politics/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Consultando feed RSS: https://lannews.opennemas.com/rss/politica/","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Consultando feed RSS: https://latinamericareports.com/feed/","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Consultando feed RSS: https://news.un.org/feed/subscribe/es/news/region/americas/feed/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Se encontraron 1 noticias recientes en los Feeds RSS directos para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Buscando noticias históricas en Bing News para candidato: Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Se descubrieron 1 URLs en Bing para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Buscando noticias en GDELT para: Candidato GDELT entre 2023-05-01 y 2023-05-15","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"GDELT Chunk: 2023-05-01 a 2023-05-15 (Pidiendo max 10)","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"GDELT: Esperando 31s antes del intento 1/3...","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"GDELT: Chunk exitoso, 1 artículos recibidos. Total acumulado: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Se descubrieron 1 URLs históricas en GDELT para Candidato GDELT","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Candidato NewsAPI entre 2023-06-01 y 2023-06-30","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Se descubrieron un total de 1 URLs en NewsAPI para Candidato NewsAPI","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: true, NewsAPI: false, Límite: 5)","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceA.com/news-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceB.com/news-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceA.com/news2-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-07-08 21:04:31"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Candidato Test EN 0.00 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"warn","message":"No se encontraron artículos para Candidato Test. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"error","message":"Error no controlado en el scraping para Candidato Test: Scraping Error","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"info","message":"Iniciando Worker/Pipeline de Scraping","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"info","message":"Conectado a MongoDB Exitosamente desde Worker","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"info","message":"Iniciando Worker/Pipeline de Scraping","service":"worker-pipeline","timestamp":"2026-07-08 21:04:33"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-07-08 21:06:03"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Escaneando feeds RSS directos para el candidato: Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://rpp.pe/rss","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"[Feed RSS] Coincidencia encontrada: Candidato Test en campaña","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://larepublica.pe/rss/politica.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://peru21.pe/rss/politica/","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://elcomercio.pe/arc/outboundfeeds/rss/category/politica/?outputType=xml","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://feeds.bbci.co.uk/news/world/latin_america/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://www.politico.com/rss/politicopicks.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/politics/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://lannews.opennemas.com/rss/politica/","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://latinamericareports.com/feed/","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando feed RSS: https://news.un.org/feed/subscribe/es/news/region/americas/feed/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Se encontraron 1 noticias recientes en los Feeds RSS directos para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Buscando noticias históricas en Bing News para candidato: Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Se descubrieron 1 URLs en Bing para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Buscando noticias en GDELT para: Candidato GDELT entre 2023-05-01 y 2023-05-15","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"GDELT Chunk: 2023-05-01 a 2023-05-15 (Pidiendo max 10)","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"GDELT: Esperando 34s antes del intento 1/3...","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"GDELT: Chunk exitoso, 1 artículos recibidos. Total acumulado: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Se descubrieron 1 URLs históricas en GDELT para Candidato GDELT","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Candidato NewsAPI entre 2023-06-01 y 2023-06-30","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Se descubrieron un total de 1 URLs en NewsAPI para Candidato NewsAPI","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: true, NewsAPI: false, Límite: 5)","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceA.com/news-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceB.com/news-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceA.com/news2-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Consultando tendencias para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-07-08 21:06:19"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Tarea de cron anterior detenida.","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 5 * * 1","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Procesando 2 noticias pendientes para Candidato Test...","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Lote completado. Total de noticias procesadas por IA: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"error","message":"Error durante el procesamiento por lotes de IA: DB Error","service":"worker-pipeline","stack":"Error: DB Error\n    at Object.<anonymous> (/home/o1101ol/Repositorios/Politech/backend/tests/cronManager.test.js:110:42)\n    at Promise.then.completed (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:316:40)\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at _runTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:121:9)\n    at run (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/runTest.js:444:34)\n    at Object.worker (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/testWorker.js:106:12)","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Nuevo Candidato","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Persistencia exitosa para Nuevo Candidato. Se añadieron 1 noticias nuevas. Total ahora: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato Existente","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Las 1 noticias descubiertas para Candidato Existente ya existían en la BD. No se añadieron duplicados.","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato Existente","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"warn","message":"[Deduplicación de Texto] Noticia rechazada por ser copia exacta (aunque la URL es distinta): url2","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Las 1 noticias descubiertas para Candidato Existente ya existían en la BD. No se añadieron duplicados.","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"error","message":"Error al persistir noticias para Candidato en la BD: DB Query Failure","service":"worker-pipeline","timestamp":"2026-07-08 21:06:20"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Candidato Test EN 0.00 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"warn","message":"No se encontraron artículos para Candidato Test. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"error","message":"Error no controlado en el scraping para Candidato Test: Scraping Error","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"info","message":"Iniciando Worker/Pipeline de Scraping","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"info","message":"Conectado a MongoDB Exitosamente desde Worker","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"info","message":"Iniciando Worker/Pipeline de Scraping","service":"worker-pipeline","timestamp":"2026-07-08 21:06:21"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Nuevo Candidato","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Persistencia exitosa para Nuevo Candidato. Se añadieron 1 noticias nuevas. Total ahora: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato Existente","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Las 1 noticias descubiertas para Candidato Existente ya existían en la BD. No se añadieron duplicados.","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato Existente","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"warn","message":"[Deduplicación de Texto] Noticia rechazada por ser copia exacta (aunque la URL es distinta): url2","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Las 1 noticias descubiertas para Candidato Existente ya existían en la BD. No se añadieron duplicados.","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Guardando 1 noticias en la BD para Candidato","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"error","message":"Error al persistir noticias para Candidato en la BD: DB Query Failure","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato Falso mediante IA","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Lote de 1 noticias procesado exitosamente por IA.","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Procesando lote de 1 noticias para Candidato mediante IA","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"error","message":"Error al procesar lote de noticias con Gemini API: API Rate Limit Exceeded","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Consultando tendencias para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:07:20"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Tarea de cron anterior detenida.","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 5 * * 1","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Procesando 2 noticias pendientes para Candidato Test...","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Lote completado. Total de noticias procesadas por IA: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"error","message":"Error durante el procesamiento por lotes de IA: DB Error","service":"worker-pipeline","stack":"Error: DB Error\n    at Object.<anonymous> (/home/o1101ol/Repositorios/Politech/backend/tests/cronManager.test.js:110:42)\n    at Promise.then.completed (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:316:40)\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at _runTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:121:9)\n    at run (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/runTest.js:444:34)\n    at Object.worker (/home/o1101ol/Repositorios/Politech/backend/node_modules/jest-runner/build/testWorker.js:106:12)","timestamp":"2026-07-08 21:07:21"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Escaneando feeds RSS directos para el candidato: Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://rpp.pe/rss","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"[Feed RSS] Coincidencia encontrada: Candidato Test en campaña","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://larepublica.pe/rss/politica.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://peru21.pe/rss/politica/","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://elcomercio.pe/arc/outboundfeeds/rss/category/politica/?outputType=xml","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://feeds.bbci.co.uk/news/world/latin_america/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://www.politico.com/rss/politicopicks.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/politics/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://lannews.opennemas.com/rss/politica/","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://latinamericareports.com/feed/","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Consultando feed RSS: https://news.un.org/feed/subscribe/es/news/region/americas/feed/rss.xml","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Se encontraron 1 noticias recientes en los Feeds RSS directos para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Buscando noticias históricas en Bing News para candidato: Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Se descubrieron 1 URLs en Bing para Candidato Test","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Buscando noticias en GDELT para: Candidato GDELT entre 2023-05-01 y 2023-05-15","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"GDELT Chunk: 2023-05-01 a 2023-05-15 (Pidiendo max 10)","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"GDELT: Esperando 33s antes del intento 1/3...","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"GDELT: Chunk exitoso, 1 artículos recibidos. Total acumulado: 1","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Se descubrieron 1 URLs históricas en GDELT para Candidato GDELT","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Buscando noticias en NewsAPI para: Candidato NewsAPI entre 2023-06-01 y 2023-06-30","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Se descubrieron un total de 1 URLs en NewsAPI para Candidato NewsAPI","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Iniciando scraping para Candidato Test (RSS: true, GDELT: true, NewsAPI: false, Límite: 5)","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceA.com/news-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceB.com/news-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"warn","message":"No se pudo extraer HTML limpio de https://sourceA.com/news2-candidato-test. Usando snippet de búsqueda/feed.","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"Finalizado scraping para Candidato Test. Artículos extraídos: 3","service":"worker-pipeline","timestamp":"2026-07-08 21:07:21"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"info","message":"=== SCRAPING COMPLETADO PARA Candidato Test EN 0.00 MINUTOS ===","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"warn","message":"No se encontraron artículos para Candidato Test. Abortando pipeline de scraping.","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"info","message":"=== INICIANDO SCRAPING PARA Candidato Test ===","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"error","message":"Error no controlado en el scraping para Candidato Test: Scraping Error","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"info","message":"Iniciando Worker/Pipeline de Scraping","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"info","message":"Conectado a MongoDB Exitosamente desde Worker","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"info","message":"Iniciando Worker/Pipeline de Scraping","service":"worker-pipeline","timestamp":"2026-07-08 21:07:23"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-07-08 21:14:52"}
