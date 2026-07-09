@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Play, Calendar, Terminal, Settings, LogOut, Loader2, Info, CheckCircle2 } from 'lucide-react';
+import { Play, Calendar, Terminal, Settings, LogOut, Loader2, UserPlus, Trash2, Users } from 'lucide-react';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -23,6 +23,11 @@ const AdminDashboard = () => {
   const [cronDay, setCronDay] = useState(0);
   const [cronHour, setCronHour] = useState(3);
   const [cronStatus, setCronStatus] = useState('');
+
+  // Estados para el formulario de candidatos
+  const [newCandidateName, setNewCandidateName] = useState('');
+  const [newCandidateParty, setNewCandidateParty] = useState('');
+  const [candidateMsg, setCandidateMsg] = useState({ type: '', text: '' });
 
   // Verificar sesión
   useEffect(() => {
@@ -47,6 +52,55 @@ const AdminDashboard = () => {
       return res.json();
     }
   });
+
+  // Mutación para crear candidato
+  const createCandidateMutation = useMutation({
+    mutationFn: async ({ nombre, partidoPolitico }) => {
+      const token = localStorage.getItem('token');
+      const res = await fetch('/api/candidatos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ nombre, partidoPolitico })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || err.mensaje || 'Error al crear candidato');
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      setNewCandidateName('');
+      setNewCandidateParty('');
+      setCandidateMsg({ type: 'success', text: 'Candidato añadido exitosamente.' });
+      setTimeout(() => setCandidateMsg({ type: '', text: '' }), 3000);
+      queryClient.invalidateQueries(['candidatos-admin']);
+    },
+    onError: (err) => {
+      setCandidateMsg({ type: 'error', text: err.message });
+    }
+  });
+
+  // Mutación para eliminar candidato
+  const deleteCandidateMutation = useMutation({
+    mutationFn: async (id) => {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/candidatos/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Error al eliminar candidato');
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['candidatos-admin']);
+    }
+  });
+
+  const handleCreateCandidate = (e) => {
+    e.preventDefault();
+    if (!newCandidateName.trim()) return;
+    createCandidateMutation.mutate({ nombre: newCandidateName.trim(), partidoPolitico: newCandidateParty.trim() || 'Independiente' });
+  };
 
   // Obtener configuración del cron
   const { data: cronConfig } = useQuery({
@@ -426,6 +480,106 @@ const AdminDashboard = () => {
               </button>
               {cronStatus && (
                 <div className="text-xs text-emerald-400 text-center font-medium">{cronStatus}</div>
+              )}
+            </div>
+          </div>
+
+        </div>
+
+        {/* Panel de Gestión de Candidatos */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          {/* Formulario: Añadir Candidato */}
+          <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 space-y-4">
+            <h2 className="text-lg font-bold text-slate-200 flex items-center gap-2">
+              <UserPlus className="h-5 w-5 text-emerald-500" />
+              <span>Añadir Candidato Oficial</span>
+            </h2>
+            <p className="text-sm text-slate-400">Registra un nuevo candidato en la base de datos para que pueda ser buscado y monitoreado.</p>
+
+            <form onSubmit={handleCreateCandidate} className="space-y-3">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400 uppercase">Nombre Completo *</label>
+                <input
+                  type="text"
+                  required
+                  value={newCandidateName}
+                  onChange={(e) => setNewCandidateName(e.target.value)}
+                  placeholder="Ej. Juan Carlos Pérez"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400 uppercase">Partido Político</label>
+                <input
+                  type="text"
+                  value={newCandidateParty}
+                  onChange={(e) => setNewCandidateParty(e.target.value)}
+                  placeholder="Ej. Partido Nacional (opcional)"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={createCandidateMutation.isPending}
+                className="w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg text-sm flex justify-center items-center gap-2 transition-colors disabled:opacity-50"
+              >
+                {createCandidateMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    <UserPlus className="h-4 w-4" />
+                    <span>Guardar Candidato</span>
+                  </>
+                )}
+              </button>
+
+              {candidateMsg.text && (
+                <div className={`text-xs text-center font-semibold py-1 rounded ${candidateMsg.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {candidateMsg.text}
+                </div>
+              )}
+            </form>
+          </div>
+
+          {/* Lista: Candidatos Registrados */}
+          <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 flex flex-col space-y-4">
+            <h2 className="text-lg font-bold text-slate-200 flex items-center gap-2">
+              <Users className="h-5 w-5 text-blue-500" />
+              <span>Candidatos Registrados</span>
+              {candidatos && (
+                <span className="ml-auto text-xs font-semibold bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">
+                  {candidatos.length} total
+                </span>
+              )}
+            </h2>
+
+            <div className="flex-1 overflow-y-auto max-h-72 space-y-2 pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+              {!candidatos || candidatos.length === 0 ? (
+                <p className="text-slate-500 italic text-sm">No hay candidatos registrados aún.</p>
+              ) : (
+                candidatos.map((c) => (
+                  <div key={c._id} className="flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-lg">
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-sm font-semibold text-slate-200 truncate">{c.nombre}</span>
+                      <span className="text-xs text-slate-500">{c.partidoPolitico || 'Sin partido'} · {c.historial_noticias?.length || 0} noticias</span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        if (window.confirm(`¿Eliminar a ${c.nombre}? Esta acción no se puede deshacer.`)) {
+                          deleteCandidateMutation.mutate(c._id);
+                        }
+                      }}
+                      disabled={deleteCandidateMutation.isPending}
+                      className="ml-3 flex-shrink-0 p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
+                      title="Eliminar candidato"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))
               )}
             </div>
           </div>
