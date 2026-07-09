@@ -78,10 +78,10 @@ class CronManager {
                 if (!matchedNews) {
                   matchedNews = newsToProcess.find(n => n.titular && result.titular && n.titular.toLowerCase().trim() === result.titular.toLowerCase().trim());
                 }
-                // Fallback por índice si la cantidad coincide
-                if (!matchedNews && processedArr.length === rawArticles.length) {
-                  matchedNews = newsToProcess[idx];
-                }
+        // Fallback por índice si la cantidad coincide
+        if (!matchedNews && processedArr.length === rawArticles.length) {
+          matchedNews = newsToProcess[idx]; // eslint-disable-line security/detect-object-injection
+        }
 
                 if (matchedNews) {
                   matchedNews.analisis_ia = {

@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 require('./setup');
 const Admin = require('../models/Admin');
 const Elector = require('../models/Elector');
