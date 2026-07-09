@@ -1,14 +1,18 @@
 FROM node:20-slim
-
 WORKDIR /app
 
-# Copiar dependencias primero (cache de Docker)
+# 1. Copiamos los archivos de configuración
 COPY package*.json ./
-RUN npm ci --only=production
 
-# Copiar el resto del código
+# 2. Instalamos TODAS las dependencias (necesitamos las de desarrollo para compilar React)
+RUN npm ci
+
+# 3. Copiamos el resto del código (tus componentes, archivos estáticos, etc.)
 COPY . .
 
-EXPOSE 3000
+# 4. ¡LA LÍNEA MÁGICA QUE FALTA! Compilamos React para generar la carpeta /dist
+RUN npm run build
 
+# 5. Exponemos el puerto y arrancamos el servidor
+EXPOSE 10000
 CMD ["node", "app.js"]
