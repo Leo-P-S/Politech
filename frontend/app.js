@@ -1,32 +1,59 @@
 const express = require('express');
-const path = require('path'); // Herramienta para manejar rutas de archivos
+const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3001; // Puerto 3001 para evitar conflictos con el backend
+const PORT = process.env.PORT || 3001;
 
-// Servir archivos estáticos de esta carpeta
-app.use(express.static(__dirname));
+// 1. Servir los archivos estáticos de la build de Vite (SPA)
+app.use(express.static(path.join(__dirname, 'dist')));
 
-// 1. EL CAMBIO PRINCIPAL: Enviar el archivo HTML del Login
-app.get('/', (req, res) => {
-    // Busca el archivo index.html en la carpeta actual y lo envía al navegador
-    res.sendFile(path.join(__dirname, 'index.html'));
+// Proxy para redirigir /api al backend (puerto 3000)
+const http = require('http');
+app.use('/api', (req, res) => {
+    const options = {
+        hostname: '127.0.0.1',
+        port: 3000,
+        path: `/api${req.url}`,
+        method: req.method,
+        headers: req.headers
+    };
+
+    const proxyReq = http.request(options, (proxyRes) => {
+        res.writeHead(proxyRes.statusCode, proxyRes.headers);
+        proxyRes.pipe(res, { end: true });
+    });
+
+    req.pipe(proxyReq, { end: true });
+
+    proxyReq.on('error', (err) => {
+        res.status(500).json({ error: 'Fallo al conectar con el servidor backend: ' + err.message });
+    });
 });
 
-// NUEVO: Ruta para el dashboard de pruebas de IA/Scraping
+// 2. Mantener las rutas antiguas por compatibilidad mientras migramos a React
+app.get('/legacy-login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'legacy-login.html'));
+});
+
 app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dashboard.html'));
+    res.sendFile(path.join(__dirname, 'legacy-dashboard.html'));
 });
 
-// 2. INTOCABLE: El Smoke Test para que tu pipeline (CI/CD) no se rompa
+// 3. INTOCABLE: El Smoke Test para que tu pipeline (CI/CD) no se rompa
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'healthy' });
 });
 
-// 3. INTOCABLE: La regla de seguridad para Jest
+// 4. Catch-all: Redirigir cualquier otra ruta a index.html para React Router
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+// 5. INTOCABLE: La regla de seguridad para Jest
 if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
         console.log(`Frontend Server on port ${PORT}`);
-        console.log(`=> Accede al Dashboard en http://localhost:${PORT}/dashboard`);
+        console.log(`=> App principal (React): http://localhost:${PORT}`);
+        console.log(`=> Dashboard (Legacy): http://localhost:${PORT}/dashboard`);
     });
 }
 

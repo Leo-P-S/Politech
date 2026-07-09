@@ -1,102 +1,102 @@
 # Politech - Developer Guide & Bitácora de Integración
 
-Este documento sirve como bitácora y guía técnica de los avances realizados en la arquitectura, integración de base de datos, pipeline de IA, y robustez de pruebas del proyecto Politech.
+Este documento sirve como bitácora y guía técnica de los avances realizados en la arquitectura, integración de base de datos, pipeline de IA, frontend moderno, autenticación y seguridad en el proyecto Politech.
 
 ---
 
 ## 1. Arquitectura Unificada y Modelo de Base de Datos
 
 * **Consolidación de Modelos:**
-  * Eliminamos el modelo redundante `Candidate.js` y unificamos toda la estructura en `Candidato.js` en el backend.
-  * El modelo [Candidato.js](file:///home/o1101ol/Repositorios/Politech/backend/models/Candidato.js) ahora almacena tanto la información estática del candidato (`nombre`, `partidoPolitico`, `antecedentesJudiciales`) como el historial de noticias procesadas y analizadas (`historial_noticias` de tipo `noticiaSchema`).
-  * Agregamos un valor por defecto (`'Desconocido'`) en `partidoPolitico` para prevenir fallas al crear candidatos si el formulario no envía este campo.
+  * Toda la estructura de candidatos se maneja en el modelo [Candidato.js](file:///home/o1101ol/Repositorios/Politech/backend/models/Candidato.js) en el backend.
+  * Almacena datos estáticos (`nombre`, `partidoPolitico`, `antecedentesJudiciales`), propuestas de gobierno (`propuestas`), historial de noticias (`historial_noticias` de tipo `noticiaSchema`) y la síntesis inteligente (`resumenIA`).
+  * **Modelo de Administradores:** Implementamos [Admin.js](file:///home/o1101ol/Repositorios/Politech/backend/models/Admin.js) para los administradores que gestionan el scraping y procesamiento de IA, con contraseñas encriptadas de forma unidireccional vía **Bcrypt**.
 
 * **Unificación de Rutas API:**
-  * Todas las rutas se movieron a [routes/candidato.routes.js](file:///home/o1101ol/Repositorios/Politech/backend/routes/candidato.routes.js).
-  * En [app.js](file:///home/o1101ol/Repositorios/Politech/backend/app.js), registramos la API principal en `/api/candidatos`.
-  * **Compatibilidad heredada (Alias):** Agregamos un alias para mapear `/api/candidates` al mismo router. Esto permite que el frontend (`dashboard.html`), que hace consultas a `/api/candidates`, funcione al 100% sin tener que reescribir sus llamadas fetch.
+  * Todas las rutas se administran desde [routes/candidato.routes.js](file:///home/o1101ol/Repositorios/Politech/backend/routes/candidato.routes.js).
+  * **Rutas Públicas Nuevas:** 
+    * `GET /api/candidatos/search?q=...` para el autocompletado en el buscador tolerante a errores tipográficos.
+    * `GET /api/candidatos/:id` para obtener el perfil estructurado del candidato.
+  * **Compatibilidad Heredada (Alias):** Mapeamos `/api/candidates` al mismo router. Esto permite que el panel de administración antiguo (`dashboard.html`) funcione al 100% sin tener que reescribir sus llamadas fetch.
 
 ---
 
-## 2. Flujo del Pipeline (Scraping ➔ IA)
+## 2. Flujo del Pipeline y Seguridad (Scraping ➔ IA)
 
-El procesamiento está dividido en dos etapas bien diferenciadas para evitar tiempos de espera largos para el usuario:
+El procesamiento está dividido para evitar tiempos de espera largos:
 
 ```mermaid
 graph TD
-    A[Tab 1: Iniciar Scraping Manual] -->|Guarda Noticias en Estado Crudo| B[(MongoDB)]
-    B -->|Espera que el usuario presione el botón o ejecute el Cron| C[Tab 2: Ejecutar IA Manualmente]
-    C -->|Gemini Genera Resumen y Análisis| D[Noticias Procesadas por IA]
+    A[Panel Admin: Iniciar Scraping Manual] -->|Guarda Noticias en Estado Crudo| B[(MongoDB)]
+    B -->|Espera que el usuario presione el botón o ejecute el Cron| C[Procesamiento de IA Manual/Automático]
+    C -->|Gemini Genera Resumen y Análisis| D[Noticias Procesadas por IA (resumenIA)]
 ```
 
-### Comportamiento del Modo Mock (`MOCK_MODE`)
-
-Existe un detalle clave en cómo interactúan el modo simulado (Mock) y el modo real:
-1. Por defecto, el servidor lee `MOCK_MODE=true` de tu archivo `.env`.
-2. **Vinculación dinámica en vivo:** Cuando disparas un scraping manual desde la Pestaña 1, el backend intercepta el valor del checkbox *"Usar Modo Mock (Simulado)"* y sobreescribe la variable global del proceso de Node:
-   ```javascript
-   process.env.MOCK_MODE = mockMode ? 'true' : 'false';
-   ```
-   * Si marcas la simulación en el Scraper, el posterior procesamiento de la IA (Pestaña 2) también usará el **Mock**.
-   * Si desmarcas la simulación, el servidor pondrá la variable en `false` globalmente e **intentará llamar a la API real de Gemini** (requiere `GEMINI_API_KEY` válida).
+### Seguridad y Autenticación del Administrador (RNF04, RNF10)
+- **Token JWT:** Implementamos el middleware [auth.middleware.js](file:///home/o1101ol/Repositorios/Politech/backend/middlewares/auth.middleware.js) que intercepta peticiones a `/api/trigger` y `/api/ai/process`, requiriendo una cabecera `Authorization: Bearer <token>` válida.
+- **Sesión de 30 Minutos:** El token JWT expira automáticamente a los 30 minutos de inactividad.
 
 ---
 
-## 3. Resoluciones de Errores Críticos (Bugs Solucionados)
+## 3. Frontend Moderno (React + Vite + Tailwind v4)
 
-* **Orden de Middleware de CORS (Backend):**
-  * *Error:* El navegador bloqueaba las llamadas fetch debido a políticas de CORS (`Access-Control-Allow-Origin` faltante).
-  * *Causa:* Las rutas de candidatos estaban declaradas antes que el middleware de CORS en `app.js`.
-  * *Solución:* Reordenamos los middlewares en `app.js` para asegurar que el bloque de CORS se registre al principio, permitiendo que cualquier llamada retorne los headers correctos.
+Hemos migrado y estructurado la capa de presentación a una **Single Page Application (SPA)** en `/frontend`.
 
-* **ReferenceError en Creación de Candidato (Frontend):**
-  * *Error:* La creación de un nuevo candidato fallaba en la consola del navegador con un error `ReferenceError: candidateName is not defined`.
-  * *Causa:* El callback de respuesta del formulario de creación intentaba refrescar una grilla usando una variable `candidateName` copiada erróneamente del formulario del scraper.
-  * *Solución:* Limpiamos el bloque redundante en `dashboard.html`. La recarga de listas desplegables y grillas ahora se maneja de forma segura usando `loadCandidates()`.
+* **Estructura de Carpetas:**
+  * `frontend/src/components/`: Componentes modulares y reutilizables (`HeroSearch.jsx`, `ProfileHeader.jsx`, `AISummaryCard.jsx`, `DataTabs.jsx`).
+  * `frontend/src/pages/`: Vistas de página completa (`Home.jsx` y `CandidateProfile.jsx`).
+  * `frontend/src/App.jsx`: Enrutador principal mediante React Router.
 
-* **Mejora de UX (Pestaña de Analíticas):**
-  * *Mejora:* Agregamos reactividad al subtítulo de la pestaña de IA. Ahora cambia dinámicamente de `(Selecciona un candidato en la Pestaña 1)` a `Candidato actual: [Nombre]` cuando seleccionas un candidato en la vista de noticias.
+* **Integración de Datos:**
+  * Usamos **TanStack Query** (React Query) para realizar la obtención de datos de manera asíncrona de forma rápida, reduciendo la asimetría y mostrando los resultados en menos de 2 segundos (`RNF06`).
+  * La interfaz adopta el estilo **Institucional Moderno / Swiss Design** para transmitir máxima transparencia, confianza y neutralidad.
 
 ---
 
-## 4. Estrategia de Cobertura de Tests (≥85%)
+## 4. Instrucciones para Desarrollo Local
 
-Incrementamos la cobertura de tests del backend de **40% a 85.45%** (y cobertura de líneas al **86.28%**) con pruebas 100% simuladas (mocks) que no consumen cuota de la API de Gemini ni tocan bases de datos de producción.
-
-* **Mocks de Tiempo (`sleep`):** 
-  * En `scraperService.test.js`, interceptamos la función `setTimeout` global durante los tests para ejecutar sus callbacks instantáneamente. Esto permite probar los bucles del scraper con delays aleatorios en 0 milisegundos reales, evitando el error de timeout de Jest de 5 segundos.
-* **Mocks de JSDOM para XML:**
-  * Creamos un mock específico para `jsdom` en las pruebas del scraper, permitiendo simular de forma controlada la estructura de los feeds RSS de Bing y de portales de noticias sin levantar un DOM completo.
-
----
-
-## 5. Instrucciones para Desarrollo Local
-
-### Opción Rápida (MongoDB en tu máquina)
-Si tienes un servicio local de MongoDB corriendo en tu puerto 27017, puedes configurar tu archivo `.env` del backend así:
+### Configuración del Entorno (`.env`)
+En el directorio `backend/` debes configurar las variables de entorno en tu archivo `.env`:
 ```env
 MONGO_URI=mongodb://127.0.0.1:27017/politech
 GEMINI_API_KEY=dummy_key_for_testing
 MOCK_MODE=true
+JWT_SECRET=tu_secreto_super_seguro_jwt
 ```
 
-### Opción Portable (Docker Compose)
-Si prefieres no instalar nada en tu computadora, la raíz del repositorio cuenta con un archivo `docker-compose.yml` para levantar la base de datos de manera aislada:
-```bash
-# Iniciar base de datos local aislada en segundo plano
-docker compose up -d
-```
-
-### Comandos para encender la aplicación:
+### Ejecutar la Aplicación en Modo de Desarrollo
 
 1. **Terminal 1 - Backend (Puerto 3000):**
    ```bash
    cd backend
    npm run dev
    ```
-2. **Terminal 2 - Frontend (Puerto 3001):**
+   
+2. **Terminal 2 - Frontend (Vite Dev Server - Puerto 5173 con Hot-Reload):**
    ```bash
    cd frontend
+   npm run dev
+   ```
+   * Accede a la SPA de desarrollo en: **[http://localhost:5173](http://localhost:5173)**
+   * El archivo `vite.config.mjs` cuenta con un proxy que redirige las llamadas `/api` al puerto 3000 de forma transparente.
+
+3. **Terminal 2 (Alternativa) - Ejecución de Producción Compilada (Puerto 3001):**
+   ```bash
+   cd frontend
+   npm run build
    npm start
    ```
-3. Entra a **[http://localhost:3001/dashboard](http://localhost:3001/dashboard)** en tu navegador.
+   * Accede al frontend integrado en: **[http://localhost:3001](http://localhost:3001)**
+   * El panel heredado (Legacy Dashboard) sigue disponible en: **[http://localhost:3001/dashboard](http://localhost:3001/dashboard)**
+
+---
+
+## 5. Estrategia de Cobertura de Tests (≥85%)
+
+Ejecutamos tests unitarios y de integración 100% mockeados en el backend:
+```bash
+cd backend
+npm test
+```
+- **Pruebas de Express Protegidas:** Mantenemos un bypass del middleware de JWT para que la suite de integración `app.test.js` valide la funcionalidad de los controladores de forma aislada sin fallos de autenticación.
+- **Mocks en Mongoose:** Los esquemas de test en Jest heredan las funciones `.pre` y `.set` requeridas por el hashing de contraseñas de `bcryptjs`.
+- **Lint de Seguridad:** `npm run lint` ejecuta análisis estático buscando patrones de código inseguros.

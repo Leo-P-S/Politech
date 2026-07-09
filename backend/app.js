@@ -8,6 +8,7 @@ const Candidato = require('./models/Candidato');
 const Config = require('./models/Config');
 const cronManager = require('./cron/cronManager');
 const logger = require('./worker/logger');
+const authMiddleware = require('./middlewares/auth.middleware');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,7 +27,7 @@ app.use(express.json());
 // CORS personalizado simple
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
@@ -34,9 +35,16 @@ app.use((req, res, next) => {
     next();
 });
 
+// Importar rutas
+const authRoutes = require('./routes/auth.routes');
 const candidatoRoutes = require('./routes/candidato.routes');
+const electorRoutes = require('./routes/elector.routes');
+
+// Registrar rutas
+app.use('/api/auth', authRoutes);
 app.use('/api/candidatos', candidatoRoutes);
 app.use('/api/candidates', candidatoRoutes); // Alias para compatibilidad con frontend
+app.use('/api/elector', electorRoutes);
 
 // Endpoint principal
 app.get('/', (req, res) => {
@@ -60,7 +68,7 @@ app.get('/health', (req, res) => {
 // --- ENDPOINTS DE JOSUE (SCRAPING, IA Y CANDIDATE) ---
 // ========================================================
 
-// Endpoint SSE para emitir logs de scraping en vivo
+// Endpoint SSE para emitir logs de scraping en vivo (abierto para monitorización en dev o se puede asegurar)
 app.get('/api/logs/stream', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
@@ -81,9 +89,14 @@ app.get('/api/logs/stream', (req, res) => {
     });
 });
 
-// Disparar el pipeline de Webscraping
-app.post('/api/trigger', async (req, res) => {
+// Disparar el pipeline de Webscraping (PROTEGIDO)
+app.post('/api/trigger', authMiddleware, async (req, res) => {
     const { candidateId, startDate, endDate, mockMode, useRSS, useGdelt, useNewsApi, maxArticles } = req.body;
+    
+    // Validar rol administrativo
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Acceso denegado. Se requiere cuenta de administrador.' });
+    }
     
     if (!candidateId || !startDate || !endDate) {
         return res.status(400).json({ error: "Faltan parámetros requeridos (candidateId, startDate, endDate)" });
@@ -105,8 +118,13 @@ app.post('/api/trigger', async (req, res) => {
     }
 });
 
-// Procesar manualmente noticias con IA
-app.post('/api/ai/process', async (req, res) => {
+// Procesar manualmente noticias con IA (PROTEGIDO)
+app.post('/api/ai/process', authMiddleware, async (req, res) => {
+    // Validar rol administrativo
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Acceso denegado. Se requiere cuenta de administrador.' });
+    }
+
     try {
         cronManager.runAIBatchProcess().catch(err => {
             logger.error(`Error en IA: ${err.message}`);
@@ -117,8 +135,13 @@ app.post('/api/ai/process', async (req, res) => {
     }
 });
 
-// Obtener config cron IA
-app.get('/api/config/ai-schedule', async (req, res) => {
+// Obtener config cron IA (PROTEGIDO)
+app.get('/api/config/ai-schedule', authMiddleware, async (req, res) => {
+    // Validar rol administrativo
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Acceso denegado. Se requiere cuenta de administrador.' });
+    }
+
     try {
         let config = await Config.findOne({ key: 'global_config' });
         if (!config) config = await Config.create({ key: 'global_config', cron_day: 0, cron_hour: 3 });
@@ -128,8 +151,13 @@ app.get('/api/config/ai-schedule', async (req, res) => {
     }
 });
 
-// Actualizar config cron IA
-app.post('/api/config/ai-schedule', async (req, res) => {
+// Actualizar config cron IA (PROTEGIDO)
+app.post('/api/config/ai-schedule', authMiddleware, async (req, res) => {
+    // Validar rol administrativo
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Acceso denegado. Se requiere cuenta de administrador.' });
+    }
+
     const { day, hour } = req.body;
     try {
         let config = await Config.findOne({ key: 'global_config' }) || new Config({ key: 'global_config' });

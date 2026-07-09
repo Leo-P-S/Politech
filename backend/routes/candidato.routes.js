@@ -5,13 +5,31 @@ const Candidato = require('../models/Candidato');
 // POST: Crear un nuevo candidato en la base de datos
 router.post('/', async (req, res) => {
     try {
-        // En caso de que el cuerpo venga con 'nombre' y 'partidoPolitico'
         const nuevoCandidato = new Candidato(req.body);
         const candidatoGuardado = await nuevoCandidato.save();
         res.status(201).json(candidatoGuardado);
     } catch (error) {
         console.error("Error al guardar candidato:", error);
         res.status(500).json({ mensaje: 'Error al crear el candidato en la base de datos' });
+    }
+});
+
+// GET: Buscar candidatos para el autocompletado (UH14)
+router.get('/search', async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q || q.trim().length < 3) return res.json([]);
+        
+        const candidatos = await Candidato.find({
+            $or: [
+                { nombre: { $regex: q, $options: 'i' } },
+                { partidoPolitico: { $regex: q, $options: 'i' } }
+            ]
+        }).limit(5).select('nombre partidoPolitico _id');
+        res.json(candidatos);
+    } catch (error) {
+        console.error("Error en búsqueda:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -23,6 +41,18 @@ router.get('/', async (req, res) => {
     } catch (error) {
         console.error("Error al obtener candidatos:", error);
         res.status(500).json({ mensaje: 'Error al obtener la información' });
+    }
+});
+
+// GET: Obtener un candidato por ID
+router.get('/:id', async (req, res) => {
+    try {
+        const candidato = await Candidato.findById(req.params.id);
+        if (!candidato) return res.status(404).json({ error: "Candidato no encontrado" });
+        res.json(candidato);
+    } catch (error) {
+        console.error("Error al obtener detalle del candidato:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 

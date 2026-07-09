@@ -29,3 +29,6 @@ coverage/
 # Playwright
 .playwright/
 .playwright-cli/
+
+# Info
+informacion.md
