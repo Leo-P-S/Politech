@@ -6,8 +6,8 @@ class TrendsService {
    * Esto cubre UH10 y UH12.
    */
   async getTrendsForCandidate(candidateName) {
-    logger.info(`Consultando tendencias para ${candidateName}`);
     try {
+      logger.info(`Consultando tendencias para ${candidateName}`);
       // Simulación de consumo de una API (ej. Google Trends API)
       // Como no tenemos la librería instalada aún de google-trends, simularemos una respuesta estructurada.
       return {
