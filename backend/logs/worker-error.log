@@ -69,3 +69,5 @@
 {"level":"error","message":"Error procesando feed RSS https://www.politico.com/rss/politicopicks.xml: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-07-08 17:37:46"}
 {"level":"error","message":"Error al persistir noticias para Candidato en la BD: DB Query Failure","service":"worker-pipeline","timestamp":"2026-07-09 01:06:49"}
 {"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-07-09 01:06:49"}
+{"level":"error","message":"Error al persistir noticias para Candidato en la BD: DB Query Failure","service":"worker-pipeline","timestamp":"2026-07-09 01:08:19"}
+{"level":"error","message":"Error al descargar HTML de https://failing-site.com: Network timeout","service":"worker-pipeline","timestamp":"2026-07-09 01:08:19"}

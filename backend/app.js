@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const securityMiddleware = require('./middleware/security');
 const { runPipelineForCandidate } = require('./worker/index');
@@ -87,6 +88,9 @@ app.post('/api/trigger', async (req, res) => {
     
     if (!candidateId || !startDate || !endDate) {
         return res.status(400).json({ error: "Faltan parámetros requeridos (candidateId, startDate, endDate)" });
+    }
+    if (!mongoose.Types.ObjectId.isValid(candidateId)) {
+        return res.status(400).json({ error: "candidateId inválido" });
     }
 
     process.env.MOCK_MODE = mockMode ? 'true' : 'false';
