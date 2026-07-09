@@ -7,7 +7,9 @@ const logEmitter = new EventEmitter();
 // Palabras clave permitidas para exponer a la interfaz web (Medida de Seguridad)
 const SAFE_KEYWORDS = [
   'scraping', 'extracción', 'descubiertas', 'url', 'gdelt', 'newsapi', 
-  'rss', 'candidato', 'retardo', 'objetivo', 'iniciando', 'finalizado', 'procesando'
+  'rss', 'candidato', 'retardo', 'objetivo', 'iniciando', 'finalizado', 
+  'procesando', 'ia', 'lote', 'procesar', 'procesada', 'procesado', 
+  'resumen', 'error', 'pendiente', 'completado', 'esperando', 'guardando'
 ];
 
 class SSETransport extends winston.Transport {

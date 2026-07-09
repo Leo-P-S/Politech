@@ -6,9 +6,10 @@ const mongoSanitize = require('express-mongo-sanitize');
 const securityMiddleware = [
   helmet(),
   cors({
-    origin: '*',
+    origin: true,
+    credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
   }),
   mongoSanitize(),
   rateLimit({

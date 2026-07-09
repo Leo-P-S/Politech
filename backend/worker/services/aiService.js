@@ -6,8 +6,8 @@ class AIService {
     // Inicializar Gemini con la API key de entorno
     const apiKey = process.env.GEMINI_API_KEY || 'dummy_key_for_testing';
     this.genAI = new GoogleGenerativeAI(apiKey);
-    // Usamos el modelo recomendado para procesamiento general de texto
-    this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // Usamos el modelo recomendado para procesamiento general de texto (Gemini 3.1 Flash-Lite)
+    this.model = this.genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
   }
 
   /**
@@ -46,8 +46,11 @@ Contenido Limpio: ${art.content.substring(0, 3000)} // Truncamos a 3000 chars po
     ).join('\n\n');
 
     const prompt = `
-Eres un asistente experto en análisis político. A continuación te proporciono un lote de noticias sobre el candidato "${candidateName}".
-Estructura exacta por cada noticia:
+Eres un experto en periodismo y análisis político, altamente especializado en la compleja coyuntura política, social y legal de la República del Perú (comprendiendo a fondo las dinámicas entre el Congreso, el Ejecutivo, el Poder Judicial, el Ministerio Público, así como el clima de polarización ciudadana).
+
+A continuación, te proporciono un lote de noticias sobre el candidato político peruano "${candidateName}". Tu tarea es evaluar cada noticia de manera estrictamente neutral y objetiva.
+
+Debes devolver estrictamente un Arreglo JSON con la siguiente estructura exacta por cada noticia:
 [
   {
     "titular": "...",
@@ -62,7 +65,7 @@ Estructura exacta por cada noticia:
   }
 ]
 
-Asegúrate de procesar todas las noticias proporcionadas. No agregues comillas invertidas ni bloques \`\`\`json. Solo el array.
+Al categorizar y determinar el sesgo y sentimiento, ten en cuenta el peso de las instituciones peruanas y el tono del periodismo local. Asegúrate de procesar todas las noticias proporcionadas. No agregues comillas invertidas ni bloques \`\`\`json. Solo el array.
 
 Textos a analizar:
 ${articlesText}
@@ -96,9 +99,59 @@ ${articlesText}
       const batch = articles.slice(i, i + batchSize);
       const batchResults = await this.processArticleBatch(batch, candidateName);
       processedResults = processedResults.concat(batchResults);
+
+      // Si no es el último lote, esperamos 4 segundos para evitar rate limit
+      if (i + batchSize < articles.length) {
+        logger.info(`Esperando 4 segundos antes de procesar el siguiente lote para ${candidateName}...`);
+        await new Promise(resolve => setTimeout(resolve, 4000));
+      }
     }
 
     return processedResults;
+  }
+
+  /**
+   * Genera un resumen global (síntesis automática) para el candidato a partir de sus noticias.
+   */
+  async generateCandidateSummary(newsList, candidateName) {
+    if (!newsList || newsList.length === 0) {
+      return "Actualmente no hay suficiente información para generar una síntesis automática para este candidato.";
+    }
+
+    if (process.env.MOCK_MODE === 'true') {
+      logger.info(`[MOCK MODE] Retornando resumen de candidato falso para ${candidateName}`);
+      return `Keiko Fujimori es una política peruana y lideresa de Fuerza Popular. De acuerdo con las noticias analizadas por Inteligencia Artificial, su actividad reciente se centra en reuniones clave de coordinación política y transferencia de gobierno, incluyendo diálogos con Rafael López Aliaga sobre seguridad ciudadana, y coordinaciones de equipos técnicos dirigidos por Marco Vinelli. Su cobertura mediática actual mantiene un enfoque principalmente informativo con matices de debate sobre su entorno político.`;
+    }
+
+    const summariesText = newsList.map((news, index) => 
+      `Noticia ${index + 1}:
+Titular: ${news.titular}
+Resumen IA: ${news.analisis_ia?.resumen_noticia || ''}
+Sesgo: ${news.analisis_ia?.sesgo_politico || ''}
+Sentimiento: ${news.analisis_ia?.sentimiento || ''}
+`
+    ).join('\n\n');
+
+    const prompt = `
+Eres un analista político peruano experto, de postura estrictamente neutral y objetiva, especializado en el seguimiento de actores políticos del país.
+
+A partir del siguiente listado de resúmenes de noticias y análisis de la cobertura mediática sobre el candidato peruano "${candidateName}", genera una síntesis ejecutiva del perfil público reciente de este actor político.
+
+La síntesis debe enmarcarse en el actual contexto sociopolítico del Perú. Debe ser formal, libre de apasionamientos, directa y basarse únicamente en los datos proporcionados, sin inventar información.
+
+Extensión requerida: de 3 a 5 oraciones. Formato: texto plano, sin markdown.
+
+Listado de noticias:
+${summariesText}
+`;
+
+    try {
+      const result = await this.model.generateContent(prompt);
+      return result.response.text().trim();
+    } catch (error) {
+      logger.error(`Error al generar resumen global de candidato con Gemini API: ${error.message}`);
+      return "Error al generar la síntesis automática.";
+    }
   }
 }
 

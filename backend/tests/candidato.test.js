@@ -5,6 +5,12 @@ const { faker } = require('@faker-js/faker');
 
 jest.mock('../models/Candidato');
 
+// Mock de autenticación: simula un admin logueado en todos los tests
+jest.mock('../middlewares/auth.middleware', () => (req, res, next) => {
+    req.user = { role: 'admin', id: 'admin-test-id' };
+    next();
+});
+
 describe('Pruebas de Integración - Endpoints de Candidatos', () => {
     
     // CASO 1: Cuando FUNCIONA (Happy Path) - Crear candidato
@@ -31,23 +37,14 @@ describe('Pruebas de Integración - Endpoints de Candidatos', () => {
         expect(res.body._id).toBeDefined(); 
     });
 
-    // CASO 2: Cuando NO FUNCIONA (Sad Path) - Validación de Mongoose
-    test('POST /api/candidatos - Debe fallar si faltan datos obligatorios', async () => {
-        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-        // Simulamos un error de Mongoose
-        Candidato.prototype.save = jest.fn().mockRejectedValue(new Error('Validation failed'));
-
-        // Enviamos un objeto vacío. El motor real de Mongoose rechazará la petición
-        // porque en tu modelo 'nombre' y 'partidoPolitico' son obligatorios.
+    // CASO 2: Cuando NO FUNCIONA (Sad Path) - Validación de input
+    test('POST /api/candidatos - Debe fallar con 400 si falta el nombre', async () => {
         const res = await request(app)
             .post('/api/candidatos')
             .send({});
 
-        expect(res.statusCode).toBe(500);
-        expect(res.body.mensaje).toBe('Error al crear el candidato en la base de datos');
-        
-        consoleSpy.mockRestore();
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBe('El campo nombre es requerido (mín. 2 caracteres).');
     });
 
     // CASO 3: GET funciona correctamente con datos reales

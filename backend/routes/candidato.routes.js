@@ -1,17 +1,59 @@
 const express = require('express');
 const router = express.Router();
 const Candidato = require('../models/Candidato');
+const authMiddleware = require('../middlewares/auth.middleware');
 
-// POST: Crear un nuevo candidato en la base de datos
-router.post('/', async (req, res) => {
+// Middleware de autorización: solo admins pueden escribir
+const adminOnly = [authMiddleware, (req, res, next) => {
+    if (req.user?.role !== 'admin') {
+        return res.status(403).json({ error: 'Acceso denegado. Se requiere rol de administrador.' });
+    }
+    next();
+}];
+
+// POST: Crear un nuevo candidato (SOLO ADMIN)
+router.post('/', adminOnly, async (req, res) => {
+    const { nombre, partidoPolitico, equipoTrabajo } = req.body;
+    if (!nombre || nombre.trim().length < 2) {
+        return res.status(400).json({ error: 'El campo nombre es requerido (mín. 2 caracteres).' });
+    }
     try {
-        // En caso de que el cuerpo venga con 'nombre' y 'partidoPolitico'
-        const nuevoCandidato = new Candidato(req.body);
+        const equipo = equipoTrabajo || [
+            { nombre: 'Carlos Mendoza', cargo: 'Jefe de Plan de Gobierno' },
+            { nombre: 'Ana María Torres', cargo: 'Portavoz Oficial' }
+        ];
+        const nuevoCandidato = new Candidato({ 
+            nombre: nombre.trim(), 
+            partidoPolitico: partidoPolitico?.trim() || 'Independiente',
+            equipoTrabajo: equipo
+        });
         const candidatoGuardado = await nuevoCandidato.save();
         res.status(201).json(candidatoGuardado);
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({ error: 'Ya existe un candidato con ese nombre.' });
+        }
         console.error("Error al guardar candidato:", error);
         res.status(500).json({ mensaje: 'Error al crear el candidato en la base de datos' });
+    }
+});
+
+// GET: Buscar candidatos para el autocompletado (UH14)
+router.get('/search', async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q || q.trim().length < 3) return res.json([]);
+        
+        const candidatos = await Candidato.find({
+            $or: [
+                { nombre: { $regex: q, $options: 'i' } },
+                { partidoPolitico: { $regex: q, $options: 'i' } }
+            ]
+        }).limit(5).select('nombre partidoPolitico _id');
+        res.json(candidatos);
+    } catch (error) {
+        console.error("Error en búsqueda:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -26,8 +68,20 @@ router.get('/', async (req, res) => {
     }
 });
 
-// DELETE: Eliminar un candidato completo
-router.delete('/:id', async (req, res) => {
+// GET: Obtener un candidato por ID
+router.get('/:id', async (req, res) => {
+    try {
+        const candidato = await Candidato.findById(req.params.id);
+        if (!candidato) return res.status(404).json({ error: "Candidato no encontrado" });
+        res.json(candidato);
+    } catch (error) {
+        console.error("Error al obtener detalle del candidato:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// DELETE: Eliminar un candidato completo (SOLO ADMIN)
+router.delete('/:id', adminOnly, async (req, res) => {
     try {
         const result = await Candidato.findByIdAndDelete(req.params.id);
         if (!result) return res.status(404).json({ error: "Candidato no encontrado" });
@@ -38,8 +92,8 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-// DELETE: Eliminar una noticia específica de un candidato
-router.delete('/:candidateId/news/:newsId', async (req, res) => {
+// DELETE: Eliminar una noticia específica de un candidato (SOLO ADMIN)
+router.delete('/:candidateId/news/:newsId', adminOnly, async (req, res) => {
     try {
         const { candidateId, newsId } = req.params;
         const result = await Candidato.findByIdAndUpdate(

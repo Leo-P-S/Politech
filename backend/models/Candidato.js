@@ -37,6 +37,10 @@ const candidatoSchema = new mongoose.Schema({
         type: String 
     }],
     historial_noticias: [noticiaSchema],
+    equipoTrabajo: [{
+        nombre: String,
+        cargo: String
+    }],
     resumenIA: { 
         type: String 
     }

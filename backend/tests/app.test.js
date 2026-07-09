@@ -19,7 +19,12 @@ const mockFindById = jest.fn().mockResolvedValue(null);
 const mockCreate = jest.fn().mockResolvedValue({});
 
 jest.mock('mongoose', () => {
-    function SchemaMock() {}
+    function SchemaMock() {
+        this.pre = jest.fn();
+        this.post = jest.fn();
+        this.set = jest.fn();
+        this.methods = {};
+    }
     SchemaMock.Types = { Mixed: {} };
 
     const mockModelObj = {
@@ -48,6 +53,13 @@ jest.mock('mongoose', () => {
         },
         model: jest.fn().mockReturnValue(mockModelObj),
     };
+});
+
+// Mockear el middleware de autenticación para que las pruebas pasen con rol admin
+jest.mock('../middlewares/auth.middleware', () => (req, res, next) => {
+    req.user = { id: 'admin-123', username: 'admin', role: 'admin' };
+    req.admin = req.user;
+    next();
 });
 
 const app = require('../app');
