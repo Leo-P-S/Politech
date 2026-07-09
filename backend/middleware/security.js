@@ -14,7 +14,7 @@ const securityMiddleware = [
   mongoSanitize(),
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max: 5000,
     message: {
       message: 'Demasiadas solicitudes. Intente nuevamente más tarde.'
     }
