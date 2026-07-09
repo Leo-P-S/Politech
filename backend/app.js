@@ -2,7 +2,9 @@
 require('dotenv').config();
 
 const express = require('express');
-const connectDB = require('./config/db'); // De tu rama (mantiene la arquitectura limpia)
+const mongoose = require('mongoose');
+const connectDB = require('./config/db');
+const securityMiddleware = require('./middleware/security');
 const { runPipelineForCandidate } = require('./worker/index');
 const Candidato = require('./models/Candidato');
 const Config = require('./models/Config');
@@ -22,6 +24,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 // 3. Middlewares
 app.use(express.json());
+app.use(securityMiddleware);
 
 // CORS personalizado simple
 app.use((req, res, next) => {
@@ -50,11 +53,9 @@ app.get('/', (req, res) => {
     });
 });
 
-// Smoke test endpoint
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'healthy' });
 });
-
 
 // ========================================================
 // --- ENDPOINTS DE JOSUE (SCRAPING, IA Y CANDIDATE) ---
@@ -87,6 +88,9 @@ app.post('/api/trigger', async (req, res) => {
     
     if (!candidateId || !startDate || !endDate) {
         return res.status(400).json({ error: "Faltan parámetros requeridos (candidateId, startDate, endDate)" });
+    }
+    if (!mongoose.Types.ObjectId.isValid(candidateId)) {
+        return res.status(400).json({ error: "candidateId inválido" });
     }
 
     process.env.MOCK_MODE = mockMode ? 'true' : 'false';
