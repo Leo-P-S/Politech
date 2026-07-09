@@ -128,8 +128,17 @@ const Home = () => {
                   <span
                     key={index}
                     className="text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg cursor-pointer transition-colors"
-                    onClick={() => {
-                      // Se podría rellenar el input de búsqueda o simplemente navegar
+                    onClick={async () => {
+                      try {
+                        const response = await fetch(`/api/candidatos/search?q=${term}`);
+                        const data = await response.json();
+                        if (data && data.length > 0) {
+                          const matched = data.find(c => c.nombre.toLowerCase() === term.toLowerCase()) || data[0];
+                          navigate(`/candidato/${matched._id}`);
+                        }
+                      } catch (error) {
+                        console.error("Error al navegar a búsqueda reciente:", error);
+                      }
                     }}
                   >
                     {term}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Play, Calendar, Terminal, Settings, LogOut, Loader2, UserPlus, Trash2, Users } from 'lucide-react';
+import { Play, Calendar, Terminal, Settings, LogOut, Loader2, UserPlus, Trash2, Users, Eye } from 'lucide-react';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -28,6 +28,14 @@ const AdminDashboard = () => {
   const [newCandidateName, setNewCandidateName] = useState('');
   const [newCandidateParty, setNewCandidateParty] = useState('');
   const [candidateMsg, setCandidateMsg] = useState({ type: '', text: '' });
+
+  // Estado de conexión SSE
+  const [sseConnected, setSseConnected] = useState(false);
+
+  // Estados para gestión de noticias
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [selectedCandidateNews, setSelectedCandidateNews] = useState([]);
+  const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
 
   // Verificar sesión
   useEffect(() => {
@@ -95,6 +103,35 @@ const AdminDashboard = () => {
       queryClient.invalidateQueries(['candidatos-admin']);
     }
   });
+
+  // Mutación para eliminar noticia
+  const deleteNewsMutation = useMutation({
+    mutationFn: async ({ candidateId, newsId }) => {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/candidatos/${candidateId}/news/${newsId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Error al eliminar la noticia');
+      return res.json();
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries(['candidatos-admin']);
+      setSelectedCandidateNews(prev => prev.filter(n => n._id !== variables.newsId));
+    }
+  });
+
+  const handleViewNews = (candidato) => {
+    setSelectedCandidate(candidato);
+    setSelectedCandidateNews(candidato.historial_noticias || []);
+    setIsNewsModalOpen(true);
+  };
+
+  const handleDeleteNews = (newsId) => {
+    if (window.confirm('¿Eliminar esta noticia? Esta acción no se puede deshacer.')) {
+      deleteNewsMutation.mutate({ candidateId: selectedCandidate._id, newsId });
+    }
+  };
 
   const handleCreateCandidate = (e) => {
     e.preventDefault();
@@ -177,18 +214,29 @@ const AdminDashboard = () => {
   // Escuchar logs en tiempo real (SSE)
   useEffect(() => {
     const eventSource = new EventSource('/api/logs/stream');
+
+    eventSource.onopen = () => setSseConnected(true);
+
     eventSource.onmessage = (event) => {
-      const log = JSON.parse(event.data);
-      setLogs((prevLogs) => {
-        const updated = [...prevLogs, `[${log.timestamp}] [${log.level.toUpperCase()}] ${log.message}`];
-        // Mantener solo los últimos 100 logs
-        if (updated.length > 100) updated.shift();
-        return updated;
-      });
+      try {
+        const log = JSON.parse(event.data);
+        setLogs((prevLogs) => {
+          const updated = [...prevLogs, { level: log.level || 'info', message: log.message, timestamp: log.timestamp }];
+          if (updated.length > 100) updated.shift();
+          return updated;
+        });
+      } catch (e) {
+        // ignorar mensajes mal formateados
+      }
+    };
+
+    eventSource.onerror = () => {
+      setSseConnected(false);
     };
 
     return () => {
       eventSource.close();
+      setSseConnected(false);
     };
   }, []);
 
@@ -249,9 +297,9 @@ const AdminDashboard = () => {
               <span className="w-3 h-3 bg-green-500 rounded-full"></span>
               <span className="ml-2 text-xs font-semibold tracking-wider uppercase text-slate-400">Consola de logs en vivo</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold uppercase">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-              <span>Canal Activo</span>
+            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase">
+              <span className={`w-2 h-2 rounded-full ${sseConnected ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></span>
+              <span className={sseConnected ? 'text-emerald-400' : 'text-red-400'}>{sseConnected ? 'Canal Activo' : 'Desconectado'}</span>
             </div>
           </div>
           <div 
@@ -259,7 +307,22 @@ const AdminDashboard = () => {
             className="p-4 h-48 overflow-y-auto font-mono text-xs text-blue-400 space-y-1 scrollbar-thin scrollbar-thumb-slate-800"
           >
             {logs.length > 0 ? (
-              logs.map((log, index) => <div key={index}>{log}</div>)
+              logs.map((log, index) => {
+                const levelColors = {
+                  error: 'text-red-400',
+                  warn:  'text-yellow-400',
+                  info:  'text-blue-400',
+                  debug: 'text-slate-400',
+                };
+                const color = levelColors[log.level] || 'text-blue-400';
+                return (
+                  <div key={index} className="flex gap-2">
+                    <span className="text-slate-600 shrink-0">{log.timestamp?.slice(11, 19) || ''}</span>
+                    <span className={`font-bold uppercase w-10 shrink-0 ${color}`}>{log.level}</span>
+                    <span className="text-slate-300">{log.message}</span>
+                  </div>
+                );
+              })
             ) : (
               <div className="text-slate-500 italic">Esperando inicialización del pipeline...</div>
             )}
@@ -566,18 +629,27 @@ const AdminDashboard = () => {
                       <span className="text-sm font-semibold text-slate-200 truncate">{c.nombre}</span>
                       <span className="text-xs text-slate-500">{c.partidoPolitico || 'Sin partido'} · {c.historial_noticias?.length || 0} noticias</span>
                     </div>
-                    <button
-                      onClick={() => {
-                        if (window.confirm(`¿Eliminar a ${c.nombre}? Esta acción no se puede deshacer.`)) {
-                          deleteCandidateMutation.mutate(c._id);
-                        }
-                      }}
-                      disabled={deleteCandidateMutation.isPending}
-                      className="ml-3 flex-shrink-0 p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
-                      title="Eliminar candidato"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    <div className="flex gap-1.5 ml-3 flex-shrink-0">
+                      <button
+                        onClick={() => handleViewNews(c)}
+                        className="p-1.5 text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
+                        title="Ver y Gestionar Noticias"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.confirm(`¿Eliminar a ${c.nombre}? Esta acción no se puede deshacer.`)) {
+                            deleteCandidateMutation.mutate(c._id);
+                          }
+                        }}
+                        disabled={deleteCandidateMutation.isPending}
+                        className="p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
+                        title="Eliminar candidato"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                 ))
               )}
@@ -587,6 +659,70 @@ const AdminDashboard = () => {
         </div>
 
       </main>
+
+      {/* Modal / Panel de Gestión de Noticias */}
+      {isNewsModalOpen && selectedCandidate && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-950 border border-slate-800 rounded-xl max-w-3xl w-full max-h-[80vh] flex flex-col shadow-2xl">
+            {/* Header del modal */}
+            <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+              <div>
+                <h3 className="text-lg font-bold text-slate-100">Gestionar Noticias</h3>
+                <p className="text-xs text-slate-400">
+                  {selectedCandidate.nombre} · {selectedCandidateNews.length} noticias
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsNewsModalOpen(false)}
+                className="text-slate-400 hover:text-white transition-colors text-sm font-semibold p-1"
+              >
+                ✕
+              </button>
+            </div>
+            
+            {/* Cuerpo del modal */}
+            <div className="p-6 overflow-y-auto space-y-3 flex-1 scrollbar-thin scrollbar-thumb-slate-800">
+              {selectedCandidateNews.length === 0 ? (
+                <p className="text-slate-500 italic text-center text-sm">Este candidato no tiene noticias registradas.</p>
+              ) : (
+                selectedCandidateNews.map((news) => (
+                  <div key={news._id} className="p-3.5 bg-slate-900 border border-slate-850 rounded-lg flex justify-between items-start gap-4 hover:border-slate-800 transition-colors">
+                    <div className="space-y-1 min-w-0">
+                      <h4 className="text-sm font-semibold text-slate-200 line-clamp-2">{news.titular}</h4>
+                      <div className="flex gap-2 flex-wrap items-center text-[10px]">
+                        <span className="text-slate-500 font-medium">{news.medio_prensa || 'Medio'}</span>
+                        {news.analisis_ia?.categoria && (
+                          <span className="text-blue-400 font-bold uppercase">{news.analisis_ia.categoria}</span>
+                        )}
+                        {news.analisis_ia?.sentimiento && (
+                          <span className={`font-bold uppercase ${
+                            news.analisis_ia.sentimiento.toLowerCase().includes('pos')
+                              ? 'text-emerald-400'
+                              : news.analisis_ia.sentimiento.toLowerCase().includes('neg')
+                              ? 'text-rose-400'
+                              : 'text-slate-400'
+                          }`}>
+                            {news.analisis_ia.sentimiento}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteNews(news._id)}
+                      disabled={deleteNewsMutation.isPending}
+                      className="p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors flex-shrink-0 disabled:opacity-50"
+                      title="Eliminar noticia"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

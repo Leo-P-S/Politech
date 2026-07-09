@@ -9,18 +9,20 @@ Politech es una plataforma de análisis político y seguimiento mediático de ca
 El sistema adopta una arquitectura desacoplada estructurada en tres capas principales:
 
 1. **Capa de Presentación (Frontend):** 
-   - SPA interactiva construida en HTML5, CSS3 premium (con diseño Glassmorphic oscuro) y Javascript nativo.
+   - SPA interactiva construida en **React**, **Vite** y **Tailwind CSS**.
+   - Permite acceso y registro a **Electores** (con historial de búsquedas recientes y suscripción a alertas de candidatos) y **Administradores** (con control de scraping, cron y logs).
+   - **Módulo de Gestión de Noticias:** Permite a los administradores visualizar todas las noticias de un candidato y eliminar artículos de forma individual en tiempo real mediante un modal interactivo.
    - Gráficos interactivos integrados con **Chart.js** para visualizar el volumen de noticias, categorías y análisis de sentimientos.
-   - Consola integrada conectada vía **Server-Sent Events (SSE)** que muestra el estado de recolección del worker en vivo.
+   - Consola integrada conectada vía **Server-Sent Events (SSE)** que muestra el estado de recolección del worker en vivo (con soporte ampliado para logs de IA y control de errores).
 
 2. **Capa de Servicio (Backend REST API):**
    - API construida sobre **Node.js** y **Express**.
-   - Gestiona el CRUD de candidatos oficiales y la persistencia de noticias históricas en base de datos.
-   - Rutas principales bajo `/api/candidatos` (con alias `/api/candidates` para compatibilidad retroactiva).
+   - Rutas principales bajo `/api/candidatos` (con alias `/api/candidates` para compatibilidad retroactiva) y `/api/elector`.
+   - Control de sesiones seguro mediante JWT con expiración a los 30 minutos de inactividad.
 
 3. **Pipeline de Automatización (Worker & Cron):**
-   - **Scraper:** Motor de scraping multicanal que extrae y limpia texto de portales RSS, GDELT API e historicamente desde NewsAPI.
-   - **IA Service:** Modulo de análisis automatizado que agrupa y envía las noticias a **Google Gemini 1.5 Flash** para obtener un objeto estructurado con sentimientos, sesgo y entidades clave.
+   - **Scraper:** Motor de scraping multicanal que extrae y limpia texto de portales RSS, GDELT API e históricamente desde NewsAPI.
+   - **IA Service (Optimizado):** Envía las noticias en **lotes de 5 artículos con un delay de seguridad de 4 segundos** entre lotes para mitigar errores de *Rate Limits* (Error 429) de la API gratuita de Gemini. Los prompts están fuertemente contextualizados en la coyuntura política y legal del **Perú**.
    - **CronManager:** Tarea agendada en segundo plano para procesar automáticamente de forma semanal las nuevas noticias recolectadas.
 
 ---
@@ -56,10 +58,13 @@ Crea un archivo llamado `.env` dentro de la carpeta `/backend` y define lo sigui
 MONGO_URI=mongodb://127.0.0.1:27017/politech
 GEMINI_API_KEY=dummy_key_for_testing
 MOCK_MODE=true
+JWT_SECRET=tu_secreto_super_seguro_jwt
 ```
+> **Nota sobre Modo Simulador (Mock):** Si `MOCK_MODE=true`, la IA y el Scraper devolverán respuestas simuladas locales sin necesidad de llamadas reales o una API Key de Gemini válida. Para usar la IA real, pon `MOCK_MODE=false` e ingresa tu API Key obtenida en Google AI Studio.
+
 *(Nota: Si deseas utilizar la base de datos local y no tienes MongoDB en tu máquina, puedes encender la base de datos levantando el contenedor de Docker: `docker compose up -d` en la raíz del proyecto).*
 
-### 3. Levantar la aplicación
+### 3. Levantar la aplicación en modo desarrollo
 
 Abre dos pestañas independientes en tu terminal:
 
@@ -69,19 +74,19 @@ Abre dos pestañas independientes en tu terminal:
   npm run dev
   ```
 
-* **Terminal 2 (Frontend - Puerto 3001):**
+* **Terminal 2 (Frontend - Puerto 5173 con Hot-Reload):**
   ```bash
   cd frontend
-  npm start
+  npm run dev
   ```
 
-Abre tu navegador e ingresa a: **[http://localhost:3001/dashboard](http://localhost:3001/dashboard)**.
+Abre tu navegador e ingresa a: **[http://localhost:5173](http://localhost:5173)**.
 
 ---
 
 ## 🧪 Pruebas y Cobertura de Código
 
-El backend cuenta con una cobertura de pruebas unitarias y de integración de **85.45%** que aseguran la tolerancia a fallos de los motores externos y el comportamiento del API REST.
+El backend cuenta con una cobertura de pruebas unitarias y de integración de **85.45%** que aseguran la tolerancia a fallos de los motores externos y el comportamiento de la API REST.
 
 Para correr la suite de pruebas locales:
 ```bash

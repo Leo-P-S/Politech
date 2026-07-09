@@ -119,6 +119,22 @@ const DataTabs = ({ candidatoData }) => {
                             {noticia.analisis_ia.categoria}
                           </span>
                         )}
+                        {noticia.analisis_ia?.sentimiento && (
+                          <span className={`text-[10px] font-bold border px-2 py-0.5 rounded-full uppercase ${
+                            noticia.analisis_ia.sentimiento.toLowerCase().includes('pos')
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                              : noticia.analisis_ia.sentimiento.toLowerCase().includes('neg')
+                              ? 'bg-rose-50 text-rose-700 border-rose-100'
+                              : 'bg-slate-50 text-slate-600 border-slate-200'
+                          }`}>
+                            {noticia.analisis_ia.sentimiento}
+                          </span>
+                        )}
+                        {noticia.analisis_ia?.sesgo_politico && (
+                          <span className="text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-100 px-2 py-0.5 rounded-full uppercase">
+                            {noticia.analisis_ia.sesgo_politico}
+                          </span>
+                        )}
                       </div>
                       <span className="text-xs text-slate-400">{noticia.fecha || 'Fecha desconocida'}</span>
                     </div>

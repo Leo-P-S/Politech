@@ -14,18 +14,40 @@ app.use('/api', (req, res) => {
         port: 3000,
         path: `/api${req.url}`,
         method: req.method,
-        headers: req.headers
+        headers: { ...req.headers, host: '127.0.0.1:3000' }
     };
 
     const proxyReq = http.request(options, (proxyRes) => {
-        res.writeHead(proxyRes.statusCode, proxyRes.headers);
-        proxyRes.pipe(res, { end: true });
+        const contentType = proxyRes.headers['content-type'] || '';
+
+        // Soporte especial para SSE (Server-Sent Events)
+        if (contentType.includes('text/event-stream')) {
+            res.writeHead(proxyRes.statusCode, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+                'X-Accel-Buffering': 'no'  // Desactiva buffer en nginx si aplica
+            });
+            proxyRes.pipe(res, { end: true });
+
+            // Cerrar si el cliente desconecta
+            req.on('close', () => proxyRes.destroy());
+        } else {
+            res.writeHead(proxyRes.statusCode, proxyRes.headers);
+            proxyRes.pipe(res, { end: true });
+        }
     });
 
-    req.pipe(proxyReq, { end: true });
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+        req.pipe(proxyReq, { end: true });
+    } else {
+        proxyReq.end();
+    }
 
     proxyReq.on('error', (err) => {
-        res.status(500).json({ error: 'Fallo al conectar con el servidor backend: ' + err.message });
+        if (!res.headersSent) {
+            res.status(502).json({ error: 'Fallo al conectar con el servidor backend: ' + err.message });
+        }
     });
 });
 

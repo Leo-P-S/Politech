@@ -53,37 +53,63 @@ class CronManager {
       for (let candidate of candidates) {
         // Filtramos las noticias que aún no han sido procesadas
         const unprocessedNews = candidate.historial_noticias.filter(n => !n.procesado_por_ia);
+        let hasChanges = false;
         
         if (unprocessedNews.length > 0) {
           logger.info(`Procesando ${unprocessedNews.length} noticias pendientes para ${candidate.nombre}...`);
           
-          for (let news of unprocessedNews) {
-            if (!news.contenido_crudo) continue;
+          const newsToProcess = unprocessedNews.filter(news => news.contenido_crudo);
+          const rawArticles = newsToProcess.map(news => ({
+            title: news.titular,
+            content: news.contenido_crudo,
+            date: news.fecha,
+            source: news.medio_prensa,
+            url: news.enlace_origen
+          }));
 
-            // Formateamos para el aiService
-            const rawArticles = [{
-              title: news.titular,
-              content: news.contenido_crudo
-            }];
-
-            // Llamada a la IA
+          if (rawArticles.length > 0) {
+            // Llamada a la IA procesando por lotes (batching) internamente
             const processedArr = await aiService.processAllArticles(rawArticles, candidate.nombre);
             
             if (processedArr && processedArr.length > 0) {
-              const result = processedArr[0];
-              
-              // Actualizamos el subdocumento
-              news.analisis_ia = {
-                resumen_noticia: result.resumen_noticia,
-                categoria: result.categoria,
-                sentimiento: result.sentimiento,
-                sesgo_politico: result.sesgo_politico,
-                entidades_clave: result.entidades_clave
-              };
-              news.procesado_por_ia = true;
-              totalProcessed++;
+              processedArr.forEach((result, idx) => {
+                // Buscar coincidencia por enlace_origen, y si no, por titular
+                let matchedNews = newsToProcess.find(n => n.enlace_origen === result.enlace_origen);
+                if (!matchedNews) {
+                  matchedNews = newsToProcess.find(n => n.titular && result.titular && n.titular.toLowerCase().trim() === result.titular.toLowerCase().trim());
+                }
+                // Fallback por índice si la cantidad coincide
+                if (!matchedNews && processedArr.length === rawArticles.length) {
+                  matchedNews = newsToProcess[idx];
+                }
+
+                if (matchedNews) {
+                  matchedNews.analisis_ia = {
+                    resumen_noticia: result.resumen_noticia,
+                    categoria: result.categoria,
+                    sentimiento: result.sentimiento,
+                    sesgo_politico: result.sesgo_politico,
+                    entidades_clave: result.entidades_clave
+                  };
+                  matchedNews.procesado_por_ia = true;
+                  totalProcessed++;
+                  hasChanges = true;
+                }
+              });
             }
           }
+        }
+
+        // Si se procesaron nuevas noticias, o si el candidato tiene noticias pero no tiene resumen global generado
+        const allProcessedNews = candidate.historial_noticias.filter(n => n.procesado_por_ia);
+        if (allProcessedNews.length > 0 && (hasChanges || !candidate.resumenIA)) {
+          logger.info(`Generando resumen global (resumenIA) para ${candidate.nombre}...`);
+          const resumenGlobal = await aiService.generateCandidateSummary(allProcessedNews, candidate.nombre);
+          candidate.resumenIA = resumenGlobal;
+          hasChanges = true;
+        }
+
+        if (hasChanges) {
           // Guardamos los cambios en el candidato
           await candidate.save();
         }
