@@ -1,13 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { ShieldAlert, Info, Bell, BellOff, Loader2 } from 'lucide-react';
+import { Newspaper, FileText, Users, Bell, BellOff, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const ProfileHeader = ({ candidato }) => {
   const [isElector, setIsElector] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const { user, role } = useAuth();
+  const initials = candidato.nombre
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(part => part[0])
+    .join('')
+    .toUpperCase();
+
+  useEffect(() => {
+    setImageError(false);
+  }, [candidato.fotoUrl]);
 
   useEffect(() => {
     if (user && role === 'elector') {
@@ -25,13 +37,23 @@ const ProfileHeader = ({ candidato }) => {
     }
   }, [user, role, candidato._id]);
 
-  // Generar alertas rápidas automáticas en base a los antecedentes judiciales (UH13)
-  const alertas = candidato.antecedentesJudiciales?.map(msg => ({
-    nivel: msg.toLowerCase().includes('corrupción') || msg.toLowerCase().includes('graves') || msg.toLowerCase().includes('alto')
-      ? 'Alto' 
-      : 'Medio',
-    mensaje: msg
-  })) || [];
+  const profileStats = [
+    {
+      label: 'Noticias analizadas',
+      value: candidato.historial_noticias?.length || 0,
+      icon: Newspaper
+    },
+    {
+      label: 'Propuestas',
+      value: candidato.propuestas?.length || 0,
+      icon: FileText
+    },
+    {
+      label: 'Equipo identificado',
+      value: candidato.equipoTrabajo?.length || 0,
+      icon: Users
+    }
+  ];
 
   const subscribeMutation = useMutation({
     mutationFn: async () => {
@@ -85,11 +107,22 @@ const ProfileHeader = ({ candidato }) => {
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
           {/* Foto del Candidato */}
           <div className="flex-shrink-0">
-            <img 
-              src={candidato.fotoUrl || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80'} 
-              alt={`Foto de ${candidato.nombre}`} 
-              className="w-32 h-32 rounded-lg object-cover border border-slate-200"
-            />
+            {candidato.fotoUrl && !imageError ? (
+              <img
+                src={candidato.fotoUrl}
+                alt={`Foto de ${candidato.nombre}`}
+                onError={() => setImageError(true)}
+                className="w-32 h-32 rounded-xl object-cover border border-slate-200 bg-slate-100"
+              />
+            ) : (
+              <div
+                role="img"
+                aria-label={`Avatar de ${candidato.nombre}`}
+                className="flex w-32 h-32 items-center justify-center rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-slate-100 text-3xl font-bold tracking-tight text-blue-800"
+              >
+                {initials || 'C'}
+              </div>
+            )}
           </div>
           
           {/* Información Básica */}
@@ -100,28 +133,22 @@ const ProfileHeader = ({ candidato }) => {
               <p className="text-lg font-medium text-blue-700">{candidato.partidoPolitico || 'Sin Partido'}</p>
             </div>
             
-            {/* Tags / Alertas Rápidas */}
-            <div className="flex flex-wrap gap-2 mt-4">
-              {alertas.length > 0 ? (
-                alertas.map((alerta, index) => (
-                  <div 
-                    key={index} 
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium border ${
-                      alerta.nivel === 'Alto' 
-                        ? 'bg-red-50 text-red-700 border-red-200' 
-                        : 'bg-amber-50 text-amber-700 border-amber-200'
-                    }`}
-                  >
-                    {alerta.nivel === 'Alto' ? <ShieldAlert className="w-4 h-4" /> : <Info className="w-4 h-4" />}
-                    <span>{alerta.mensaje}</span>
+            {/* Resumen de cobertura del perfil */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-5">
+              {profileStats.map(({ label, value, icon: Icon }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5"
+                >
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-white text-blue-700 shadow-sm">
+                    <Icon className="h-4 w-4" />
                   </div>
-                ))
-              ) : (
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium border bg-emerald-50 text-emerald-700 border-emerald-200">
-                  <Info className="w-4 h-4" />
-                  <span>Sin antecedentes registrados</span>
+                  <div>
+                    <div className="text-base font-bold leading-none text-slate-900">{value}</div>
+                    <div className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">{label}</div>
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </div>

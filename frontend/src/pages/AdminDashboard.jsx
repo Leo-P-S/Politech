@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Play, Calendar, Terminal, Settings, LogOut, Loader2, UserPlus, Trash2, Users, Eye } from 'lucide-react';
+import { Play, Calendar, Terminal, Settings, LogOut, Loader2, UserPlus, Trash2, Users, Eye, Pencil } from 'lucide-react';
 
 const AdminDashboard = () => {
-  const { user, role, loading, logout, forceLogout } = useAuth();
+  const { user, role, loading, logout } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const logContainerRef = useRef(null);
@@ -17,7 +17,7 @@ const AdminDashboard = () => {
   const [useRSS, setUseRSS] = useState(true);
   const [useGdelt, setUseGdelt] = useState(false);
   const [useNewsApi, setUseNewsApi] = useState(false);
-  const [mockMode, setMockMode] = useState(true);
+  const [mockMode, setMockMode] = useState(false);
   const [maxArticles, setMaxArticles] = useState(50);
   const [logs, setLogs] = useState([]);
   
@@ -29,7 +29,12 @@ const AdminDashboard = () => {
   // Estados para el formulario de candidatos
   const [newCandidateName, setNewCandidateName] = useState('');
   const [newCandidateParty, setNewCandidateParty] = useState('');
+  const [newCandidatePhotoUrl, setNewCandidatePhotoUrl] = useState('');
   const [candidateMsg, setCandidateMsg] = useState({ type: '', text: '' });
+  const [editingCandidate, setEditingCandidate] = useState(null);
+  const [editCandidateName, setEditCandidateName] = useState('');
+  const [editCandidateParty, setEditCandidateParty] = useState('');
+  const [editCandidatePhotoUrl, setEditCandidatePhotoUrl] = useState('');
 
   // Estado de conexión SSE
   const [sseConnected, setSseConnected] = useState(false);
@@ -51,7 +56,7 @@ const AdminDashboard = () => {
   };
 
   // Obtener candidatos para el dropdown
-  const { data: candidatos, isLoading: loadingCandidatos } = useQuery({
+  const { data: candidatos } = useQuery({
     queryKey: ['candidatos-admin'],
     queryFn: async () => {
       const res = await fetch('/api/candidatos');
@@ -63,12 +68,12 @@ const AdminDashboard = () => {
 
   // Mutación para crear candidato
   const createCandidateMutation = useMutation({
-    mutationFn: async ({ nombre, partidoPolitico }) => {
+    mutationFn: async ({ nombre, partidoPolitico, fotoUrl }) => {
       const res = await fetch('/api/candidatos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ nombre, partidoPolitico })
+        body: JSON.stringify({ nombre, partidoPolitico, fotoUrl })
       });
       if (!res.ok) {
         const err = await res.json();
@@ -79,6 +84,7 @@ const AdminDashboard = () => {
     onSuccess: () => {
       setNewCandidateName('');
       setNewCandidateParty('');
+      setNewCandidatePhotoUrl('');
       setCandidateMsg({ type: 'success', text: 'Candidato añadido exitosamente.' });
       setTimeout(() => setCandidateMsg({ type: '', text: '' }), 3000);
       queryClient.invalidateQueries(['candidatos-admin']);
@@ -100,6 +106,29 @@ const AdminDashboard = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['candidatos-admin']);
+    }
+  });
+
+  const editCandidateMutation = useMutation({
+    mutationFn: async ({ id, nombre, partidoPolitico, fotoUrl }) => {
+      const res = await fetch(`/api/candidatos/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ nombre, partidoPolitico, fotoUrl })
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Error al actualizar candidato');
+      }
+      return res.json();
+    },
+    onSuccess: (updatedCandidate) => {
+      queryClient.setQueryData(['candidatos-admin'], current =>
+        current?.map(candidate => candidate._id === updatedCandidate._id ? updatedCandidate : candidate)
+      );
+      queryClient.invalidateQueries({ queryKey: ['candidato', updatedCandidate._id] });
+      setEditingCandidate(null);
     }
   });
 
@@ -125,6 +154,25 @@ const AdminDashboard = () => {
     setIsNewsModalOpen(true);
   };
 
+  const handleEditCandidate = (candidato) => {
+    setEditingCandidate(candidato);
+    setEditCandidateName(candidato.nombre || '');
+    setEditCandidateParty(candidato.partidoPolitico || '');
+    setEditCandidatePhotoUrl(candidato.fotoUrl || '');
+    editCandidateMutation.reset();
+  };
+
+  const handleUpdateCandidate = (event) => {
+    event.preventDefault();
+    if (!editingCandidate || !editCandidateName.trim()) return;
+    editCandidateMutation.mutate({
+      id: editingCandidate._id,
+      nombre: editCandidateName.trim(),
+      partidoPolitico: editCandidateParty.trim() || 'Independiente',
+      fotoUrl: editCandidatePhotoUrl.trim()
+    });
+  };
+
   const handleDeleteNews = (newsId) => {
     if (window.confirm('¿Eliminar esta noticia? Esta acción no se puede deshacer.')) {
       deleteNewsMutation.mutate({ candidateId: selectedCandidate._id, newsId });
@@ -134,11 +182,15 @@ const AdminDashboard = () => {
   const handleCreateCandidate = (e) => {
     e.preventDefault();
     if (!newCandidateName.trim()) return;
-    createCandidateMutation.mutate({ nombre: newCandidateName.trim(), partidoPolitico: newCandidateParty.trim() || 'Independiente' });
+    createCandidateMutation.mutate({
+      nombre: newCandidateName.trim(),
+      partidoPolitico: newCandidateParty.trim() || 'Independiente',
+      fotoUrl: newCandidatePhotoUrl.trim() || undefined
+    });
   };
 
   // Obtener configuración del cron
-  const { data: cronConfig } = useQuery({
+  useQuery({
     queryKey: ['cron-config'],
     queryFn: async () => {
       const res = await fetch('/api/config/ai-schedule', {
@@ -178,7 +230,9 @@ const AdminDashboard = () => {
     mutationFn: async () => {
       const res = await fetch('/api/ai/process', {
         method: 'POST',
-        credentials: 'include'
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ candidateId, mockMode })
       });
       if (!res.ok) throw new Error('Error al disparar procesamiento IA');
       return res.json();
@@ -206,10 +260,6 @@ const AdminDashboard = () => {
     }
   });
 
-  if (loading) {
-    return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-blue-600 h-10 w-10" /></div>;
-  }
-
   // Escuchar logs en tiempo real (SSE)
   useEffect(() => {
     const eventSource = new EventSource('/api/logs/stream');
@@ -236,7 +286,7 @@ const AdminDashboard = () => {
         ) {
           queryClient.invalidateQueries(['candidatos-admin']);
         }
-      } catch (e) {
+      } catch {
         // ignorar mensajes mal formateados
       }
     };
@@ -257,6 +307,10 @@ const AdminDashboard = () => {
       logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
     }
   }, [logs]);
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-blue-600 h-10 w-10" /></div>;
+  }
 
   const exportLogsToCSV = () => {
     if (logs.length === 0) return;
@@ -281,10 +335,14 @@ const AdminDashboard = () => {
 
   const handleStartScrape = (e) => {
     e.preventDefault();
+    const recentEnd = new Date();
+    const recentStart = new Date(recentEnd);
+    recentStart.setDate(recentStart.getDate() - 29);
+    const formatDate = date => date.toISOString().slice(0, 10);
     triggerScrapeMutation.mutate({
       candidateId,
-      startDate: useGdelt ? startDate : '2023-01-01',
-      endDate: useGdelt ? endDate : '2023-12-31',
+      startDate: useGdelt ? startDate : formatDate(recentStart),
+      endDate: useGdelt ? endDate : formatDate(recentEnd),
       useRSS,
       useGdelt,
       useNewsApi,
@@ -506,14 +564,28 @@ const AdminDashboard = () => {
                 <span>Ejecutar IA Manual</span>
               </h2>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Envía todas las noticias nuevas recolectadas (estado "Crudo") a los modelos de Inteligencia Artificial (Gemini) para procesar sus resúmenes, sentimientos y sesgos.
+                Procesa las noticias del candidato seleccionado para generar su resumen, propuestas, antecedentes, sentimientos y sesgos.
               </p>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400 uppercase">Candidato</label>
+                <select
+                  required
+                  value={candidateId}
+                  onChange={(e) => setCandidateId(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                >
+                  <option value="">Selecciona un candidato...</option>
+                  {candidatos?.map(c => (
+                    <option key={c._id} value={c._id}>{c.nombre}</option>
+                  ))}
+                </select>
+              </div>
             </div>
             
             <div className="space-y-3 mt-6">
               <button
                 onClick={() => triggerAIMutation.mutate()}
-                disabled={triggerAIMutation.isPending}
+                disabled={triggerAIMutation.isPending || !candidateId}
                 className="w-full py-3 bg-purple-700 hover:bg-purple-800 text-white font-semibold rounded-lg text-sm flex justify-center items-center gap-2 transition-colors disabled:opacity-50"
               >
                 {triggerAIMutation.isPending ? (
@@ -525,6 +597,9 @@ const AdminDashboard = () => {
               
               {triggerAIMutation.isSuccess && (
                 <div className="text-xs text-emerald-400 text-center font-medium">Procesamiento IA iniciado</div>
+              )}
+              {triggerAIMutation.isError && (
+                <div className="text-xs text-red-400 text-center font-medium">{triggerAIMutation.error.message}</div>
               )}
             </div>
           </div>
@@ -626,6 +701,18 @@ const AdminDashboard = () => {
                 />
               </div>
 
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400 uppercase">URL de fotografía</label>
+                <input
+                  type="url"
+                  value={newCandidatePhotoUrl}
+                  onChange={(e) => setNewCandidatePhotoUrl(e.target.value)}
+                  placeholder="https://sitio-oficial.pe/foto.jpg (opcional)"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                />
+                <p className="text-[11px] text-slate-500">Usa preferentemente una imagen de una fuente oficial.</p>
+              </div>
+
               <button
                 type="submit"
                 disabled={createCandidateMutation.isPending}
@@ -680,6 +767,13 @@ const AdminDashboard = () => {
                         <Eye className="h-4 w-4" />
                       </button>
                       <button
+                        onClick={() => handleEditCandidate(c)}
+                        className="p-1.5 text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors"
+                        title="Editar candidato"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </button>
+                      <button
                         onClick={() => {
                           if (window.confirm(`¿Eliminar a ${c.nombre}? Esta acción no se puede deshacer.`)) {
                             deleteCandidateMutation.mutate(c._id);
@@ -701,6 +795,81 @@ const AdminDashboard = () => {
         </div>
 
       </main>
+
+      {/* Modal de edición de candidato */}
+      {editingCandidate && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-950 border border-slate-800 rounded-xl max-w-lg w-full shadow-2xl">
+            <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+              <div>
+                <h3 className="text-lg font-bold text-slate-100">Editar candidato</h3>
+                <p className="text-xs text-slate-400">Actualiza sus datos básicos sin perder noticias ni análisis.</p>
+              </div>
+              <button
+                onClick={() => setEditingCandidate(null)}
+                className="text-slate-400 hover:text-white transition-colors text-sm font-semibold p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleUpdateCandidate} className="p-6 space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400 uppercase">Nombre completo *</label>
+                <input
+                  type="text"
+                  required
+                  value={editCandidateName}
+                  onChange={(event) => setEditCandidateName(event.target.value)}
+                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-600"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400 uppercase">Partido político</label>
+                <input
+                  type="text"
+                  value={editCandidateParty}
+                  onChange={(event) => setEditCandidateParty(event.target.value)}
+                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-600"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400 uppercase">URL de fotografía</label>
+                <input
+                  type="url"
+                  value={editCandidatePhotoUrl}
+                  onChange={(event) => setEditCandidatePhotoUrl(event.target.value)}
+                  placeholder="https://sitio-oficial.pe/foto.jpg"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-600"
+                />
+                <p className="text-[11px] text-slate-500">Déjalo vacío para utilizar el avatar con iniciales.</p>
+              </div>
+
+              {editCandidateMutation.isError && (
+                <p className="text-sm font-medium text-red-400">{editCandidateMutation.error.message}</p>
+              )}
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setEditingCandidate(null)}
+                  className="px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={editCandidateMutation.isPending}
+                  className="inline-flex items-center gap-2 rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 disabled:opacity-50"
+                >
+                  {editCandidateMutation.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+                  Guardar cambios
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Modal / Panel de Gestión de Noticias */}
       {isNewsModalOpen && selectedCandidate && (

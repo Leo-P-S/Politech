@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const DataTabs = ({ candidatoData }) => {
   const [activeTab, setActiveTab] = useState('propuestas');
@@ -11,12 +11,19 @@ const DataTabs = ({ candidatoData }) => {
     { id: 'equipo', label: 'Equipo de Trabajo' },
   ];
 
-  // Obtener categorías únicas dinámicas para noticias (UH08)
-  const categorias = ['Todas', ...new Set(
-    candidatoData.historial_noticias
-      ?.map(n => n.analisis_ia?.categoria)
-      .filter(Boolean) || []
-  )];
+  // Mostrar solo las cuatro categorías más frecuentes para mantener el filtro compacto.
+  const categoryCounts = (candidatoData.historial_noticias || []).reduce((counts, noticia) => {
+    const category = noticia.analisis_ia?.categoria?.trim();
+    if (category) counts.set(category, (counts.get(category) || 0) + 1);
+    return counts;
+  }, new Map());
+  const categorias = [
+    'Todas',
+    ...Array.from(categoryCounts.entries())
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 4)
+      .map(([category]) => category)
+  ];
 
   // Filtrar noticias según la categoría seleccionada (UH08)
   const noticiasFiltradas = selectedCategory === 'Todas'
@@ -26,12 +33,12 @@ const DataTabs = ({ candidatoData }) => {
   return (
     <div className="w-full">
       {/* Navigation */}
-      <div className="flex border-b border-slate-200">
+      <div className="flex overflow-x-auto border-b border-slate-200 px-3 sm:px-6">
         {TABS.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`py-3 px-6 font-semibold text-sm transition-colors relative ${
+            className={`shrink-0 py-4 px-3 sm:px-5 font-semibold text-sm transition-colors relative ${
               activeTab === tab.id
                 ? 'text-blue-700'
                 : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
@@ -46,7 +53,7 @@ const DataTabs = ({ candidatoData }) => {
       </div>
 
       {/* Content Area */}
-      <div className="py-6">
+      <div className="px-5 py-7 sm:px-8 sm:py-8 lg:px-10">
         {activeTab === 'propuestas' && (
           <div className="text-slate-600">
             <h3 className="text-lg font-bold text-slate-900 mb-4">Plan de Gobierno</h3>
@@ -83,7 +90,7 @@ const DataTabs = ({ candidatoData }) => {
         
         {activeTab === 'noticias' && (
           <div className="text-slate-600 space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
               <h3 className="text-lg font-bold text-slate-900">Cobertura Mediática Verificada</h3>
               
               {/* Barra de filtros de categoría (UH08) */}
@@ -109,9 +116,9 @@ const DataTabs = ({ candidatoData }) => {
             {noticiasFiltradas && noticiasFiltradas.length > 0 ? (
               <div className="space-y-4">
                 {noticiasFiltradas.map((noticia, index) => (
-                  <div key={index} className="p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex items-center gap-2">
+                    <div key={index} className="p-5 sm:p-6 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
+                     <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-start mb-3">
+                       <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                           {noticia.medio_prensa || 'Medio no especificado'}
                         </span>
@@ -171,6 +178,16 @@ const DataTabs = ({ candidatoData }) => {
                   <div key={index} className="p-4 rounded-lg bg-slate-50 border border-slate-200">
                     <div className="font-bold text-slate-900 text-base">{miembro.nombre}</div>
                     <div className="text-sm text-blue-700 font-medium">{miembro.cargo}</div>
+                    {miembro.enlace && (
+                      <a
+                        href={miembro.enlace}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block mt-2 text-xs font-semibold text-slate-500 hover:text-blue-700 hover:underline"
+                      >
+                        Fuente: {miembro.fuente || 'Ver publicación'}
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>
