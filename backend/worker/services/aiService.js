@@ -120,7 +120,7 @@ ${articlesText}
 
     if (process.env.MOCK_MODE === 'true') {
       logger.info(`[MOCK MODE] Retornando resumen de candidato falso para ${candidateName}`);
-      return `Keiko Fujimori es una política peruana y lideresa de Fuerza Popular. De acuerdo con las noticias analizadas por Inteligencia Artificial, su actividad reciente se centra en reuniones clave de coordinación política y transferencia de gobierno, incluyendo diálogos con Rafael López Aliaga sobre seguridad ciudadana, y coordinaciones de equipos técnicos dirigidos por Marco Vinelli. Su cobertura mediática actual mantiene un enfoque principalmente informativo con matices de debate sobre su entorno político.`;
+      return `${candidateName} es una figura política peruana. Este resumen de prueba representa una síntesis neutral de su cobertura mediática reciente y no contiene datos biográficos reales. Para generar un perfil basado en las noticias recopiladas, ejecuta el procesamiento con el modo mock desactivado.`;
     }
 
     const summariesText = newsList.map((news, index) => 
@@ -151,6 +151,107 @@ ${summariesText}
     } catch (error) {
       logger.error(`Error al generar resumen global de candidato con Gemini API: ${error.message}`);
       return "Error al generar la síntesis automática.";
+    }
+  }
+
+  /**
+   * Extrae datos estructurados del perfil usando solo hechos explícitos en las noticias.
+   */
+  async extractCandidateProfileData(newsList, candidateName) {
+    if (!newsList || newsList.length === 0) {
+      return { propuestas: [], antecedentesJudiciales: [], equipoTrabajo: [] };
+    }
+
+    if (process.env.MOCK_MODE === 'true') {
+      logger.info(`[MOCK MODE] Retornando datos de perfil falsos para ${candidateName}`);
+      return {
+        propuestas: [{ descripcion: 'Impulsar políticas económicas y alianzas institucionales.', fuente: 'Medio de prueba', enlace: 'https://example.com/propuesta' }],
+        antecedentesJudiciales: [],
+        equipoTrabajo: []
+      };
+    }
+
+    const evidenceText = newsList.slice(-20).map((news, index) => `Noticia ${index + 1}:
+Titular: ${news.titular || ''}
+Medio: ${news.medio_prensa || ''}
+Enlace: ${news.enlace_origen || ''}
+Contenido: ${(news.contenido_crudo || news.analisis_ia?.resumen_noticia || '').substring(0, 2500)}`).join('\n\n');
+
+    const prompt = `
+Eres un analista de datos políticos peruano. Extrae información sobre "${candidateName}" usando exclusivamente afirmaciones explícitas en las noticias proporcionadas.
+
+Devuelve solo un objeto JSON con esta estructura:
+{
+  "propuestas": [{ "descripcion": "...", "fuente": "...", "enlace": "..." }],
+  "antecedentesJudiciales": [{ "descripcion": "...", "fuente": "...", "enlace": "..." }],
+  "equipoTrabajo": [{ "nombre": "...", "cargo": "...", "fuente": "...", "enlace": "..." }]
+}
+
+Reglas:
+- Incluye una propuesta solo si el candidato la presentó, anunció o respaldó explícitamente. No confundas opiniones, promesas de terceros ni acciones pasadas con propuestas.
+- Incluye un antecedente judicial solo si se menciona un proceso, investigación fiscal, acusación formal, sentencia o condena atribuible al candidato.
+- Distingue con precisión investigación, acusación y sentencia. No afirmes culpabilidad cuando la fuente solo describe una investigación o denuncia.
+- No incluyas rumores, inferencias ni información sobre familiares, aliados u otras personas.
+- Incluye en equipoTrabajo solo personas vinculadas explícitamente al equipo técnico, asesoría, vocería, campaña o plan de gobierno del candidato. Exige nombre completo y cargo o función explícita.
+- No incluyas periodistas, entrevistadores, familiares, simpatizantes, rivales ni autoridades mencionadas incidentalmente.
+- Conserva el medio y enlace exactos de la noticia que sustenta cada elemento.
+- Si no existe evidencia suficiente, devuelve el arreglo correspondiente vacío.
+- No uses markdown ni bloques de código.
+
+Noticias:
+${evidenceText}
+`;
+
+    try {
+      const result = await this.model.generateContent(prompt);
+      const responseText = result.response.text();
+      const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+      const parsedData = JSON.parse(cleanedJson);
+      const newsByUrl = new Map(newsList
+        .filter(news => news.enlace_origen)
+        .map(news => [news.enlace_origen, news]));
+      const validateEvidence = items => {
+        if (!Array.isArray(items)) return [];
+
+        return items.reduce((validated, item) => {
+          if (!item || typeof item.descripcion !== 'string' || typeof item.enlace !== 'string') return validated;
+          const sourceNews = newsByUrl.get(item.enlace);
+          if (!sourceNews) return validated;
+
+          validated.push({
+            descripcion: item.descripcion,
+            fuente: sourceNews.medio_prensa || '',
+            enlace: sourceNews.enlace_origen
+          });
+          return validated;
+        }, []);
+      };
+      const validateTeamEvidence = items => {
+        if (!Array.isArray(items)) return [];
+
+        return items.reduce((validated, item) => {
+          if (!item || typeof item.nombre !== 'string' || typeof item.cargo !== 'string' || typeof item.enlace !== 'string') return validated;
+          const sourceNews = newsByUrl.get(item.enlace);
+          if (!sourceNews || !item.nombre.trim() || !item.cargo.trim()) return validated;
+
+          validated.push({
+            nombre: item.nombre.trim(),
+            cargo: item.cargo.trim(),
+            fuente: sourceNews.medio_prensa || '',
+            enlace: sourceNews.enlace_origen
+          });
+          return validated;
+        }, []);
+      };
+
+      return {
+        propuestas: validateEvidence(parsedData.propuestas),
+        antecedentesJudiciales: validateEvidence(parsedData.antecedentesJudiciales),
+        equipoTrabajo: validateTeamEvidence(parsedData.equipoTrabajo)
+      };
+    } catch (error) {
+      logger.error(`Error al extraer datos del perfil con Gemini API: ${error.message}`);
+      return null;
     }
   }
 }

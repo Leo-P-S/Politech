@@ -33,12 +33,27 @@ describe('Pruebas de Integración - Candidatos (Base de Datos Real)', () => {
             const res = await request(app)
                 .post('/api/candidatos')
                 .set('Cookie', [`token=${adminToken}`])
-                .send({ nombre: 'Keiko Fujimori', partidoPolitico: 'Fuerza Popular' });
+                .send({
+                    nombre: 'Keiko Fujimori',
+                    partidoPolitico: 'Fuerza Popular',
+                    fotoUrl: 'https://example.com/keiko.jpg'
+                });
 
             expect(res.statusCode).toBe(201);
             expect(res.body.nombre).toBe('Keiko Fujimori');
             expect(res.body.partidoPolitico).toBe('Fuerza Popular');
-            expect(res.body.equipoTrabajo).toHaveLength(2); // Valor por defecto
+            expect(res.body.fotoUrl).toBe('https://example.com/keiko.jpg');
+            expect(res.body.equipoTrabajo).toEqual([]);
+        });
+
+        test('Debe rechazar una URL de fotografía inválida', async () => {
+            const res = await request(app)
+                .post('/api/candidatos')
+                .set('Cookie', [`token=${adminToken}`])
+                .send({ nombre: 'Candidato Foto', fotoUrl: 'javascript:alert(1)' });
+
+            expect(res.statusCode).toBe(400);
+            expect(res.body.error).toContain('http/https');
         });
 
         test('Debe fallar con 403 si el rol no es admin', async () => {
@@ -137,6 +152,60 @@ describe('Pruebas de Integración - Candidatos (Base de Datos Real)', () => {
 
             findSpy.mockRestore();
             consoleSpy.mockRestore();
+        });
+    });
+
+    describe('GET /api/candidatos/available', () => {
+        test('Debe devolver candidatos ordenados con campos básicos', async () => {
+            await Candidato.create([
+                { nombre: 'Zeta Candidato', partidoPolitico: 'Partido Z' },
+                { nombre: 'Alfa Candidato', partidoPolitico: 'Partido A' }
+            ]);
+
+            const res = await request(app).get('/api/candidatos/available');
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.map(candidato => candidato.nombre)).toEqual(['Alfa Candidato', 'Zeta Candidato']);
+            expect(res.body[0].historial_noticias).toBeUndefined();
+        });
+    });
+
+    describe('PATCH /api/candidatos/:id', () => {
+        test('Debe editar datos básicos sin perder el resto del perfil', async () => {
+            const candidato = await Candidato.create({
+                nombre: 'Nombre Original',
+                partidoPolitico: 'Partido Original',
+                propuestas: ['Propuesta existente']
+            });
+
+            const res = await request(app)
+                .patch(`/api/candidatos/${candidato._id}`)
+                .set('Cookie', [`token=${adminToken}`])
+                .send({
+                    nombre: 'Nombre Actualizado',
+                    partidoPolitico: 'Partido Actualizado',
+                    fotoUrl: 'https://example.com/foto.jpg'
+                });
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.nombre).toBe('Nombre Actualizado');
+            expect(res.body.fotoUrl).toBe('https://example.com/foto.jpg');
+            expect(res.body.propuestas).toEqual(['Propuesta existente']);
+        });
+
+        test('Debe permitir quitar la fotografía', async () => {
+            const candidato = await Candidato.create({
+                nombre: 'Candidato Con Foto',
+                fotoUrl: 'https://example.com/anterior.jpg'
+            });
+
+            const res = await request(app)
+                .patch(`/api/candidatos/${candidato._id}`)
+                .set('Cookie', [`token=${adminToken}`])
+                .send({ nombre: candidato.nombre, partidoPolitico: 'Independiente', fotoUrl: '' });
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.fotoUrl).toBeUndefined();
         });
     });
 

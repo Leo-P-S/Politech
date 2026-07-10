@@ -13,19 +13,24 @@ const adminOnly = [authMiddleware, (req, res, next) => {
 
 // POST: Crear un nuevo candidato (SOLO ADMIN)
 router.post('/', adminOnly, async (req, res) => {
-    const { nombre, partidoPolitico, equipoTrabajo } = req.body;
+    const { nombre, partidoPolitico, fotoUrl, equipoTrabajo } = req.body;
     if (!nombre || nombre.trim().length < 2) {
         return res.status(400).json({ error: 'El campo nombre es requerido (mín. 2 caracteres).' });
     }
+    if (fotoUrl) {
+        try {
+            const parsedUrl = new URL(fotoUrl);
+            if (!['http:', 'https:'].includes(parsedUrl.protocol)) throw new Error('Protocolo inválido');
+        } catch (error) {
+            return res.status(400).json({ error: 'La URL de fotografía debe ser una dirección http/https válida.' });
+        }
+    }
     try {
-        const equipo = equipoTrabajo || [
-            { nombre: 'Carlos Mendoza', cargo: 'Jefe de Plan de Gobierno' },
-            { nombre: 'Ana María Torres', cargo: 'Portavoz Oficial' }
-        ];
         const nuevoCandidato = new Candidato({ 
             nombre: nombre.trim(), 
             partidoPolitico: partidoPolitico?.trim() || 'Independiente',
-            equipoTrabajo: equipo
+            fotoUrl: fotoUrl?.trim() || undefined,
+            equipoTrabajo: Array.isArray(equipoTrabajo) ? equipoTrabajo : []
         });
         const candidatoGuardado = await nuevoCandidato.save();
         res.status(201).json(candidatoGuardado);
@@ -35,6 +40,19 @@ router.post('/', adminOnly, async (req, res) => {
         }
         console.error("Error al guardar candidato:", error);
         res.status(500).json({ mensaje: 'Error al crear el candidato en la base de datos' });
+    }
+});
+
+// GET: Listado liviano para el selector público de candidatos
+router.get('/available', async (req, res) => {
+    try {
+        const candidatos = await Candidato.find()
+            .sort({ nombre: 1 })
+            .select('nombre partidoPolitico _id');
+        res.json(candidatos);
+    } catch (error) {
+        console.error("Error al listar candidatos disponibles:", error);
+        res.status(500).json({ error: 'No se pudo cargar la lista de candidatos.' });
     }
 });
 
@@ -77,6 +95,39 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         console.error("Error al obtener detalle del candidato:", error);
         res.status(500).json({ error: error.message });
+    }
+});
+
+// PATCH: Editar datos básicos de un candidato (SOLO ADMIN)
+router.patch('/:id', adminOnly, async (req, res) => {
+    const { nombre, partidoPolitico, fotoUrl } = req.body;
+    if (!nombre || nombre.trim().length < 2) {
+        return res.status(400).json({ error: 'El campo nombre es requerido (mín. 2 caracteres).' });
+    }
+    if (fotoUrl) {
+        try {
+            const parsedUrl = new URL(fotoUrl);
+            if (!['http:', 'https:'].includes(parsedUrl.protocol)) throw new Error('Protocolo inválido');
+        } catch (error) {
+            return res.status(400).json({ error: 'La URL de fotografía debe ser una dirección http/https válida.' });
+        }
+    }
+
+    try {
+        const candidato = await Candidato.findById(req.params.id);
+        if (!candidato) return res.status(404).json({ error: 'Candidato no encontrado' });
+
+        candidato.nombre = nombre.trim();
+        candidato.partidoPolitico = partidoPolitico?.trim() || 'Independiente';
+        candidato.fotoUrl = fotoUrl?.trim() || undefined;
+        await candidato.save();
+        res.json(candidato);
+    } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({ error: 'Ya existe un candidato con ese nombre.' });
+        }
+        console.error('Error al editar candidato:', error);
+        res.status(500).json({ error: 'No se pudo actualizar el candidato.' });
     }
 });
 

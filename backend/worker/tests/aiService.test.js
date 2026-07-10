@@ -110,8 +110,9 @@ describe('AI Service', () => {
 
   test('generateCandidateSummary en MOCK_MODE debe retornar resumen falso', async () => {
     process.env.MOCK_MODE = 'true';
-    const result = await aiService.generateCandidateSummary([{ titular: 'Noticia 1' }], 'Keiko Fujimori');
-    expect(result).toContain('Keiko Fujimori es una política peruana');
+    const result = await aiService.generateCandidateSummary([{ titular: 'Noticia 1' }], 'Roberto Sánchez');
+    expect(result).toContain('Roberto Sánchez es una figura política peruana');
+    expect(result).not.toContain('Keiko Fujimori');
     expect(mockGenerateContent).not.toHaveBeenCalled();
   });
 
@@ -142,5 +143,72 @@ describe('AI Service', () => {
     const newsList = [{ titular: 'Noticia 1' }];
     const result = await aiService.generateCandidateSummary(newsList, 'Candidato Falso');
     expect(result).toBe('Error al generar la síntesis automática.');
+  });
+
+  test('extractCandidateProfileData debe extraer propuestas y antecedentes con evidencia', async () => {
+    mockGenerateContent.mockResolvedValueOnce({
+      response: { text: () => JSON.stringify({
+        propuestas: [{ descripcion: 'Crear hospitales.', fuente: 'Diario', enlace: 'https://test.com/propuesta' }],
+        antecedentesJudiciales: [{ descripcion: 'Investigación fiscal en curso.', fuente: 'Diario', enlace: 'https://test.com/caso' }],
+        equipoTrabajo: [{ nombre: 'Persona Real', cargo: 'Jefa del plan de gobierno', fuente: 'Fuente alterada', enlace: 'https://test.com/equipo' }]
+      }) }
+    });
+
+    const result = await aiService.extractCandidateProfileData([
+      {
+        titular: 'Propuesta electoral',
+        medio_prensa: 'Diario',
+        enlace_origen: 'https://test.com/propuesta',
+        contenido_crudo: 'Contenido de la propuesta'
+      },
+      {
+        titular: 'Caso fiscal',
+        medio_prensa: 'Diario',
+        enlace_origen: 'https://test.com/caso',
+        contenido_crudo: 'Contenido del caso'
+      },
+      {
+        titular: 'Equipo técnico',
+        medio_prensa: 'Fuente verificable',
+        enlace_origen: 'https://test.com/equipo',
+        contenido_crudo: 'Persona Real dirige el plan de gobierno del candidato.'
+      }
+    ], 'Candidato Falso');
+
+    expect(result.propuestas[0].descripcion).toBe('Crear hospitales.');
+    expect(result.antecedentesJudiciales[0].descripcion).toBe('Investigación fiscal en curso.');
+    expect(result.equipoTrabajo).toEqual([{
+      nombre: 'Persona Real',
+      cargo: 'Jefa del plan de gobierno',
+      fuente: 'Fuente verificable',
+      enlace: 'https://test.com/equipo'
+    }]);
+  });
+
+  test('extractCandidateProfileData debe rechazar evidencia con enlaces ajenos al lote', async () => {
+    mockGenerateContent.mockResolvedValueOnce({
+      response: { text: () => JSON.stringify({
+        propuestas: [{ descripcion: 'Dato sin sustento.', fuente: 'Medio inventado', enlace: 'https://otro.com' }],
+        antecedentesJudiciales: [],
+        equipoTrabajo: [{ nombre: 'Persona Inventada', cargo: 'Asesor', fuente: 'Medio inventado', enlace: 'https://otro.com' }]
+      }) }
+    });
+
+    const result = await aiService.extractCandidateProfileData([{
+      titular: 'Noticia real',
+      medio_prensa: 'Diario',
+      enlace_origen: 'https://test.com/real'
+    }], 'Candidato Falso');
+
+    expect(result.propuestas).toEqual([]);
+    expect(result.equipoTrabajo).toEqual([]);
+  });
+
+  test('extractCandidateProfileData debe retornar null si Gemini falla', async () => {
+    mockGenerateContent.mockRejectedValueOnce(new Error('Gemini Down'));
+
+    const result = await aiService.extractCandidateProfileData([{ titular: 'Noticia' }], 'Candidato Falso');
+
+    expect(result).toBeNull();
   });
 });

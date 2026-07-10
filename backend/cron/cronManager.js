@@ -2,6 +2,7 @@ const cron = require('node-cron');
 const Config = require('../models/Config');
 const Candidato = require('../models/Candidato');
 const aiService = require('../worker/services/aiService');
+const scraperService = require('../worker/services/scraperService');
 const logger = require('../worker/logger');
 
 class CronManager {
@@ -45,15 +46,23 @@ class CronManager {
   /**
    * Busca todas las noticias no procesadas en la BD y las pasa por la IA
    */
-  async runAIBatchProcess() {
+  async runAIBatchProcess({ forceRefresh = false, candidateId = null } = {}) {
     try {
-      const candidates = await Candidato.find({});
+      const candidates = await Candidato.find(candidateId ? { _id: candidateId } : {});
       let totalProcessed = 0;
 
       for (let candidate of candidates) {
         // Filtramos las noticias que aún no han sido procesadas
         const unprocessedNews = candidate.historial_noticias.filter(n => !n.procesado_por_ia);
         let hasChanges = false;
+        const fakeTeamNames = new Set(['carlos mendoza', 'ana maría torres', 'ana maria torres']);
+        const cleanTeam = (candidate.equipoTrabajo || []).filter(member =>
+          member.nombre && !fakeTeamNames.has(member.nombre.toLowerCase().trim())
+        );
+        if (cleanTeam.length !== (candidate.equipoTrabajo || []).length) {
+          candidate.equipoTrabajo = cleanTeam;
+          hasChanges = true;
+        }
         
         if (unprocessedNews.length > 0) {
           logger.info(`Procesando ${unprocessedNews.length} noticias pendientes para ${candidate.nombre}...`);
@@ -102,11 +111,34 @@ class CronManager {
 
         // Si se procesaron nuevas noticias, o si el candidato tiene noticias pero no tiene resumen global generado
         const allProcessedNews = candidate.historial_noticias.filter(n => n.procesado_por_ia);
-        if (allProcessedNews.length > 0 && (hasChanges || !candidate.resumenIA)) {
+        if (allProcessedNews.length > 0 && (forceRefresh || hasChanges || !candidate.resumenIA)) {
           logger.info(`Generando resumen global (resumenIA) para ${candidate.nombre}...`);
           const resumenGlobal = await aiService.generateCandidateSummary(allProcessedNews, candidate.nombre);
           candidate.resumenIA = resumenGlobal;
           hasChanges = true;
+        }
+
+        let profileEvidence = allProcessedNews;
+        if (forceRefresh && process.env.MOCK_MODE !== 'true') {
+          logger.info(`Buscando fuentes específicas sobre el equipo de ${candidate.nombre}...`);
+          const teamSources = await scraperService.discoverTeamSources(candidate.nombre);
+          profileEvidence = [...allProcessedNews, ...teamSources];
+        }
+
+        if (profileEvidence.length > 0 && (forceRefresh || hasChanges || !candidate.perfilIAProcesado)) {
+          logger.info(`Extrayendo propuestas, antecedentes y equipo para ${candidate.nombre}...`);
+          const profileData = await aiService.extractCandidateProfileData(profileEvidence, candidate.nombre);
+
+          if (profileData) {
+            candidate.propuestas = this.mergeProfileItems(candidate.propuestas, profileData.propuestas);
+            candidate.antecedentesJudiciales = this.mergeProfileItems(
+              candidate.antecedentesJudiciales,
+              profileData.antecedentesJudiciales
+            );
+            candidate.equipoTrabajo = this.mergeTeamMembers(candidate.equipoTrabajo, profileData.equipoTrabajo);
+            candidate.perfilIAProcesado = true;
+            hasChanges = true;
+          }
         }
 
         if (hasChanges) {
@@ -120,6 +152,50 @@ class CronManager {
     } catch (error) {
       logger.error('Error durante el procesamiento por lotes de IA:', error);
     }
+  }
+
+  mergeProfileItems(existingItems = [], extractedItems = []) {
+    const result = [...existingItems];
+    const normalize = item => item
+      .replace(/\s*\(Fuente:.*\)\s*$/i, '')
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .trim();
+    const normalizedItems = new Set(existingItems.map(normalize));
+
+    extractedItems.forEach(item => {
+      if (!item || typeof item.descripcion !== 'string' || !item.descripcion.trim()) return;
+
+      const description = item.descripcion.trim();
+      const normalizedDescription = normalize(description);
+      if (normalizedItems.has(normalizedDescription)) return;
+
+      const source = typeof item.fuente === 'string' ? item.fuente.trim() : '';
+      const link = typeof item.enlace === 'string' ? item.enlace.trim() : '';
+      const attribution = [source, link].filter(Boolean).join(' - ');
+      result.push(attribution ? `${description} (Fuente: ${attribution})` : description);
+      normalizedItems.add(normalizedDescription);
+    });
+
+    return result;
+  }
+
+  mergeTeamMembers(existingMembers = [], extractedMembers = []) {
+    const result = [...existingMembers];
+    const normalizedMembers = new Set(existingMembers.map(member =>
+      `${member.nombre || ''}|${member.cargo || ''}`.toLowerCase().replace(/\s+/g, ' ').trim()
+    ));
+
+    extractedMembers.forEach(member => {
+      if (!member?.nombre || !member?.cargo || !member?.enlace) return;
+      const key = `${member.nombre}|${member.cargo}`.toLowerCase().replace(/\s+/g, ' ').trim();
+      if (normalizedMembers.has(key)) return;
+
+      result.push(member);
+      normalizedMembers.add(key);
+    });
+
+    return result;
   }
 }
 

@@ -76,6 +76,13 @@ describe('CronManager', () => {
           analisis_ia: {}
         }
       ],
+      propuestas: ['Propuesta existente'],
+      antecedentesJudiciales: [],
+      equipoTrabajo: [
+        { nombre: 'Carlos Mendoza', cargo: 'Jefe de Plan de Gobierno' },
+        { nombre: 'Miembro existente', cargo: 'Asesor' }
+      ],
+      perfilIAProcesado: false,
       save: mockSave
     };
 
@@ -87,12 +94,26 @@ describe('CronManager', () => {
       sesgo_politico: 'Sesgo 1',
       entidades_clave: ['Entidad 1']
     }]);
+    aiService.generateCandidateSummary.mockResolvedValueOnce('Resumen global');
+    aiService.extractCandidateProfileData.mockResolvedValueOnce({
+      propuestas: [
+        { descripcion: 'Propuesta existente', fuente: 'Medio A', enlace: 'https://test.com/a' },
+        { descripcion: 'Nueva propuesta', fuente: 'Medio B', enlace: 'https://test.com/b' }
+      ],
+      antecedentesJudiciales: [
+        { descripcion: 'Investigación fiscal en curso', fuente: 'Medio C', enlace: 'https://test.com/c' }
+      ],
+      equipoTrabajo: [
+        { nombre: 'Miembro existente', cargo: 'Asesor', fuente: 'Medio D', enlace: 'https://test.com/d' },
+        { nombre: 'Nueva integrante', cargo: 'Jefa de campaña', fuente: 'Medio E', enlace: 'https://test.com/e' }
+      ]
+    });
 
     await cronManager.runAIBatchProcess();
 
     expect(Candidato.find).toHaveBeenCalled();
     expect(aiService.processAllArticles).toHaveBeenCalledWith(
-      [{ title: 'N1', content: 'Contenido 1' }],
+      [{ title: 'N1', content: 'Contenido 1', date: undefined, source: undefined, url: undefined }],
       'Candidato Test'
     );
     expect(mockCandidato.historial_noticias[0].procesado_por_ia).toBe(true);
@@ -103,6 +124,18 @@ describe('CronManager', () => {
       sesgo_politico: 'Sesgo 1',
       entidades_clave: ['Entidad 1']
     });
+    expect(mockCandidato.propuestas).toEqual([
+      'Propuesta existente',
+      'Nueva propuesta (Fuente: Medio B - https://test.com/b)'
+    ]);
+    expect(mockCandidato.antecedentesJudiciales).toEqual([
+      'Investigación fiscal en curso (Fuente: Medio C - https://test.com/c)'
+    ]);
+    expect(mockCandidato.perfilIAProcesado).toBe(true);
+    expect(mockCandidato.equipoTrabajo).toEqual([
+      { nombre: 'Miembro existente', cargo: 'Asesor' },
+      { nombre: 'Nueva integrante', cargo: 'Jefa de campaña', fuente: 'Medio E', enlace: 'https://test.com/e' }
+    ]);
     expect(mockSave).toHaveBeenCalled();
   });
 
@@ -110,5 +143,14 @@ describe('CronManager', () => {
     Candidato.find.mockRejectedValueOnce(new Error('DB Error'));
     // No debe lanzar error pero debe atraparlo internamente e imprimirlo
     await expect(cronManager.runAIBatchProcess()).resolves.toBeUndefined();
+  });
+
+  test('runAIBatchProcess debe filtrar por candidato en una ejecución manual', async () => {
+    const candidateId = '507f1f77bcf86cd799439011';
+    Candidato.find.mockResolvedValueOnce([]);
+
+    await cronManager.runAIBatchProcess({ candidateId, forceRefresh: true });
+
+    expect(Candidato.find).toHaveBeenCalledWith({ _id: candidateId });
   });
 });
