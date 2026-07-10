@@ -1,5 +1,6 @@
 {
   "env": {
+    "browser": true,
     "node": true,
     "es2021": true,
     "jest": true
@@ -9,11 +10,17 @@
     "plugin:security/recommended-legacy"
   ],
   "plugins": [
-    "security"
+    "security",
+    "react"
   ],
   "parserOptions": {
     "ecmaVersion": 12,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
-  "rules": {}
+  "rules": {
+    "react/jsx-uses-vars": "error"
+  }
 }

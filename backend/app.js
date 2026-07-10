@@ -19,7 +19,14 @@ const PORT = process.env.PORT || 3000;
 // 2. Ejecutar la conexión a MongoDB y Cron (Solo si no estamos en pruebas)
 /* istanbul ignore next */
 if (process.env.NODE_ENV !== 'test') {
-    connectDB().then(() => {
+    connectDB().then(async () => {
+        await Candidato.updateMany({}, {
+            $pull: {
+                equipoTrabajo: {
+                    nombre: { $in: ['Carlos Mendoza', 'Ana María Torres', 'Ana Maria Torres'] }
+                }
+            }
+        });
         cronManager.scheduleAITask();
     }).catch(err => console.error('Error en inicialización:', err));
 }
@@ -122,11 +129,21 @@ app.post('/api/ai/process', authMiddleware, async (req, res) => {
         return res.status(403).json({ error: 'Acceso denegado. Se requiere cuenta de administrador.' });
     }
 
+    const { candidateId, mockMode } = req.body;
+    if (!candidateId) {
+        return res.status(400).json({ error: 'Debes seleccionar un candidato.' });
+    }
+    if (!mongoose.Types.ObjectId.isValid(candidateId)) {
+        return res.status(400).json({ error: 'candidateId inválido' });
+    }
+
+    process.env.MOCK_MODE = mockMode ? 'true' : 'false';
+
     try {
-        cronManager.runAIBatchProcess().catch(err => {
+        cronManager.runAIBatchProcess({ forceRefresh: true, candidateId }).catch(err => {
             logger.error(`Error en IA: ${err.message}`);
         });
-        res.json({ status: 'started', message: 'IA iniciada.' });
+        res.json({ status: 'started', message: 'IA iniciada para el candidato seleccionado.' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

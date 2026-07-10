@@ -30,6 +30,7 @@ const candidatoSchema = new mongoose.Schema({
         type: String, 
         default: 'Desconocido'
     },
+    fotoUrl: String,
     propuestas: [{ 
         type: String 
     }],
@@ -39,10 +40,16 @@ const candidatoSchema = new mongoose.Schema({
     historial_noticias: [noticiaSchema],
     equipoTrabajo: [{
         nombre: String,
-        cargo: String
+        cargo: String,
+        fuente: String,
+        enlace: String
     }],
     resumenIA: { 
         type: String 
+    },
+    perfilIAProcesado: {
+        type: Boolean,
+        default: false
     }
 }, {
     // Esto crea automáticamente los campos 'createdAt' y 'updatedAt'

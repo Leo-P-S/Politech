@@ -142,6 +142,24 @@ describe('Scraper Service', () => {
     expect(results[0].url).toBe('https://peru21.pe/politica/candidato-test-elecciones.html');
   });
 
+  test('discoverTeamSources debe deduplicar y extraer fuentes sobre el equipo', async () => {
+    jest.spyOn(scraperService, 'discoverUrls')
+      .mockResolvedValueOnce([{ url: 'https://medio.pe/equipo-candidato.html', title: 'Equipo', snippet: 'Equipo técnico confirmado', source: 'Medio' }])
+      .mockResolvedValueOnce([{ url: 'https://medio.pe/equipo-candidato.html', title: 'Duplicado', snippet: 'Duplicado', source: 'Medio' }])
+      .mockResolvedValueOnce([]);
+    jest.spyOn(scraperService, 'fetchHtml').mockResolvedValue('<html></html>');
+    jest.spyOn(scraperService, 'cleanHtml').mockReturnValue({
+      title: 'Equipo confirmado',
+      textContent: 'Persona Real fue presentada oficialmente como jefa del equipo técnico del candidato.'
+    });
+
+    const results = await scraperService.discoverTeamSources('Candidato Test', 5);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].enlace_origen).toBe('https://medio.pe/equipo-candidato.html');
+    expect(results[0].medio_prensa).toBe('medio.pe');
+  });
+
   test('discoverUrlsFromGdelt debe retornar artículos utilizando la API de GDELT', async () => {
     const fakeData = {
       articles: [
@@ -186,6 +204,7 @@ describe('Scraper Service', () => {
       { url: 'https://sourceA.com/news-candidato-test', title: 'T1', date: '2023-01-01', source: 'SourceA', snippet: 'Snippet 1' },
       { url: 'https://sourceA.com/news2-candidato-test', title: 'T2', date: '2023-01-02', source: 'SourceA', snippet: 'Snippet 2' }
     ]);
+    jest.spyOn(scraperService, 'discoverUrls').mockResolvedValueOnce([]);
     jest.spyOn(scraperService, 'discoverUrlsFromGdelt').mockResolvedValueOnce([
       { url: 'https://sourceB.com/news-candidato-test', title: 'T3', date: '2023-01-03', source: 'SourceB', snippet: 'Snippet 3' }
     ]);

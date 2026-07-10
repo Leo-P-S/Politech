@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
@@ -81,7 +80,7 @@ const CandidateProfile = () => {
         <AISummaryCard resumenIA={candidato.resumenIA} />
 
         {/* Pestañas de Datos Duros */}
-        <div className="bg-white border border-slate-200 rounded-xl p-2 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
           <DataTabs candidatoData={candidato} />
         </div>
         

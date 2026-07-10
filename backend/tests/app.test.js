@@ -115,7 +115,10 @@ test('POST /api/trigger retorna 200 si el candidato existe e inicia el scraping'
 });
 
 test('POST /api/ai/process retorna 200 y mensaje de inicio', async () => {
-    const res = await request(app).post('/api/ai/process');
+    const res = await request(app).post('/api/ai/process').send({
+        candidateId: '507f1f77bcf86cd799439011',
+        mockMode: false
+    });
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe('started');
 });
