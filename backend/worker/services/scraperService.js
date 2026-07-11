@@ -356,22 +356,22 @@ class ScraperService {
         const MAX_RETRIES = 3;
 
         while (!success && retries < MAX_RETRIES) {
-          const baseDelay =
-            retries === 0
-              ? 30000
-              : retries === 1
-                ? 60000
-                : 120000;
+          if (retries > 0) {
+            const baseDelay =
+              retries === 1
+                ? 30000
+                : 60000;
 
-          const jitter = Math.floor(Math.random() * 5000);
-          const waitMs = baseDelay + jitter;
+            const jitter = Math.floor(Math.random() * 5000);
+            const waitMs = baseDelay + jitter;
 
-          logger.info(
-            `GDELT: Esperando ${Math.round(waitMs / 1000)}s ` +
-            `antes del intento ${retries + 1}/${MAX_RETRIES}...`
-          );
+            logger.info(
+              `GDELT: Esperando ${Math.round(waitMs / 1000)}s ` +
+              `antes del reintento ${retries + 1}/${MAX_RETRIES} por rate limit...`
+            );
 
-          await sleep(waitMs);
+            await sleep(waitMs);
+          }
 
           try {
             const response = await axios.get(searchUrl, {
