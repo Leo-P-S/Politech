@@ -915,8 +915,8 @@ class ScraperService {
     discovered.sort((a, b) => {
       let aDomain = '';
       let bDomain = '';
-      try { aDomain = new URL(a.url).hostname.replace('www.', ''); } catch (e) {}
-      try { bDomain = new URL(b.url).hostname.replace('www.', ''); } catch (e) {}
+      try { aDomain = new URL(a.url).hostname.replace('www.', ''); } catch (e) { /* ignore */ }
+      try { bDomain = new URL(b.url).hostname.replace('www.', ''); } catch (e) { /* ignore */ }
       const aTrusted = TRUSTED_DOMAINS.has(aDomain) ? 1 : 0;
       const bTrusted = TRUSTED_DOMAINS.has(bDomain) ? 1 : 0;
       return bTrusted - aTrusted;

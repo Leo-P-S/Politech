@@ -3876,3 +3876,21 @@
 {"level":"error","message":"Error al descargar HTML de https://peru21.pe/politica/lopez-aliaga-se-reune-con-keiko-fujimori-y-ofrece-apoyo-inseguridad-ciudadana/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-07-11 16:51:38"}
 {"level":"error","message":"Error al descargar HTML de https://peru21.pe/politica/rafael-lopez-aliaga-anuncia-reunion-con-keiko-fujimori-y-ofrece-su-equipo-tecnico-para-reforzar-la-seguridad/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-07-11 16:51:42"}
 {"level":"error","message":"Error al descargar HTML de https://www.expreso.com.pe/politica/se-inicia-transferencia-de-gobierno-asi-empezo-entrega-de-gestion-a-equipo-tecnico-de-fuerza-popular-luis-arroyo-marco-antonio-vinelli-keiko-fujimori-noticia/1299511/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-07-11 16:51:46"}
+{"level":"info","message":"Se encontraron 10 fuentes sobre el equipo de Keiko Fujimori.","service":"worker-pipeline","timestamp":"2026-07-11 16:52:16"}
+{"level":"info","message":"Buscando noticias en Bing News para candidato: Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-07-11 16:52:16"}
+{"level":"error","message":"Error buscando URLs en Bing para Keiko Fujimori: about:blank:19:1340: disallowed character in entity name.","service":"worker-pipeline","timestamp":"2026-07-11 16:52:19"}
+{"level":"info","message":"Buscando noticias en Bing News para candidato: Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-07-11 16:52:19"}
+{"level":"error","message":"Error buscando URLs en Bing para Keiko Fujimori: about:blank:18:1340: disallowed character in entity name.","service":"worker-pipeline","timestamp":"2026-07-11 16:52:22"}
+{"level":"info","message":"Buscando noticias en Bing News para candidato: Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-07-11 16:52:22"}
+{"level":"info","message":"Se descubrieron 10 URLs en Bing para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-07-11 16:52:25"}
+{"level":"error","message":"Error al descargar HTML de https://www.expreso.com.pe/judicial/antaurista-fracasa-impidiendo-proclamacion-de-keiko-fujimori-pj-rechaza-argumento-de-doble-nacionalidad-antauro-humala-tomas-soldevilla-conteo-onpe-jne-roberto-sanchez-noticia/1298569/: Request failed with status code 403","service":"worker-pipeline","timestamp":"2026-07-11 16:53:01"}
+{"level":"info","message":"[Scraper] Se descubrieron 10 fuentes activas JNE/propuestas/antecedentes para Keiko Fujimori.","service":"worker-pipeline","timestamp":"2026-07-11 16:53:12"}
+{"level":"info","message":"[PROCESO IA] Extrayendo propuestas, antecedentes y equipo técnico para Keiko Fujimori...","service":"worker-pipeline","timestamp":"2026-07-11 16:53:12"}
+{"level":"info","message":"[PROCESO IA] Datos del perfil (propuestas, antecedentes y equipo) actualizados exitosamente.","service":"worker-pipeline","timestamp":"2026-07-11 16:53:18"}
+{"level":"info","message":"[PROCESO IA] Actualizando tendencias para Keiko Fujimori...","service":"worker-pipeline","timestamp":"2026-07-11 16:53:18"}
+{"level":"info","message":"Consultando tendencias para Keiko Fujimori","service":"worker-pipeline","timestamp":"2026-07-11 16:53:18"}
+{"level":"info","message":"[PROCESO IA] Guardando cambios del candidato Keiko Fujimori en la base de datos...","service":"worker-pipeline","timestamp":"2026-07-11 16:53:18"}
+{"level":"info","message":"[PROCESO IA] === Finalizado análisis para Keiko Fujimori ===","service":"worker-pipeline","timestamp":"2026-07-11 16:53:19"}
+{"level":"info","message":"[PROCESO IA] Lote completado. Total de noticias procesadas por la IA: 10","service":"worker-pipeline","timestamp":"2026-07-11 16:53:19"}
+{"level":"info","message":"[PROCESO IA] === LA GESTIÓN DE PROCESAMIENTO IA HA FINALIZADO EXITOSAMENTE ===","service":"worker-pipeline","timestamp":"2026-07-11 16:53:19"}
+{"level":"info","message":"Agendando procesamiento de IA con expresión cron: 0 3 * * 0","service":"worker-pipeline","timestamp":"2026-07-11 16:54:04"}
