@@ -13,10 +13,13 @@ class TrendsService {
       return {
         keyword: candidateName,
         interestOverTime: [
-          { date: '2023-01-01', value: 50 },
-          { date: '2023-02-01', value: 65 }
+          { date: '2026-03-01', value: 45 },
+          { date: '2026-04-01', value: 55 },
+          { date: '2026-05-01', value: 70 },
+          { date: '2026-06-01', value: 85 },
+          { date: '2026-07-01', value: 92 }
         ],
-        relatedQueries: ['Escándalo ' + candidateName, 'Propuestas ' + candidateName]
+        relatedQueries: ['Escándalo ' + candidateName, 'Propuestas ' + candidateName, 'Elecciones 2026 ' + candidateName]
       };
     } catch (error) {
       logger.error(`Error al consultar tendencias para ${candidateName}: ${error.message}`);

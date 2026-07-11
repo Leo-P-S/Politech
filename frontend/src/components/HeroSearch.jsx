@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Loader2, Users, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import Fuse from 'fuse.js';
 
 const HeroSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,11 +31,19 @@ const HeroSearch = () => {
     }
   };
 
-  const normalizedTerm = searchTerm.trim().toLocaleLowerCase('es');
-  const suggestions = candidates.filter(candidato =>
-    candidato.nombre.toLocaleLowerCase('es').includes(normalizedTerm) ||
-    candidato.partidoPolitico?.toLocaleLowerCase('es').includes(normalizedTerm)
-  );
+  const normalizedTerm = searchTerm.trim();
+  
+  let suggestions = [];
+  if (normalizedTerm) {
+    const fuse = new Fuse(candidates, {
+      keys: ['nombre', 'partidoPolitico'],
+      threshold: 0.4,
+      ignoreLocation: true
+    });
+    suggestions = fuse.search(normalizedTerm).map(res => res.item).slice(0, 5);
+  } else {
+    suggestions = candidates.slice(0, 5);
+  }
 
   const handleSelectCandidate = async (candidato) => {
     setSearchTerm(candidato.nombre);

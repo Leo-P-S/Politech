@@ -353,7 +353,7 @@ class ScraperService {
 
         let success = false;
         let retries = 0;
-        const MAX_RETRIES = 3;
+        const MAX_RETRIES = 2;
 
         while (!success && retries < MAX_RETRIES) {
           if (retries > 0) {
@@ -685,31 +685,23 @@ class ScraperService {
       let gdeltArticles = [];
       let newsApiArticles = [];
 
-      // 1. Feeds RSS directos.
+      // Ejecutar descubrimientos en paralelo (Concurrencia)
+      const promises = [];
+
       if (useRSS) {
-        feedArticles = await this.discoverUrlsFromFeeds(candidateName);
-        // Bing complementa los feeds directos, incluso si estos encuentran pocos resultados.
-        bingArticles = await this.discoverUrls(candidateName);
+        promises.push(this.discoverUrlsFromFeeds(candidateName).then(res => { feedArticles = res; }).catch(e => logger.error(`Error feeds: ${e.message}`)));
+        promises.push(this.discoverUrls(candidateName).then(res => { bingArticles = res; }).catch(e => logger.error(`Error bing: ${e.message}`)));
       }
 
-      // 2. Histórico con GDELT.
       if (useGdelt) {
-        gdeltArticles = await this.discoverUrlsFromGdelt(
-          candidateName,
-          startDate,
-          endDate,
-          maxArticles
-        );
+        promises.push(this.discoverUrlsFromGdelt(candidateName, startDate, endDate, maxArticles).then(res => { gdeltArticles = res; }).catch(e => logger.error(`Error gdelt: ${e.message}`)));
       }
 
-      // 3. Histórico reciente con NewsAPI.
       if (useNewsApi) {
-        newsApiArticles = await this.discoverUrlsFromNewsApi(
-          candidateName,
-          startDate,
-          endDate
-        );
+        promises.push(this.discoverUrlsFromNewsApi(candidateName, startDate, endDate).then(res => { newsApiArticles = res; }).catch(e => logger.error(`Error newsapi: ${e.message}`)));
       }
+
+      await Promise.allSettled(promises);
 
       // Combinar eliminando duplicados.
       const combinedUrls = new Set();

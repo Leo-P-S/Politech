@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import HeroSearch from '../components/HeroSearch';
 import { useAuth } from '../context/AuthContext';
-import { ShieldCheck, LogOut, User, Bell, Clock, LogIn } from 'lucide-react';
+import { ShieldCheck, LogOut, User, Bell, Clock, LogIn, Users } from 'lucide-react';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -39,7 +39,11 @@ const Home = () => {
           <span className="font-bold text-slate-900">Politech</span>
         </div>
         
-        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
+            <Link to="/directorio" className="text-sm font-semibold text-slate-600 hover:text-blue-700 flex items-center gap-1 transition-colors">
+              <Users className="h-4 w-4" /> Directorio
+            </Link>
+          
           {isLoggedIn ? (
             <div className="flex items-center gap-4">
               <span className="text-sm text-slate-600 flex items-center gap-1.5 font-medium">

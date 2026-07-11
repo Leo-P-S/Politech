@@ -7,6 +7,7 @@ import Register from './pages/Register'
 import AdminDashboard from './pages/AdminDashboard'
 import ElectorAlerts from './pages/ElectorAlerts'
 
+import Directory from './pages/Directory'
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/directorio" element={<Directory />} />
           <Route path="/candidato/:id" element={<CandidateProfile />} />
           <Route path="/candidato/alertas" element={<ElectorAlerts />} />
           <Route path="/login" element={<Login />} />

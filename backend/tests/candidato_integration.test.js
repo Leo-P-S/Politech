@@ -140,7 +140,7 @@ describe('Pruebas de Integración - Candidatos (Base de Datos Real)', () => {
         test('Debe manejar errores de base de datos en búsqueda', async () => {
             const findSpy = jest.spyOn(Candidato, 'find').mockImplementationOnce(() => {
                 return {
-                    limit: jest.fn().mockReturnThis(),
+                    lean: jest.fn().mockReturnThis(),
                     select: jest.fn().mockRejectedValueOnce(new Error('Search DB fail'))
                 };
             });

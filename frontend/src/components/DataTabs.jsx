@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { TrendsChart } from './TrendsChart';
 
 const DataTabs = ({ candidatoData }) => {
   const [activeTab, setActiveTab] = useState('propuestas');
@@ -9,6 +10,7 @@ const DataTabs = ({ candidatoData }) => {
     { id: 'antecedentes', label: 'Antecedentes y Alertas' },
     { id: 'noticias', label: 'Noticias Verificadas' },
     { id: 'equipo', label: 'Equipo de Trabajo' },
+    { id: 'tendencias', label: 'Tendencias' },
   ];
 
   // Mostrar solo las cuatro categorías más frecuentes para mantener el filtro compacto.
@@ -194,6 +196,12 @@ const DataTabs = ({ candidatoData }) => {
             ) : (
               <p className="text-slate-500 italic">No se ha registrado información de asesores o equipo técnico para este candidato.</p>
             )}
+          </div>
+        )}
+
+        {activeTab === 'tendencias' && (
+          <div className="text-slate-600">
+             <TrendsChart trendsData={candidatoData.trendsData} />
           </div>
         )}
       </div>
