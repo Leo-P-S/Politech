@@ -62,12 +62,17 @@ router.get('/search', async (req, res) => {
         const { q } = req.query;
         if (!q || q.trim().length < 3) return res.json([]);
         
-        const candidatos = await Candidato.find({
-            $or: [
-                { nombre: { $regex: q, $options: 'i' } },
-                { partidoPolitico: { $regex: q, $options: 'i' } }
-            ]
-        }).limit(5).select('nombre partidoPolitico _id');
+        const todosLosCandidatos = await Candidato.find().lean().select('nombre partidoPolitico _id');
+        
+        const Fuse = require('fuse.js');
+        const fuse = new Fuse(todosLosCandidatos, {
+            keys: ['nombre', 'partidoPolitico'],
+            threshold: 0.4, // 0.0 es exacto, 1.0 es muy flexible. 0.4 es ideal para nombres mal escritos
+            ignoreLocation: true
+        });
+
+        // Retornamos las 5 mejores coincidencias "fuzzy"
+        const candidatos = fuse.search(q).map(result => result.item).slice(0, 5);
         res.json(candidatos);
     } catch (error) {
         console.error("Error en búsqueda:", error);

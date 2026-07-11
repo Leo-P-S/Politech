@@ -339,10 +339,18 @@ const AdminDashboard = () => {
     const recentStart = new Date(recentEnd);
     recentStart.setDate(recentStart.getDate() - 29);
     const formatDate = date => date.toISOString().slice(0, 10);
+    
+    let calculatedEndDate = recentEnd;
+    if (useGdelt && startDate) {
+      const start = new Date(startDate);
+      start.setDate(start.getDate() + 60);
+      calculatedEndDate = start;
+    }
+
     triggerScrapeMutation.mutate({
       candidateId,
       startDate: useGdelt ? startDate : formatDate(recentStart),
-      endDate: useGdelt ? endDate : formatDate(recentEnd),
+      endDate: useGdelt ? formatDate(calculatedEndDate) : formatDate(recentEnd),
       useRSS,
       useGdelt,
       useNewsApi,
@@ -490,24 +498,14 @@ const AdminDashboard = () => {
 
               {useGdelt && (
                 <div className="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-2">
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     <div className="space-y-1">
-                      <label className="text-xs text-slate-500 uppercase">Inicio</label>
+                      <label className="text-xs text-slate-500 uppercase">Fecha de Inicio (Buscará 60 días hacia adelante)</label>
                       <input
                         type="date"
                         required
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded p-1 text-xs text-slate-200"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-xs text-slate-500 uppercase">Fin</label>
-                      <input
-                        type="date"
-                        required
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
                         className="w-full bg-slate-950 border border-slate-800 rounded p-1 text-xs text-slate-200"
                       />
                     </div>

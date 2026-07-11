@@ -47,6 +47,9 @@ const candidatoSchema = new mongoose.Schema({
     resumenIA: { 
         type: String 
     },
+    trendsData: {
+        type: mongoose.Schema.Types.Mixed
+    },
     perfilIAProcesado: {
         type: Boolean,
         default: false

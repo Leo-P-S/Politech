@@ -65,7 +65,7 @@ Debes devolver estrictamente un Arreglo JSON con la siguiente estructura exacta 
   }
 ]
 
-Al categorizar y determinar el sesgo y sentimiento, ten en cuenta el peso de las instituciones peruanas y el tono del periodismo local. Asegúrate de procesar todas las noticias proporcionadas. No agregues comillas invertidas ni bloques \`\`\`json. Solo el array.
+Al categorizar y determinar el sesgo y sentimiento, ten en cuenta el peso de las instituciones peruanas y el tono del periodismo local. Como el objetivo de la plataforma es combatir la desinformación (Fake News), si detectas que la noticia se basa en un rumor no verificado, indícalo claramente en el resumen y sesgo. Asegúrate de procesar todas las noticias proporcionadas. No agregues comillas invertidas ni bloques \`\`\`json. Solo el array.
 
 Textos a analizar:
 ${articlesText}
@@ -137,7 +137,7 @@ Eres un analista político peruano experto, de postura estrictamente neutral y o
 
 A partir del siguiente listado de resúmenes de noticias y análisis de la cobertura mediática sobre el candidato peruano "${candidateName}", genera una síntesis ejecutiva del perfil público reciente de este actor político.
 
-La síntesis debe enmarcarse en el actual contexto sociopolítico del Perú. Debe ser formal, libre de apasionamientos, directa y basarse únicamente en los datos proporcionados, sin inventar información.
+La síntesis debe enmarcarse en el actual contexto sociopolítico del Perú. Debe ser formal, libre de apasionamientos, directa y basarse únicamente en los datos proporcionados, sin inventar información. Tu objetivo es combatir la desinformación electoral, por lo que debes descartar rumores y centrarte en hechos probados o posturas oficiales.
 
 Extensión requerida: de 3 a 5 oraciones. Formato: texto plano, sin markdown.
 
@@ -191,6 +191,7 @@ Reglas:
 - Incluye una propuesta solo si el candidato la presentó, anunció o respaldó explícitamente. No confundas opiniones, promesas de terceros ni acciones pasadas con propuestas.
 - Incluye un antecedente judicial solo si se menciona un proceso, investigación fiscal, acusación formal, sentencia o condena atribuible al candidato.
 - Distingue con precisión investigación, acusación y sentencia. No afirmes culpabilidad cuando la fuente solo describe una investigación o denuncia.
+- Filtra la desinformación: Si una fuente menciona una acusación basada en "rumores" o sin evidencia comprobable, omítela estrictamente.
 - No incluyas rumores, inferencias ni información sobre familiares, aliados u otras personas.
 - Incluye en equipoTrabajo solo personas vinculadas explícitamente al equipo técnico, asesoría, vocería, campaña o plan de gobierno del candidato. Exige nombre completo y cargo o función explícita.
 - No incluyas periodistas, entrevistadores, familiares, simpatizantes, rivales ni autoridades mencionadas incidentalmente.

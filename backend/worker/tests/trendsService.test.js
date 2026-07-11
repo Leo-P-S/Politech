@@ -10,7 +10,7 @@ describe('TrendsService', () => {
     const result = await trendsService.getTrendsForCandidate('Candidato Test');
     expect(result).not.toBeNull();
     expect(result.keyword).toBe('Candidato Test');
-    expect(result.interestOverTime).toHaveLength(2);
+    expect(result.interestOverTime).toHaveLength(5);
     expect(result.relatedQueries).toContain('Propuestas Candidato Test');
   });
 

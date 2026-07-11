@@ -142,6 +142,15 @@ class CronManager {
         }
 
         if (hasChanges) {
+          try {
+            const trendsService = require('../worker/services/trendsService');
+            const trends = await trendsService.getTrendsForCandidate(candidate.nombre);
+            if (trends) {
+              candidate.trendsData = trends;
+            }
+          } catch(e) {
+            logger.error('Error fetching trends in cron:', e.message);
+          }
           // Guardamos los cambios en el candidato
           await candidate.save();
         }
