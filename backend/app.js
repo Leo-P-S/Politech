@@ -129,7 +129,7 @@ app.post('/api/ai/process', authMiddleware, async (req, res) => {
         return res.status(403).json({ error: 'Acceso denegado. Se requiere cuenta de administrador.' });
     }
 
-    const { candidateId, mockMode } = req.body;
+    const { candidateId, mockMode, reprocessAll } = req.body;
     if (!candidateId) {
         return res.status(400).json({ error: 'Debes seleccionar un candidato.' });
     }
@@ -140,7 +140,7 @@ app.post('/api/ai/process', authMiddleware, async (req, res) => {
     process.env.MOCK_MODE = mockMode ? 'true' : 'false';
 
     try {
-        cronManager.runAIBatchProcess({ forceRefresh: true, candidateId }).catch(err => {
+        cronManager.runAIBatchProcess({ forceRefresh: true, candidateId, reprocessAll: !!reprocessAll }).catch(err => {
             logger.error(`Error en IA: ${err.message}`);
         });
         res.json({ status: 'started', message: 'IA iniciada para el candidato seleccionado.' });

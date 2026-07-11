@@ -25,6 +25,22 @@ const RSS_FEEDS = [
   'https://news.un.org/feed/subscribe/es/news/region/americas/feed/rss.xml'
 ];
 
+const TRUSTED_DOMAINS = new Set([
+  'elcomercio.pe',
+  'larepublica.pe',
+  'rpp.pe',
+  'peru21.pe',
+  'bbc.co.uk',
+  'bbc.com',
+  'nytimes.com',
+  'politico.com',
+  'jne.gob.pe',
+  'infogob.jne.gob.pe',
+  'votoinformado.jne.gob.pe',
+  'news.un.org',
+  'latinamericareports.com'
+]);
+
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const normalizeText = (text = '') =>
@@ -759,13 +775,19 @@ class ScraperService {
         articlesByDomain[domain].push(article);
       }
 
+      const sortedDomains = Object.keys(articlesByDomain).sort((a, b) => {
+        const aTrusted = TRUSTED_DOMAINS.has(a) ? 1 : 0;
+        const bTrusted = TRUSTED_DOMAINS.has(b) ? 1 : 0;
+        return bTrusted - aTrusted;
+      });
+
       const interleavedArticles = [];
       let added = true;
 
       while (added) {
         added = false;
 
-        for (const domain in articlesByDomain) {
+        for (const domain of sortedDomains) {
           if (articlesByDomain[domain].length > 0) {
             interleavedArticles.push(
               articlesByDomain[domain].shift()
@@ -865,6 +887,68 @@ class ScraperService {
     );
 
     return results;
+  }
+
+  /**
+   * Descubre y extrae páginas sobre declaraciones del JNE, propuestas y antecedentes.
+   */
+  async discoverActiveSources(candidateName, maxSources = 10) {
+    const queries = [
+      `"${candidateName}" ("hoja de vida" OR "voto informado" OR "JNE" OR "infogob" OR "declaración jurada")`,
+      `"${candidateName}" ("propuestas de gobierno" OR "propuesta" OR "plan de gobierno" OR "compromisos")`,
+      `"${candidateName}" ("investigación fiscal" OR "fiscalía" OR "denuncia" OR "juicio" OR "acusación")`
+    ];
+    const discovered = [];
+    const seenUrls = new Set();
+
+    for (const query of queries) {
+      const results = await this.discoverUrls(candidateName, query);
+      for (const article of results) {
+        if (!seenUrls.has(article.url)) {
+          seenUrls.add(article.url);
+          discovered.push(article);
+        }
+      }
+      if (discovered.length >= maxSources) break;
+    }
+    // Priorizar dominios de confianza
+    discovered.sort((a, b) => {
+      let aDomain = '';
+      let bDomain = '';
+      try { aDomain = new URL(a.url).hostname.replace('www.', ''); } catch (e) { /* ignore */ }
+      try { bDomain = new URL(b.url).hostname.replace('www.', ''); } catch (e) { /* ignore */ }
+      const aTrusted = TRUSTED_DOMAINS.has(aDomain) ? 1 : 0;
+      const bTrusted = TRUSTED_DOMAINS.has(bDomain) ? 1 : 0;
+      return bTrusted - aTrusted;
+    });
+
+    const sources = [];
+    for (const article of discovered.slice(0, maxSources)) {
+      const html = await this.fetchHtml(article.url);
+      const cleanData = html ? this.cleanHtml(html, article.url) : null;
+      const content = cleanData?.textContent && !this.isGarbageContent(cleanData.textContent)
+        ? cleanData.textContent
+        : article.snippet;
+
+      if (!content || content.trim().length < 30) continue;
+
+      let source = article.source || 'Búsqueda Web';
+      try {
+        source = new URL(article.url).hostname.replace('www.', '');
+      } catch (error) {
+        // Conserva el nombre original
+      }
+
+      sources.push({
+        titular: cleanData?.title || article.title,
+        medio_prensa: source,
+        enlace_origen: article.url,
+        contenido_crudo: content
+      });
+    }
+
+    logger.info(`[Scraper] Se descubrieron ${sources.length} fuentes activas JNE/propuestas/antecedentes para ${candidateName}.`);
+    return sources;
   }
 }
 
