@@ -59,7 +59,7 @@ Debes devolver estrictamente un Arreglo JSON con la siguiente estructura exacta 
     "enlace_origen": "...",
     "resumen_noticia": "Resumen conciso y objetivo de la noticia en no más de 3 oraciones.",
     "categoria": "Palabra clave principal (ej. Corrupción, Campaña, Propuesta, Económico)",
-    "sentimiento": "Positivo, Negativo o Neutral",
+    "sentimiento": "Debe ser 'Positivo', 'Negativo' o 'Neutral' seguido de un guión y la causa del tono en un máximo de 4 palabras (ej: 'Negativo - Críticas por caso judicial', 'Positivo - Apoyo en debate', 'Neutral - Reporte de actividades')",
     "sesgo_politico": "Describe el tono o sesgo político (ej. Crítico, Favorable, Informativo)",
     "entidades_clave": ["Nombres de personas", "Organizaciones", "Lugares mencionados"]
   }

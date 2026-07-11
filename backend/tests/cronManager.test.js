@@ -153,4 +153,47 @@ describe('CronManager', () => {
 
     expect(Candidato.find).toHaveBeenCalledWith({ _id: candidateId });
   });
+
+  test('runAIBatchProcess debe procesar todas las noticias si reprocessAll es true', async () => {
+    const mockSave = jest.fn().mockResolvedValue(true);
+    const mockCandidato = {
+      nombre: 'Candidato Reprocess',
+      historial_noticias: [
+        {
+          titular: 'N1',
+          contenido_crudo: 'Contenido 1',
+          procesado_por_ia: true,
+          analisis_ia: {}
+        }
+      ],
+      propuestas: [],
+      antecedentesJudiciales: [],
+      equipoTrabajo: [],
+      perfilIAProcesado: false,
+      save: mockSave
+    };
+
+    Candidato.find.mockResolvedValueOnce([mockCandidato]);
+    aiService.processAllArticles.mockResolvedValueOnce([{
+      resumen_noticia: 'Resumen reprocesado',
+      categoria: 'Categoria 1',
+      sentimiento: 'Sentimiento 1',
+      sesgo_politico: 'Sesgo 1',
+      entidades_clave: ['Entidad 1']
+    }]);
+    aiService.generateCandidateSummary.mockResolvedValueOnce('Resumen global reprocesado');
+    aiService.extractCandidateProfileData.mockResolvedValueOnce({
+      propuestas: [],
+      antecedentesJudiciales: [],
+      equipoTrabajo: []
+    });
+
+    await cronManager.runAIBatchProcess({ reprocessAll: true });
+
+    expect(aiService.processAllArticles).toHaveBeenCalledWith(
+      [{ title: 'N1', content: 'Contenido 1', date: undefined, source: undefined, url: undefined }],
+      'Candidato Reprocess'
+    );
+    expect(mockCandidato.resumenIA).toBe('Resumen global reprocesado');
+  });
 });

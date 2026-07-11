@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Play, Calendar, Terminal, Settings, LogOut, Loader2, UserPlus, Trash2, Users, Eye, Pencil } from 'lucide-react';
+import { Play, Calendar, Terminal, Settings, LogOut, Loader2, UserPlus, Trash2, Users, Eye, Pencil, Home } from 'lucide-react';
 
 const AdminDashboard = () => {
   const { user, role, loading, logout } = useAuth();
@@ -18,6 +18,7 @@ const AdminDashboard = () => {
   const [useGdelt, setUseGdelt] = useState(false);
   const [useNewsApi, setUseNewsApi] = useState(false);
   const [mockMode, setMockMode] = useState(false);
+  const [reprocessAll, setReprocessAll] = useState(false);
   const [maxArticles, setMaxArticles] = useState(50);
   const [logs, setLogs] = useState([]);
   
@@ -225,14 +226,13 @@ const AdminDashboard = () => {
     }
   });
 
-  // Mutación para ejecutar procesamiento de IA manual
   const triggerAIMutation = useMutation({
     mutationFn: async () => {
       const res = await fetch('/api/ai/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ candidateId, mockMode })
+        body: JSON.stringify({ candidateId, mockMode, reprocessAll })
       });
       if (!res.ok) throw new Error('Error al disparar procesamiento IA');
       return res.json();
@@ -375,13 +375,22 @@ const AdminDashboard = () => {
             Administración
           </span>
         </div>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-400 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors"
-        >
-          <LogOut className="h-4 w-4" />
-          <span>Cerrar Sesión</span>
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-blue-400 hover:text-blue-300 bg-slate-900 hover:bg-slate-800 border border-blue-500/30 hover:border-blue-500/50 rounded-lg transition-all"
+          >
+            <Home className="h-4 w-4" />
+            <span>Ver Inicio (Buscar Candidatos)</span>
+          </button>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-400 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8 space-y-6">
@@ -577,6 +586,18 @@ const AdminDashboard = () => {
                     <option key={c._id} value={c._id}>{c.nombre}</option>
                   ))}
                 </select>
+              </div>
+              <div className="flex items-center gap-2 mt-4">
+                <input
+                  type="checkbox"
+                  id="reprocessAll"
+                  checked={reprocessAll}
+                  onChange={(e) => setReprocessAll(e.target.checked)}
+                  className="w-4 h-4 text-purple-600 border-slate-800 rounded focus:ring-purple-600 bg-slate-900 cursor-pointer"
+                />
+                <label htmlFor="reprocessAll" className="text-xs font-semibold text-slate-300 cursor-pointer select-none">
+                  Reprocesar todas las noticias (Reescribir sentimientos y resumen)
+                </label>
               </div>
             </div>
             

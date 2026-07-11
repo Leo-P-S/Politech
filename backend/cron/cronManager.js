@@ -46,14 +46,25 @@ class CronManager {
   /**
    * Busca todas las noticias no procesadas en la BD y las pasa por la IA
    */
-  async runAIBatchProcess({ forceRefresh = false, candidateId = null } = {}) {
+  async runAIBatchProcess({ forceRefresh = false, candidateId = null, reprocessAll = false } = {}) {
+    logger.info('[PROCESO IA] Iniciando proceso de análisis de Inteligencia Artificial para candidatos...');
     try {
       const candidates = await Candidato.find(candidateId ? { _id: candidateId } : {});
       let totalProcessed = 0;
 
+      logger.info(`[PROCESO IA] Se encontraron ${candidates.length} candidato(s) para procesar. Reprocesar todo: ${reprocessAll}`);
+
       for (let candidate of candidates) {
-        // Filtramos las noticias que aún no han sido procesadas
-        const unprocessedNews = candidate.historial_noticias.filter(n => !n.procesado_por_ia);
+        logger.info(`[PROCESO IA] === Comenzando análisis de IA para candidato: ${candidate.nombre} ===`);
+        
+        if (reprocessAll) {
+          logger.info(`[PROCESO IA] Forzando el reprocesamiento de todas las noticias para ${candidate.nombre}.`);
+        }
+
+        // Filtramos las noticias que aún no han sido procesadas o todas si reprocessAll es verdadero
+        const unprocessedNews = reprocessAll
+          ? candidate.historial_noticias
+          : candidate.historial_noticias.filter(n => !n.procesado_por_ia);
         let hasChanges = false;
         const fakeTeamNames = new Set(['carlos mendoza', 'ana maría torres', 'ana maria torres']);
         const cleanTeam = (candidate.equipoTrabajo || []).filter(member =>
@@ -65,7 +76,7 @@ class CronManager {
         }
         
         if (unprocessedNews.length > 0) {
-          logger.info(`Procesando ${unprocessedNews.length} noticias pendientes para ${candidate.nombre}...`);
+          logger.info(`[PROCESO IA] Procesando ${unprocessedNews.length} noticia(s) pendiente(s) para ${candidate.nombre}...`);
           
           const newsToProcess = unprocessedNews.filter(news => news.contenido_crudo);
           const rawArticles = newsToProcess.map(news => ({
@@ -77,20 +88,22 @@ class CronManager {
           }));
 
           if (rawArticles.length > 0) {
+            logger.info(`[PROCESO IA] Enviando ${rawArticles.length} artículos a Google Gemini...`);
             // Llamada a la IA procesando por lotes (batching) internamente
             const processedArr = await aiService.processAllArticles(rawArticles, candidate.nombre);
             
             if (processedArr && processedArr.length > 0) {
+              logger.info(`[PROCESO IA] Gemini respondió con ${processedArr.length} análisis. Mapeando a base de datos...`);
               processedArr.forEach((result, idx) => {
                 // Buscar coincidencia por enlace_origen, y si no, por titular
                 let matchedNews = newsToProcess.find(n => n.enlace_origen === result.enlace_origen);
                 if (!matchedNews) {
                   matchedNews = newsToProcess.find(n => n.titular && result.titular && n.titular.toLowerCase().trim() === result.titular.toLowerCase().trim());
                 }
-        // Fallback por índice si la cantidad coincide
-        if (!matchedNews && processedArr.length === rawArticles.length) {
-          matchedNews = newsToProcess[idx]; // eslint-disable-line security/detect-object-injection
-        }
+                // Fallback por índice si la cantidad coincide
+                if (!matchedNews && processedArr.length === rawArticles.length) {
+                  matchedNews = newsToProcess[idx]; // eslint-disable-line security/detect-object-injection
+                }
 
                 if (matchedNews) {
                   matchedNews.analisis_ia = {
@@ -105,14 +118,20 @@ class CronManager {
                   hasChanges = true;
                 }
               });
+            } else {
+              logger.warn(`[PROCESO IA] No se obtuvieron resultados de Gemini para las noticias de ${candidate.nombre}.`);
             }
+          } else {
+            logger.info(`[PROCESO IA] No hay noticias nuevas con contenido crudo para analizar.`);
           }
+        } else {
+          logger.info(`[PROCESO IA] No hay noticias pendientes para ${candidate.nombre}.`);
         }
 
         // Si se procesaron nuevas noticias, o si el candidato tiene noticias pero no tiene resumen global generado
         const allProcessedNews = candidate.historial_noticias.filter(n => n.procesado_por_ia);
         if (allProcessedNews.length > 0 && (forceRefresh || hasChanges || !candidate.resumenIA)) {
-          logger.info(`Generando resumen global (resumenIA) para ${candidate.nombre}...`);
+          logger.info(`[PROCESO IA] Generando Síntesis Automática (resumen global) para ${candidate.nombre}...`);
           const resumenGlobal = await aiService.generateCandidateSummary(allProcessedNews, candidate.nombre);
           candidate.resumenIA = resumenGlobal;
           hasChanges = true;
@@ -120,13 +139,14 @@ class CronManager {
 
         let profileEvidence = allProcessedNews;
         if (forceRefresh && process.env.MOCK_MODE !== 'true') {
-          logger.info(`Buscando fuentes específicas sobre el equipo de ${candidate.nombre}...`);
+          logger.info(`[PROCESO IA] Buscando fuentes de equipo, propuestas, antecedentes y JNE para ${candidate.nombre}...`);
           const teamSources = await scraperService.discoverTeamSources(candidate.nombre);
-          profileEvidence = [...allProcessedNews, ...teamSources];
+          const activeSources = await scraperService.discoverActiveSources(candidate.nombre);
+          profileEvidence = [...allProcessedNews, ...teamSources, ...activeSources];
         }
 
         if (profileEvidence.length > 0 && (forceRefresh || hasChanges || !candidate.perfilIAProcesado)) {
-          logger.info(`Extrayendo propuestas, antecedentes y equipo para ${candidate.nombre}...`);
+          logger.info(`[PROCESO IA] Extrayendo propuestas, antecedentes y equipo técnico para ${candidate.nombre}...`);
           const profileData = await aiService.extractCandidateProfileData(profileEvidence, candidate.nombre);
 
           if (profileData) {
@@ -138,28 +158,33 @@ class CronManager {
             candidate.equipoTrabajo = this.mergeTeamMembers(candidate.equipoTrabajo, profileData.equipoTrabajo);
             candidate.perfilIAProcesado = true;
             hasChanges = true;
+            logger.info(`[PROCESO IA] Datos del perfil (propuestas, antecedentes y equipo) actualizados exitosamente.`);
           }
         }
 
         if (hasChanges) {
           try {
+            logger.info(`[PROCESO IA] Actualizando tendencias para ${candidate.nombre}...`);
             const trendsService = require('../worker/services/trendsService');
             const trends = await trendsService.getTrendsForCandidate(candidate.nombre);
             if (trends) {
               candidate.trendsData = trends;
             }
           } catch(e) {
-            logger.error('Error fetching trends in cron:', e.message);
+            logger.error(`[PROCESO IA] Error al obtener tendencias para ${candidate.nombre}: ${e.message}`);
           }
           // Guardamos los cambios en el candidato
+          logger.info(`[PROCESO IA] Guardando cambios del candidato ${candidate.nombre} en la base de datos...`);
           await candidate.save();
         }
+        logger.info(`[PROCESO IA] === Finalizado análisis para ${candidate.nombre} ===`);
       }
 
-      logger.info(`Lote completado. Total de noticias procesadas por IA: ${totalProcessed}`);
+      logger.info(`[PROCESO IA] Lote completado. Total de noticias procesadas por la IA: ${totalProcessed}`);
+      logger.info('[PROCESO IA] === LA GESTIÓN DE PROCESAMIENTO IA HA FINALIZADO EXITOSAMENTE ===');
 
     } catch (error) {
-      logger.error('Error durante el procesamiento por lotes de IA:', error);
+      logger.error('[PROCESO IA] Error crítico durante el procesamiento por lotes de IA:', error);
     }
   }
 
